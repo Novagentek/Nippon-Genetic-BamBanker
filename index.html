@@ -108,7 +108,13 @@
     <div class="lb-wrap"><button id="lbBtn" class="lb-btn" title="Skor Tablosu">🏆</button></div>
     <div id="lbPanel" class="leaderboard" aria-live="polite">
       <h3>🏆 Skor Tablosu</h3>
-      <table id="lbTable"><thead><tr><th>#</th><th>İsim</th><th>E-posta</th><th>Skor</th><th>Tarih</th><th>Ödül</th></tr></thead><tbody></tbody></table>
+      <table id="lbTable"><thead>
+  <tr>
+  <th>#</th>
+  <th>İsim</th>
+  <th>Skor</th>
+  <th>Ödül</th>
+</tr>
       <div class="meta">Not: Bu cihazda saklanır (offline). Admin için 🏆 butonuna <b>2 saniye basılı tut</b>.</div>
       <div class="admin" id="lbAdmin">
         <button id="lbDownload">CSV indir</button>
@@ -147,6 +153,9 @@
           <label>E-posta (opsiyonel)
             <input id="pfEmail" placeholder="ornek@eposta.com" type="email">
           </label>
+          <label>Şirket (Company)
+  <input id="pfCompany" placeholder="Company name">
+</label>
           <div class="actions">
             <button id="pfCancel">İptal</button>
             <button id="pfGo" class="btn">Devam Et</button>
@@ -327,6 +336,7 @@
     const preForm = document.getElementById('preForm');
     const pfName = document.getElementById('pfName');
     const pfEmail = document.getElementById('pfEmail');
+    const pfCompany = document.getElementById('pfCompany');
     const pfGo = document.getElementById('pfGo');
     const pfCancel = document.getElementById('pfCancel');
 
@@ -336,7 +346,13 @@
       const name = (pfName.value||'').trim();
       const email = (pfEmail.value||'').trim();
       if(!name){ pfName.focus(); pfName.style.borderColor='#ef4444'; return; }
-      currentPlayer = { name, email };
+    const company = (pfCompany.value || '').trim();
+
+currentPlayer = {
+  name,
+  email,
+  company
+};
       initAudio();
       preForm.style.display='none';
       startGame();
@@ -350,15 +366,22 @@ function awardFor(s){ return s>=80? 'Büyük' : s>=50? 'Orta' : s>=30? 'Küçük
 function renderLB(){
   const data = loadLB().sort((a,b)=> b.score - a.score).slice(0,50);
   const tbody = document.querySelector('#lbTable tbody');
-  tbody.innerHTML = data.map((r,i)=>`<tr><td>${i+1}</td><td>${r.name||'-'}</td><td>${r.email||''}</td><td>${r.score}</td><td>${new Date(r.ts).toLocaleString()}</td><td>${awardFor(r.score)}</td></tr>`).join('');
-}
+ tbody.innerHTML = data.map((r,i)=>`
+  <tr>
+    <td>${i+1}</td>
+    <td>${r.name || '-'}</td>
+    <td>${r.score}</td>
+    <td>${awardFor(r.score)}</td>
+  </tr>
+`).join('');
 async function saveCurrentScore(){
   try {
     await window.saveScoreToFirebase(
-      currentPlayer.name || "",
-      currentPlayer.email || "",
-      score
-    );
+  currentPlayer.name || "",
+  currentPlayer.email || "",
+  currentPlayer.company || "",
+  score
+);
 
     alert("Score saved to Firebase!");
   } catch (error) {
@@ -429,7 +452,15 @@ import {
   const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-window.saveScoreToFirebase = async function(playerName, playerEmail, score) {
+window.saveScoreToFirebase = async function(playerName, playerEmail, playerCompany, score) {
+  await addDoc(collection(db, "scores"), {
+    name: playerName,
+    email: playerEmail,
+    company: playerCompany,
+    score: score,
+    createdAt: serverTimestamp()
+  });
+};
   await addDoc(collection(db, "scores"), {
     name: playerName,
     email: playerEmail,
