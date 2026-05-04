@@ -329,9 +329,12 @@
           missesEl.textContent = misses;
           cells.splice(i, 1);
           if (misses >= maxMisses) {
-            gameOver = true;
-            running = false;
-          }
+  gameOver = true;
+  running = false;
+  window.finalScore = score;
+
+  document.getElementById("submitBtn").style.display = "block";
+}
         }
       }
     }
@@ -427,5 +430,50 @@
     resetGame();
     requestAnimationFrame(loop);
   </script>
+<h2>Submit your score</h2>
+
+<input id="playerName" placeholder="Name">
+<input id="playerEmail" placeholder="Email">
+
+<button onclick="submitScore()" id="submitBtn" style="display:none;">
+  Submit Score
+</button>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAL3y2Z9BVwxA8linYW7MqGqOfDPddxMI8",
+  authDomain: "novagentek-nippon.firebaseapp.com",
+  projectId: "novagentek-nippon",
+  storageBucket: "novagentek-nippon.firebasestorage.app",
+  messagingSenderId: "473772116906",
+  appId: "1:473772116906:web:0ee24be85f41794118b9d3"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.submitScore = async function () {
+  const name = document.getElementById("playerName").value;
+  const email = document.getElementById("playerEmail").value;
+
+  const score = window.finalScore; // IMPORTANT
+
+  if (!name || !email || !score) {
+    alert("Fill everything");
+    return;
+  }
+
+  await addDoc(collection(db, "scores"), {
+    name,
+    email,
+    score,
+    createdAt: serverTimestamp()
+  });
+
+  alert("Submitted!");
+};
+</script>
 </body>
 </html>
