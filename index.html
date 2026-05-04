@@ -137,6 +137,14 @@
       <button id="restartBtn">Yeniden Başlat</button>
       <button class="secondary" id="infoBtn">Nasıl Oynanır?</button>
     </div>
+      <div id="scoreSubmitBox" style="display:none; text-align:center;">
+  <h2>Submit your score</h2>
+  <input id="playerName" placeholder="Name">
+  <input id="playerEmail" placeholder="Email">
+  <button onclick="submitScore()" id="submitBtn">
+    Submit Score
+  </button>
+</div>
   </div>
 
   <script>
@@ -325,17 +333,18 @@
 
         // kaçtı mı?
         if (cell.y - cell.radius > canvas.height) {
-          misses += 1;
-          missesEl.textContent = misses;
-          cells.splice(i, 1);
-          if (misses >= maxMisses) {
-  gameOver = true;
-  running = false;
-  window.finalScore = score;
+  misses += 1;
+  missesEl.textContent = misses;
+  cells.splice(i, 1);
 
-  document.getElementById("submitBtn").style.display = "block";
+  if (misses >= maxMisses) {
+    gameOver = true;
+    running = false;
+    window.finalScore = score;
+
+    document.getElementById("scoreSubmitBox").style.display = "block";
+  }
 }
-        }
       }
     }
 
@@ -391,7 +400,7 @@
         e.preventDefault();
         if (!running) {
           resetGame();
-        }
+       document.getElementById("scoreSubmitBox").style.display = "none"; }
       }
     });
 
@@ -430,13 +439,7 @@
     resetGame();
     requestAnimationFrame(loop);
   </script>
-<h2>Submit your score</h2>
 
-<input id="playerName" placeholder="Name">
-<input id="playerEmail" placeholder="Email">
-
-<button onclick="submitScore()" id="submitBtn" style="display:none;">
-  Submit Score
 </button>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -475,5 +478,4 @@ window.submitScore = async function () {
   alert("Submitted!");
 };
 </script>
-</body>
 </html>
