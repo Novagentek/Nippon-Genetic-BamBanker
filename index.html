@@ -352,10 +352,19 @@ function renderLB(){
   const tbody = document.querySelector('#lbTable tbody');
   tbody.innerHTML = data.map((r,i)=>`<tr><td>${i+1}</td><td>${r.name||'-'}</td><td>${r.email||''}</td><td>${r.score}</td><td>${new Date(r.ts).toLocaleString()}</td><td>${awardFor(r.score)}</td></tr>`).join('');
 }
-function saveCurrentScore(){
-  const arr = loadLB();
-  arr.push({ name: currentPlayer.name||'', email: currentPlayer.email||'', score, ts: Date.now() });
-  saveLB(arr); renderLB(); toggleLb(true);
+async function saveCurrentScore(){
+  try {
+    await window.saveScoreToFirebase(
+      currentPlayer.name || "",
+      currentPlayer.email || "",
+      score
+    );
+
+    alert("Score saved to Firebase!");
+  } catch (error) {
+    console.error(error);
+    alert("Firebase error: " + error.message);
+  }
 }
 function toggleLb(forceOpen){ const p=document.getElementById('lbPanel'); if(forceOpen){ p.style.display='block'; renderLB(); return;} p.style.display = (p.style.display==='block')?'none':'block'; if(p.style.display==='block') renderLB(); }
 const lbBtn = document.getElementById('lbBtn');
@@ -401,5 +410,33 @@ document.getElementById('lbClear').addEventListener('click', ()=>{ if(confirm('S
       const np = localStorage.getItem('cf_nippon'); if(np) setLogo(".logos img[alt='Nippon Genetics Logo']", np);
     })();
   </script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  const firebaseConfig = {
+  apiKey: "AIzaSyDWTza-MBwQ7ruzmWNFFdurX0qYUjFSXmM",
+  authDomain: "cell-freezer-de0c3.firebaseapp.com",
+  projectId: "cell-freezer-de0c3",
+  storageBucket: "cell-freezer-de0c3.firebasestorage.app",
+  messagingSenderId: "608677842749",
+  appId: "1:608677842749:web:2a3c244bc0181e9077ff54"
+};
+  const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.saveScoreToFirebase = async function(playerName, playerEmail, score) {
+  await addDoc(collection(db, "scores"), {
+    name: playerName,
+    email: playerEmail,
+    score: score,
+    createdAt: serverTimestamp()
+  });
+};
+</script>
 </body>
 </html>
