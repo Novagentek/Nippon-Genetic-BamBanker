@@ -193,11 +193,30 @@
     }
 
     function spawnCell() {
-      const radius = 12;
-      const x = Math.random() * (canvas.width - 2 * radius) + radius;
-      const speed = 1.8 + Math.random() * 2.5;
-      cells.push({ x, y: -radius, radius, speed });
-    }
+  const radius = 12;
+  const x = Math.random() * (canvas.width - 2 * radius) + radius;
+  const speed = 1.8 + Math.random() * 2.5;
+
+  const random = Math.random();
+
+  if (random < 0.2) {
+    cells.push({
+      x,
+      y: -radius,
+      radius,
+      speed,
+      type: "contamination"
+    });
+  } else {
+    cells.push({
+      x,
+      y: -radius,
+      radius,
+      speed,
+      type: "cell"
+    });
+  }
+}
 
     function drawBottle() {
       ctx.save();
@@ -258,7 +277,39 @@
       ctx.arc(cell.x - cell.radius / 3, cell.y - cell.radius / 4, cell.radius / 2.3, 0, Math.PI * 2);
       ctx.fill();
     }
+function drawContamination(item) {
+  ctx.save();
 
+  ctx.fillStyle = "#7b1fa2";
+  ctx.strokeStyle = "#4a0072";
+  ctx.lineWidth = 2;
+
+  ctx.beginPath();
+  ctx.arc(item.x, item.y, item.radius, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+
+  // spikes
+  for (let i = 0; i < 10; i++) {
+    const angle = (Math.PI * 2 / 10) * i;
+    const innerX = item.x + Math.cos(angle) * item.radius;
+    const innerY = item.y + Math.sin(angle) * item.radius;
+    const outerX = item.x + Math.cos(angle) * (item.radius + 6);
+    const outerY = item.y + Math.sin(angle) * (item.radius + 6);
+
+    ctx.beginPath();
+    ctx.moveTo(innerX, innerY);
+    ctx.lineTo(outerX, outerY);
+    ctx.stroke();
+  }
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "10px system-ui";
+  ctx.textAlign = "center";
+  ctx.fillText("!", item.x, item.y + 3);
+
+  ctx.restore();
+}
     function drawBackground() {
       // hafif grid & hatlar
       ctx.save();
@@ -327,12 +378,27 @@
         cell.y += cell.speed;
 
         // yakalandı mı?
-        if (checkCollision(cell)) {
-          score += 1;
-          scoreEl.textContent = score;
-          cells.splice(i, 1);
-          continue;
-        }
+      if (checkCollision(cell)) {
+  if (cell.type === "contamination") {
+    score = Math.max(0, score - 1);
+    misses += 1;
+    missesEl.textContent = misses;
+  } else {
+    score += 1;
+  }
+
+  scoreEl.textContent = score;
+  cells.splice(i, 1);
+
+  if (misses >= maxMisses) {
+    gameOver = true;
+    running = false;
+    window.finalScore = score;
+    document.getElementById("scoreSubmitBox").style.display = "block";
+  }
+
+  continue;
+}
 
         // kaçtı mı?
         if (cell.y - cell.radius > canvas.height) {
@@ -380,7 +446,13 @@
       drawBackground();
 
       // hücreler
-      cells.forEach(drawCell);
+      cells.forEach((item) => {
+  if (item.type === "contamination") {
+    drawContamination(item);
+  } else {
+    drawCell(item);
+  }
+});
 
       // şişe
       drawBottle();
@@ -466,12 +538,12 @@ const email = document.getElementById("playerEmail").value.trim();
 const company = document.getElementById("playerCompany").value.trim();
 const score = window.finalScore;
 
-  console.log("Submitting:", { name, email, score });
+ console.log("Submitting:", { name, email, company, score });
 
-  if (!name || !email) {
-    alert("Fill name and email");
-    return;
-  }
+if (!name || !email || !company) {
+  alert("Fill name, email and company");
+  return;
+}
 
   if (score === undefined) {
     alert("Score missing. Finish the game first.");
@@ -482,6 +554,7 @@ const score = window.finalScore;
     await addDoc(collection(db, "scores"), {
       name,
       email,
+      company,
       score,
       createdAt: serverTimestamp()
     });
