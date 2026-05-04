@@ -462,8 +462,9 @@ const db = getFirestore(app);
 
 window.submitScore = async function () {
   const name = document.getElementById("playerName").value.trim();
-  const email = document.getElementById("playerEmail").value.trim();
-  const score = window.finalScore;
+const email = document.getElementById("playerEmail").value.trim();
+const company = document.getElementById("playerCompany").value.trim();
+const score = window.finalScore;
 
   console.log("Submitting:", { name, email, score });
 
