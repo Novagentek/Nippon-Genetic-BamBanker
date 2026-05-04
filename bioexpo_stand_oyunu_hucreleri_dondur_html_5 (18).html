@@ -347,15 +347,38 @@ const LB_KEY='cf_leaderboard_v1';
 function loadLB(){ try{ return JSON.parse(localStorage.getItem(LB_KEY)||'[]'); }catch(e){ return []; } }
 function saveLB(arr){ localStorage.setItem(LB_KEY, JSON.stringify(arr)); }
 function awardFor(s){ return s>=80? 'Büyük' : s>=50? 'Orta' : s>=30? 'Küçük' : '-'; }
-function renderLB(){
+function renderLB() {
+  const data = loadLB().sort((a,b)=> b.score - a.score).slice(0,50);
+  const tbody = document.querySelector('#lbTable tbody');
+  tbody.innerHTML = data.map((r,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td>${r.name||'-'}</td>
+      <td>${r.email||''}</td>
+      <td>${r.score}</td>
+      <td>${new Date(r.ts).toLocaleString()}</td>
+      <td>${awardFor(r.score)}</td>
+    </tr>
+  `).join('');
+}
+  try {
+    await addDoc(collection(window.db, "scores"), {
+      name: currentPlayer.name || "",
+      email: currentPlayer.email || "",
+      score: score,
+      createdAt: serverTimestamp()
+    });
+
+    alert("Score saved!");
+  } catch (error) {
+    console.error(error);
+    alert("Firebase error: " + error.message);
+  }
+}
+    {
   const data = loadLB().sort((a,b)=> b.score - a.score).slice(0,50);
   const tbody = document.querySelector('#lbTable tbody');
   tbody.innerHTML = data.map((r,i)=>`<tr><td>${i+1}</td><td>${r.name||'-'}</td><td>${r.email||''}</td><td>${r.score}</td><td>${new Date(r.ts).toLocaleString()}</td><td>${awardFor(r.score)}</td></tr>`).join('');
-}
-function saveCurrentScore(){
-  const arr = loadLB();
-  arr.push({ name: currentPlayer.name||'', email: currentPlayer.email||'', score, ts: Date.now() });
-  saveLB(arr); renderLB(); toggleLb(true);
 }
 function toggleLb(forceOpen){ const p=document.getElementById('lbPanel'); if(forceOpen){ p.style.display='block'; renderLB(); return;} p.style.display = (p.style.display==='block')?'none':'block'; if(p.style.display==='block') renderLB(); }
 const lbBtn = document.getElementById('lbBtn');
@@ -400,6 +423,27 @@ document.getElementById('lbClear').addEventListener('click', ()=>{ if(confirm('S
       const nv = localStorage.getItem('cf_nova');   if(nv) setLogo(".logos img[alt='Novagentek Logo']", nv);
       const np = localStorage.getItem('cf_nippon'); if(np) setLogo(".logos img[alt='Nippon Genetics Logo']", np);
     })();
-  </script>
+  </script> <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDWTza-MBwQ7ruzmWNFFdurX0qYUjFSXmM",
+  authDomain: "cell-freezer-de0c3.firebaseapp.com",
+  projectId: "cell-freezer-de0c3",
+  storageBucket: "cell-freezer-de0c3.appspot.com",
+  messagingSenderId: "608677842749",
+  appId: "1:608677842749:web:2a3c244bc0181e9077ff54"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// 🔥 make db available to your main script
+window.db = db;
+window.addDoc = addDoc;
+window.collection = collection;
+window.serverTimestamp = serverTimestamp;
+</script>
 </body>
 </html>
