@@ -458,24 +458,36 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 window.submitScore = async function () {
-  const name = document.getElementById("playerName").value;
-  const email = document.getElementById("playerEmail").value;
+  const name = document.getElementById("playerName").value.trim();
+  const email = document.getElementById("playerEmail").value.trim();
+  const score = window.finalScore;
 
-  const score = window.finalScore; // IMPORTANT
+  console.log("Submitting:", { name, email, score });
 
-  if (!name || !email || !score) {
-    alert("Fill everything");
+  if (!name || !email) {
+    alert("Fill name and email");
     return;
   }
 
-  await addDoc(collection(db, "scores"), {
-    name,
-    email,
-    score,
-    createdAt: serverTimestamp()
-  });
+  if (score === undefined) {
+    alert("Score missing. Finish the game first.");
+    return;
+  }
 
-  alert("Submitted!");
+  try {
+    await addDoc(collection(db, "scores"), {
+      name,
+      email,
+      score,
+      createdAt: serverTimestamp()
+    });
+
+    console.log("SUCCESS");
+    alert("Submitted!");
+  } catch (err) {
+    console.error("ERROR:", err);
+    alert("Error: " + err.message);
+  }
 };
 </script>
 </html>
