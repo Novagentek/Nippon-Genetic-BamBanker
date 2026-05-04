@@ -72,7 +72,8 @@
     .panel .hint{font-size:11px;color:#93c5fd;opacity:.9}
   .lb-wrap{position:absolute;right:10px;top:58px;z-index:6}
     .lb-btn{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:10px 12px;font-size:18px;color:#e2e8f0;cursor:pointer}
-    .leaderboard{position:absolute;top:54px;right:10px;width:min(92vw,420px);max-height:70vh;overflow:auto;background:#0b1426;border:1px solid rgba(255,255,255,.15);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:12px;display:none z-index:20;}
+    .leaderboard{position:absolute;top:54px;right:10px;width:min(92vw,420px);max-height:70vh;overflow:auto;background:#0b1426;border:1px solid rgba(255,255,255,.15);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:12px;display:none;
+z-index:20;}
     .leaderboard h3{margin:0 0 8px 0;font-size:16px;color:#cfeafe}
     .leaderboard table{width:100%;border-collapse:collapse;font-size:14px}
     .leaderboard th,.leaderboard td{border-bottom:1px solid rgba(255,255,255,.1);padding:6px 8px;text-align:left}
@@ -108,12 +109,17 @@
     <div class="lb-wrap"><button id="lbBtn" class="lb-btn" title="Skor Tablosu">🏆</button></div>
     <div id="lbPanel" class="leaderboard" aria-live="polite">
       <h3>🏆 Skor Tablosu</h3>
-      <table id="lbTable"><thead>
-  <tr>
-  <th>#</th>
-  <th>İsim</th>
-  <th>Skor</th>
-  <th>Ödül</th>
+      <table id="lbTable">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>İsim</th>
+      <th>Skor</th>
+      <th>Ödül</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
 </tr>
       <div class="meta">Not: Bu cihazda saklanır (offline). Admin için 🏆 butonuna <b>2 saniye basılı tut</b>.</div>
       <div class="admin" id="lbAdmin">
@@ -374,6 +380,7 @@ function renderLB(){
     <td>${awardFor(r.score)}</td>
   </tr>
 `).join('');
+  }
 async function saveCurrentScore(){
   try {
     await window.saveScoreToFirebase(
@@ -441,7 +448,8 @@ import {
   addDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-  const firebaseConfig = {
+
+const firebaseConfig = {
   apiKey: "AIzaSyDWTza-MBwQ7ruzmWNFFdurX0qYUjFSXmM",
   authDomain: "cell-freezer-de0c3.firebaseapp.com",
   projectId: "cell-freezer-de0c3",
@@ -449,7 +457,8 @@ import {
   messagingSenderId: "608677842749",
   appId: "1:608677842749:web:2a3c244bc0181e9077ff54"
 };
-  const app = initializeApp(firebaseConfig);
+
+const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 window.saveScoreToFirebase = async function(playerName, playerEmail, playerCompany, score) {
@@ -457,13 +466,6 @@ window.saveScoreToFirebase = async function(playerName, playerEmail, playerCompa
     name: playerName,
     email: playerEmail,
     company: playerCompany,
-    score: score,
-    createdAt: serverTimestamp()
-  });
-};
-  await addDoc(collection(db, "scores"), {
-    name: playerName,
-    email: playerEmail,
     score: score,
     createdAt: serverTimestamp()
   });
