@@ -236,7 +236,18 @@ z-index:20;}
   background: #0f1b33;
   color: #e2e8f0;
 }
-    .preform .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:10px}
+   .preform .actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.preform .actions button {
+  box-sizing: border-box;
+}
     .preform .muted{font-size:12px;color:#94a3b8;margin-top:6px}
   </style>
 </head>
@@ -539,12 +550,26 @@ async function saveCurrentScore(){
       saveBtn.textContent = "Kaydediliyor...";
     }
 
+    // 1. Save private full data to Firebase
     await window.saveScoreToFirebase(
       currentPlayer.name || "",
       currentPlayer.email || "",
       currentPlayer.company || "",
       score
     );
+
+    // 2. Save public display data to local leaderboard
+    const arr = loadLB();
+
+    arr.push({
+      name: currentPlayer.name || "",
+      score: score,
+      ts: Date.now()
+    });
+
+    saveLB(arr);
+    renderLB();
+    toggleLb(true);
 
     if (saveBtn) {
       saveBtn.textContent = "Kaydedildi";
