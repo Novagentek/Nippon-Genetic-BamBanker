@@ -80,12 +80,14 @@
   }
 
   .bottle {
-    width: 150px;
-    height: 260px;
-    right: 18px;
-    bottom: 24px;
-    opacity: 0.45;
-  }
+  width: 220px;
+  height: 360px;
+  right: 10px;
+  bottom: 18px;
+  transform: scale(0.48);
+  transform-origin: bottom right;
+  opacity: 0.35;
+}
 
   .hud {
     font-size: 14px;
@@ -141,7 +143,21 @@
     .hud{position:absolute;top:10px;left:10px;display:flex;gap:10px;background:rgba(255,255,255,.06);padding:6px 10px;border-radius:10px;z-index:2}
 
     /* === BAMBANKER ŞİŞESİ (drop bölgesi) === */
-    .bottle{position:absolute;right:38px;bottom:34px;width:220px;height:360px;z-index:1;background-image:url('bambanker_bottle.png.png');background-size:contain;background-repeat:no-repeat;background-position:center bottom}
+    .bottle{
+  position:absolute;
+  right:24px;
+  bottom:22px;
+  width:220px;
+  height:360px;
+  z-index:1;
+  background-image:url('bambanker_bottle.png.png');
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center bottom;
+  transform:scale(0.72);
+  transform-origin:bottom right;
+  opacity:0.75;
+}
     /* Şişe gövdesi */
     .bottle .body{position:absolute;left:20px;right:20px;bottom:0;height:220px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));border:2px solid rgba(173,216,230,.5);border-bottom-left-radius:22px;border-bottom-right-radius:22px;border-top-left-radius:14px;border-top-right-radius:14px;backdrop-filter:blur(2px)}
     /* Boyun */
@@ -212,7 +228,7 @@ z-index:20;}
   .preform{margin-top:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:12px;display:none}
     .preform h3{margin:0 0 8px 0;font-size:18px;color:#cfeafe}
     .preform label{display:block;margin:8px 0;font-size:14px}
-    ..preform {
+    .preform {
   margin-top: 14px;
   background: rgba(255,255,255,.06);
   border: 1px solid rgba(255,255,255,.15);
@@ -378,19 +394,30 @@ z-index:20;}
         img.replaceWith(box);
       }, {once:true});
     });
+function scheduleNextSpawn() {
+  const randomDelay = 450 + Math.random() * 650;
 
+  spawnTimer = setTimeout(() => {
+    spawnCell();
+
+    if (time > 0) {
+      scheduleNextSpawn();
+    }
+  }, randomDelay);
+}
     function startGame(){
       overlay.style.display='none'; // oyun sırasında ödül paneli yok
       score = 0; time = GAME_TIME;
       scoreEl.textContent = score; timeEl.textContent = time;
       fill.style.height='0%';
       timer = setInterval(()=>{ time--; timeEl.textContent = time; if(time<=0) endGame(); },1000);
-      spawnTimer = setInterval(spawnCell, SPAWN_MS);
+     scheduleNextSpawn();
       for(let i=0;i<2;i++) spawnCell();
     }
 
     function endGame(){
-      clearInterval(timer); clearInterval(spawnTimer);
+     clearInterval(timer);
+clearTimeout(spawnTimer);
       document.querySelectorAll('.cell').forEach(c=>c.remove());
       overlay.style.display='flex';
       overlay.querySelector('.title').textContent = 'Oyun Bitti';
@@ -405,44 +432,87 @@ z-index:20;}
     }
 
     function spawnCell(){
-      // Tip olasılıkları: %70 iyi, %15 myco, %15 rod
-      const r = Math.random();
-      let type = 'good';
-      if(r > 0.85) type = 'rod';
-      else if(r > 0.70) type = 'myco';
+  const r = Math.random();
+  let type = 'good';
 
-      const cell = document.createElement('div');
-      cell.className = 'cell ' + (type === 'good' ? 'good' : ('bad ' + (type==='myco'?'myco':'rod')));
-      cell.dataset.type = type;
-      if(type==='myco'){ cell.style.width='56px'; cell.style.height='56px'; }
-      if(type==='rod'){ cell.style.width='68px'; cell.style.height='22px'; }
+  if (r > 0.86) type = 'rod';
+  else if (r > 0.72) type = 'myco';
 
-      cell.style.left = Math.random() * (stage.clientWidth - 80) + 'px';
-      cell.style.top = '-60px';
-      stage.appendChild(cell);
+  const cell = document.createElement('div');
+  cell.className = 'cell ' + (type === 'good' ? 'good' : ('bad ' + (type === 'myco' ? 'myco' : 'rod')));
+  cell.dataset.type = type;
 
-      let dragging = false; let dx=0, dy=0;
-      const fall = setInterval(()=>{
-        if(!cell.parentElement){ clearInterval(fall); return; }
-        if(!dragging){
-          cell.style.top = (cell.offsetTop + FALL_SPEED) + 'px';
-          if(cell.offsetTop > stage.clientHeight){ cell.remove(); clearInterval(fall); }
-        }
-      }, FALL_TICK_MS);
+  if (type === 'myco') {
+    cell.style.width = '56px';
+    cell.style.height = '56px';
+  }
 
-      cell.addEventListener('pointerdown', (e)=>{
-        dragging = true; const rect = cell.getBoundingClientRect();
-        dx = e.clientX - rect.left; dy = e.clientY - rect.top; cell.setPointerCapture?.(e.pointerId);
-      });
-      window.addEventListener('pointermove', (e)=>{
-        if(!dragging) return; const stRect = stage.getBoundingClientRect();
-        let left = e.clientX - stRect.left - dx; let top  = e.clientY - stRect.top  - dy;
-        cell.style.left = Math.max(-10, Math.min(left, stRect.width-40)) + 'px';
-        cell.style.top  = Math.max(-10, Math.min(top,  stRect.height-40)) + 'px';
-      });
-      window.addEventListener('pointerup', ()=>{ if(!dragging) return; dragging = false; checkDrop(cell); });
+  if (type === 'rod') {
+    cell.style.width = '68px';
+    cell.style.height = '22px';
+  }
+
+  cell.style.left = Math.random() * (stage.clientWidth - 90) + 'px';
+  cell.style.top = '-60px';
+
+  stage.appendChild(cell);
+
+  let dragging = false;
+  let dx = 0;
+  let dy = 0;
+
+  const speed = FALL_SPEED + Math.random() * 2.4 + Math.min(score / 120, 2);
+
+  const fall = setInterval(() => {
+    if (!cell.parentElement) {
+      clearInterval(fall);
+      return;
     }
 
+    if (!dragging) {
+      cell.style.top = (cell.offsetTop + speed) + 'px';
+
+      if (cell.offsetTop > stage.clientHeight) {
+        cell.remove();
+        clearInterval(fall);
+      }
+    }
+  }, FALL_TICK_MS);
+
+  cell.addEventListener('pointerdown', (e) => {
+    dragging = true;
+
+    const rect = cell.getBoundingClientRect();
+    dx = e.clientX - rect.left;
+    dy = e.clientY - rect.top;
+
+    cell.setPointerCapture?.(e.pointerId);
+  });
+
+  cell.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+
+    const stRect = stage.getBoundingClientRect();
+
+    let left = e.clientX - stRect.left - dx;
+    let top = e.clientY - stRect.top - dy;
+
+    cell.style.left = Math.max(-10, Math.min(left, stRect.width - 40)) + 'px';
+    cell.style.top = Math.max(-10, Math.min(top, stRect.height - 40)) + 'px';
+  });
+
+  cell.addEventListener('pointerup', (e) => {
+    if (!dragging) return;
+
+    dragging = false;
+    cell.releasePointerCapture?.(e.pointerId);
+    checkDrop(cell);
+  });
+
+  cell.addEventListener('pointercancel', () => {
+    dragging = false;
+  });
+}
     function checkDrop(cell){
       const hitRect = bottleHit.getBoundingClientRect();
       const rect = cell.getBoundingClientRect();
@@ -536,18 +606,35 @@ const LB_KEY='cf_leaderboard_v1';
 function loadLB(){ try{ return JSON.parse(localStorage.getItem(LB_KEY)||'[]'); }catch(e){ return []; } }
 function saveLB(arr){ localStorage.setItem(LB_KEY, JSON.stringify(arr)); }
 function awardFor(s){ return s>=80? 'Büyük' : s>=50? 'Orta' : s>=30? 'Küçük' : '-'; }
-function renderLB(){
-  const data = loadLB().sort((a,b)=> b.score - a.score).slice(0,50);
+async function renderLB(){
   const tbody = document.querySelector('#lbTable tbody');
- tbody.innerHTML = data.map((r,i)=>`
-  <tr>
-    <td>${i+1}</td>
-    <td>${r.name || '-'}</td>
-    <td>${r.score}</td>
-    <td>${awardFor(r.score)}</td>
-  </tr>
-`).join('');
+
+  tbody.innerHTML = `
+    <tr>
+      <td colspan="4">Yükleniyor...</td>
+    </tr>
+  `;
+
+  try {
+    const data = await window.loadScoresFromFirebase();
+
+    tbody.innerHTML = data.map((r, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${r.name || '-'}</td>
+        <td>${r.score || 0}</td>
+        <td>${awardFor(r.score || 0)}</td>
+      </tr>
+    `).join('');
+  } catch (error) {
+    console.error(error);
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4">Skorlar yüklenemedi</td>
+      </tr>
+    `;
   }
+}
 async function saveCurrentScore(){
   const saveBtn = document.getElementById("saveScore");
 
@@ -594,7 +681,21 @@ async function saveCurrentScore(){
     alert("Firebase error: " + error.message);
   }
 }
-function toggleLb(forceOpen){ const p=document.getElementById('lbPanel'); if(forceOpen){ p.style.display='block'; renderLB(); return;} p.style.display = (p.style.display==='block')?'none':'block'; if(p.style.display==='block') renderLB(); }
+async function toggleLb(forceOpen){
+  const p = document.getElementById('lbPanel');
+
+  if (forceOpen) {
+    p.style.display = 'block';
+    await renderLB();
+    return;
+  }
+
+  p.style.display = (p.style.display === 'block') ? 'none' : 'block';
+
+  if (p.style.display === 'block') {
+    await renderLB();
+  }
+}
 const lbBtn = document.getElementById('lbBtn');
 let pressTimer=null; let pressedAt=0;
 lbBtn.addEventListener('click', ()=>{ if(Date.now()-pressedAt<1600) return; toggleLb(); });
@@ -644,9 +745,12 @@ import {
   getFirestore,
   collection,
   addDoc,
+  getDocs,
+  query,
+  orderBy,
+  limit,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
 const firebaseConfig = {
   apiKey: "AIzaSyDWTza-MBwQ7ruzmWNFFdurX0qYUjFSXmM",
   authDomain: "cell-freezer-de0c3.firebaseapp.com",
@@ -667,6 +771,17 @@ window.saveScoreToFirebase = async function(playerName, playerEmail, playerCompa
     score: score,
     createdAt: serverTimestamp()
   });
+  window.loadScoresFromFirebase = async function() {
+  const q = query(
+    collection(db, "scores"),
+    orderBy("score", "desc"),
+    limit(20)
+  );
+
+  const snapshot = await getDocs(q);
+
+  return snapshot.docs.map(doc => doc.data());
+};
 };
 </script>
 </body>
