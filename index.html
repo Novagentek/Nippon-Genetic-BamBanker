@@ -4,6 +4,45 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cell Freezer – Novagentek</title>
+  /* Katılımcı formu açılınca intro elemanlarını gizle */
+.overlay.formMode .title,
+.overlay.formMode .subtitle,
+.overlay.formMode #howToBox,
+.overlay.formMode #logos,
+.overlay.formMode #start {
+  display: none !important;
+}
+
+.overlay.formMode {
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay.formMode .inner {
+  padding-top: 0;
+}
+
+.overlay.formMode .preform {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 560px;
+  box-sizing: border-box;
+}
+
+/* Telefon için formu ekrana sığdır */
+@media (max-width: 600px) {
+  .overlay.formMode {
+    align-items: flex-start;
+    padding-top: 28px;
+  }
+
+  .overlay.formMode .preform {
+    width: calc(100vw - 24px);
+    max-width: calc(100vw - 24px);
+    margin: 0 auto;
+  }
+}
   <style>
     /* ===== MOBILE RESPONSIVE FIX ===== */
 @media (max-width: 600px) {
@@ -583,8 +622,15 @@ clearTimeout(spawnTimer);
     const pfGo = document.getElementById('pfGo');
     const pfCancel = document.getElementById('pfCancel');
 
-    startBtn.onclick = ()=>{ preForm.style.display='block'; pfName.focus(); };
-    pfCancel.onclick = ()=>{ preForm.style.display='none'; };
+  startBtn.onclick = ()=>{
+  overlay.classList.add('formMode');
+  preForm.style.display = 'block';
+  pfName.focus();
+};
+   pfCancel.onclick = ()=>{
+  preForm.style.display = 'none';
+  overlay.classList.remove('formMode');
+};
     pfGo.onclick = ()=>{
       const name = (pfName.value||'').trim();
       const email = (pfEmail.value||'').trim();
@@ -597,8 +643,9 @@ currentPlayer = {
   company
 };
       initAudio();
-      preForm.style.display='none';
-      startGame();
+      preForm.style.display = 'none';
+overlay.classList.remove('formMode');
+startGame();
     };
 
 // ===== Leaderboard (localStorage) =====
