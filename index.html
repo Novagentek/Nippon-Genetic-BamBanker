@@ -226,7 +226,7 @@ z-index:20;}
       overlay.querySelector('.title').textContent = 'Oyun Bitti';
       const awards = (s)=> s>=80? 'Büyük' : s>=50? 'Orta' : s>=30? 'Küçük' : '-';
       const postHtml = `Skorun: <b>${score}</b> • Ödül: <b>${awards(score)}</b><br>
-        <span style="font-size:14px;color:#cfeafe">Oyuncu: <b>${currentPlayer.name||'-'}</b>${currentPlayer.email? ' • '+currentPlayer.email : ''}</span><br><br>
+        <span style="font-size:14px;color:#cfeafe">Oyuncu: <b>${currentPlayer.name || '-'}</b></span>
         <button id="saveScore" class="btn">Skoru Kaydet</button>
         <button id="showLb" class="btn" style="margin-left:8px;background:#164e63">Tabloyu Aç</button>`;
       overlay.querySelector('.subtitle').innerHTML = postHtml;
@@ -379,17 +379,34 @@ function renderLB(){
 `).join('');
   }
 async function saveCurrentScore(){
+  const saveBtn = document.getElementById("saveScore");
+
   try {
+    if (saveBtn) {
+      saveBtn.disabled = true;
+      saveBtn.textContent = "Kaydediliyor...";
+    }
+
     await window.saveScoreToFirebase(
-  currentPlayer.name || "",
-  currentPlayer.email || "",
-  currentPlayer.company || "",
-  score
-);
+      currentPlayer.name || "",
+      currentPlayer.email || "",
+      currentPlayer.company || "",
+      score
+    );
+
+    if (saveBtn) {
+      saveBtn.textContent = "Kaydedildi";
+    }
 
     alert("Score saved to Firebase!");
   } catch (error) {
     console.error(error);
+
+    if (saveBtn) {
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Skoru Kaydet";
+    }
+
     alert("Firebase error: " + error.message);
   }
 }
