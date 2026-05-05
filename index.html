@@ -4,9 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cell Freezer – Novagentek</title> 
-}
   <style>
-    /* Katılımcı formu açılınca intro elemanlarını gizle */
+/* Hide public settings gear */
+.settings {
+  display: none !important;
+}
+
+/* Katılımcı formu açılınca intro elemanlarını gizle */
 .overlay.formMode .title,
 .overlay.formMode .subtitle,
 .overlay.formMode #howToBox,
@@ -32,19 +36,7 @@
   box-sizing: border-box;
 }
 
-/* Telefon için formu ekrana sığdır */
-@media (max-width: 600px) {
-  .overlay.formMode {
-    align-items: flex-start;
-    padding-top: 28px;
-  }
-
-  .overlay.formMode .preform {
-    width: calc(100vw - 24px);
-    max-width: calc(100vw - 24px);
-    margin: 0 auto;
-  }
-    /* ===== MOBILE RESPONSIVE FIX ===== */
+/* ===== MOBILE RESPONSIVE FIX ===== */
 @media (max-width: 600px) {
   body {
     display: block;
@@ -68,6 +60,17 @@
     width: 100%;
     max-width: 100%;
     padding-top: 20px;
+  }
+
+  .overlay.formMode {
+    align-items: flex-start;
+    padding-top: 28px;
+  }
+
+  .overlay.formMode .preform {
+    width: calc(100vw - 24px);
+    max-width: calc(100vw - 24px);
+    margin: 0 auto;
   }
 
   .title {
@@ -119,14 +122,14 @@
   }
 
   .bottle {
-  width: 220px;
-  height: 360px;
-  right: 10px;
-  bottom: 18px;
-  transform: scale(0.48);
-  transform-origin: bottom right;
-  opacity: 0.35;
-}
+    width: 220px;
+    height: 360px;
+    right: 10px;
+    bottom: 18px;
+    transform: scale(0.48);
+    transform-origin: bottom right;
+    opacity: 0.35;
+  }
 
   .hud {
     font-size: 14px;
@@ -798,6 +801,7 @@ import {
   limit,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyDWTza-MBwQ7ruzmWNFFdurX0qYUjFSXmM",
   authDomain: "cell-freezer-de0c3.firebaseapp.com",
@@ -818,7 +822,9 @@ window.saveScoreToFirebase = async function(playerName, playerEmail, playerCompa
     score: score,
     createdAt: serverTimestamp()
   });
-  window.loadScoresFromFirebase = async function() {
+};
+
+window.loadScoresFromFirebase = async function() {
   const q = query(
     collection(db, "scores"),
     orderBy("score", "desc"),
@@ -826,9 +832,7 @@ window.saveScoreToFirebase = async function(playerName, playerEmail, playerCompa
   );
 
   const snapshot = await getDocs(q);
-
   return snapshot.docs.map(doc => doc.data());
-};
 };
 </script>
 </body>
