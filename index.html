@@ -631,9 +631,6 @@ clearTimeout(spawnTimer);
     }
   }, FALL_TICK_MS);
 }
-  cell.addEventListener('pointercancel', () => {
-    dragging = false;
-  });
 }
   function checkDrop(cell){
   const hitRect = bottleHit.getBoundingClientRect();
