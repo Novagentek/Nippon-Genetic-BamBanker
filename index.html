@@ -336,7 +336,6 @@ z-index:20;}
       <th>#</th>
       <th>İsim</th>
       <th>Skor</th>
-      <th>Ödül</th>
     </tr>
   </thead>
   <tbody></tbody>
@@ -369,12 +368,14 @@ z-index:20;}
 
         <h1 class="title">🧊 Cell Freezer</h1>
         <p class="subtitle">Sağlıklı hücreleri Bambanker'a taşı, <b>kontaminantlardan kaç!</b></p>
-        <div class="howto" id="howToBox">
+  <div class="howto" id="howToBox">
   <b>Nasıl oynanır?</b><br>
   Sağlıklı mavi hücreleri Bambanker şişesine sürükle: <b>+10 puan</b><br>
   Mor kontaminantlardan kaç: <b>-15 puan</b><br>
   Gri bakterilerden kaç: <b>-20 puan</b><br>
-  Süre bitince skorunu kaydet.
+  Süre bitince skorunu kaydet.<br><br>
+  <b>Ödül bilgisi:</b><br>
+  En yüksek skoru yapan ilk <b>5 kişi</b> ödül kazanacaktır.
 </div>
         <button class="btn" id="start">Oyunu Başlat</button>
         <div class="preform" id="preForm">
@@ -382,10 +383,10 @@ z-index:20;}
           <label>İsim Soyisim
             <input id="pfName" placeholder="Ad Soyad" required>
           </label>
-          <label>E-posta (opsiyonel)
+          <label>E-posta
             <input id="pfEmail" placeholder="ornek@eposta.com" type="email">
           </label>
-          <label>Şirket (Company)
+          <label>Şirket
   <input id="pfCompany" placeholder="Company name">
 </label>
           <div class="actions">
@@ -463,8 +464,7 @@ clearTimeout(spawnTimer);
       document.querySelectorAll('.cell').forEach(c=>c.remove());
       overlay.style.display='flex';
       overlay.querySelector('.title').textContent = 'Oyun Bitti';
-      const awards = (s)=> s>=80? 'Büyük' : s>=50? 'Orta' : s>=30? 'Küçük' : '-';
-      const postHtml = `Skorun: <b>${score}</b> • Ödül: <b>${awards(score)}</b><br>
+      const postHtml = `Skorun: <b>${score}</b><br>
         <span style="font-size:14px;color:#cfeafe">Oyuncu: <b>${currentPlayer.name || '-'}</b></span>
         <button id="saveScore" class="btn">Skoru Kaydet</button>
         <button id="showLb" class="btn" style="margin-left:8px;background:#164e63">Tabloyu Aç</button>`;
@@ -655,13 +655,12 @@ startGame();
 const LB_KEY='cf_leaderboard_v1';
 function loadLB(){ try{ return JSON.parse(localStorage.getItem(LB_KEY)||'[]'); }catch(e){ return []; } }
 function saveLB(arr){ localStorage.setItem(LB_KEY, JSON.stringify(arr)); }
-function awardFor(s){ return s>=80? 'Büyük' : s>=50? 'Orta' : s>=30? 'Küçük' : '-'; }
 async function renderLB(){
   const tbody = document.querySelector('#lbTable tbody');
 
   tbody.innerHTML = `
     <tr>
-      <td colspan="4">Yükleniyor...</td>
+      <td colspan="3">Yükleniyor...</td>
     </tr>
   `;
 
@@ -673,14 +672,13 @@ async function renderLB(){
         <td>${i + 1}</td>
         <td>${r.name || '-'}</td>
         <td>${r.score || 0}</td>
-        <td>${awardFor(r.score || 0)}</td>
       </tr>
     `).join('');
   } catch (error) {
     console.error(error);
     tbody.innerHTML = `
       <tr>
-        <td colspan="4">Skorlar yüklenemedi</td>
+        <td colspan="3">Skorlar yüklenemedi</td>
       </tr>
     `;
   }
@@ -754,9 +752,9 @@ lbBtn.addEventListener('mouseup', ()=>{ clearTimeout(pressTimer); });
 lbBtn.addEventListener('mouseleave', ()=>{ clearTimeout(pressTimer); });
 
 document.getElementById('lbDownload').addEventListener('click', ()=>{
-  const rows = [['Sıra','İsim','E-posta','Skor','Tarih','Ödül']];
-  const data = loadLB().sort((a,b)=> b.score-a.score);
-  data.forEach((r,i)=> rows.push([String(i+1), r.name||'', r.email||'', String(r.score), new Date(r.ts).toISOString(), awardFor(r.score)]));
+  const rows = [['Sıra','İsim','E-posta','Skor','Tarih']];
+const data = loadLB().sort((a,b)=> b.score-a.score);
+data.forEach((r,i)=> rows.push([String(i+1), r.name||'', r.email||'', String(r.score), new Date(r.ts).toISOString()]));
   const csv = rows.map(r=> r.map(v=> '"'+String(v).replaceAll('"','""')+'"').join(',')).join('\n');
   const a = document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv); a.download='cell_freezer_scores.csv'; a.click();
 });
