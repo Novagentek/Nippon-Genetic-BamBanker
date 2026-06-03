@@ -127,7 +127,7 @@
     right: 10px;
     bottom: 18px;
     transform: scale(0.48);
-    transform-origin: bottom right;
+  transform-origin: bottom center;
     opacity: 0.35;
   }
 
@@ -185,9 +185,10 @@
     .hud{position:absolute;top:10px;left:10px;display:flex;gap:10px;background:rgba(255,255,255,.06);padding:6px 10px;border-radius:10px;z-index:2}
 
     /* === BAMBANKER ŞİŞESİ (drop bölgesi) === */
-    .bottle{
+   .bottle{
   position:absolute;
-  right:24px;
+  left:50%;
+  right:auto;
   bottom:22px;
   width:220px;
   height:360px;
@@ -197,7 +198,7 @@
   background-repeat:no-repeat;
   background-position:center bottom;
   transform:scale(0.72);
-  transform-origin:bottom right;
+  transform-origin:bottom center;
   opacity:0.75;
 }
     /* Şişe gövdesi */
@@ -438,7 +439,7 @@ body {
         <p class="subtitle">Sağlıklı hücreleri Bambanker'a taşı, <b>kontaminantlardan kaç!</b></p>
   <div class="howto" id="howToBox">
   <b>Nasıl oynanır?</b><br>
-  Sağlıklı mavi hücreleri Bambanker şişesine sürükle: <b>+10 puan</b><br>
+  Bambanker şişesini sağa-sola hareket ettirerek sağlıklı mavi hücreleri yakala: <b>+10 puan</b><br>
   Mor kontaminantlardan kaç: <b>-15 puan</b><br>
   Gri bakterilerden kaç: <b>-20 puan</b><br>
   Süre bitince skorunu kaydet.<br><br>
@@ -495,7 +496,47 @@ body {
     let score = 0, time = GAME_TIME, timer, spawnTimer;
     let currentPlayer = { name: '', email: '' };
     let audioCtx = null;
+let bottleDragging = false;
 
+function moveBottleTo(clientX) {
+  const stageRect = stage.getBoundingClientRect();
+
+  const bottleWidth = bottle.offsetWidth;
+  let left = clientX - stageRect.left - bottleWidth / 2;
+
+  left = Math.max(0, Math.min(left, stage.clientWidth - bottleWidth));
+
+  bottle.style.left = left + 'px';
+  bottle.style.right = 'auto';
+}
+
+stage.addEventListener('pointerdown', (e) => {
+  if (overlay.style.display !== 'none') return;
+
+  bottleDragging = true;
+  moveBottleTo(e.clientX);
+});
+
+stage.addEventListener('pointermove', (e) => {
+  if (!bottleDragging) return;
+
+  e.preventDefault();
+  moveBottleTo(e.clientX);
+});
+
+stage.addEventListener('pointerup', () => {
+  bottleDragging = false;
+});
+
+stage.addEventListener('pointercancel', () => {
+  bottleDragging = false;
+});
+
+stage.addEventListener('touchmove', (e) => {
+  if (overlay.style.display === 'none') {
+    e.preventDefault();
+  }
+}, { passive: false });
     // Logo fallback (dosya yoksa)
     document.querySelectorAll('.logos img').forEach(img=>{
       img.addEventListener('error', ()=>{
@@ -521,6 +562,8 @@ function scheduleNextSpawn() {
       score = 0; time = GAME_TIME;
       scoreEl.textContent = score; timeEl.textContent = time;
       fill.style.height='0%';
+      bottle.style.left = Math.max(0, (stage.clientWidth - bottle.offsetWidth) / 2) + 'px';
+bottle.style.right = 'auto';
       timer = setInterval(()=>{ time--; timeEl.textContent = time; if(time<=0) endGame(); },1000);
      scheduleNextSpawn();
       for(let i=0;i<2;i++) spawnCell();
@@ -567,10 +610,6 @@ clearTimeout(spawnTimer);
 
   stage.appendChild(cell);
 
-  let dragging = false;
-  let dx = 0;
-  let dy = 0;
-
   const speed = FALL_SPEED + Math.random() * 2.4 + Math.min(score / 120, 2);
 
   const fall = setInterval(() => {
@@ -579,15 +618,19 @@ clearTimeout(spawnTimer);
       return;
     }
 
-    if (!dragging) {
-      cell.style.top = (cell.offsetTop + speed) + 'px';
+    cell.style.top = (cell.offsetTop + speed) + 'px';
 
-      if (cell.offsetTop > stage.clientHeight) {
-        cell.remove();
-        clearInterval(fall);
-      }
+    if (checkDrop(cell)) {
+      clearInterval(fall);
+      return;
+    }
+
+    if (cell.offsetTop > stage.clientHeight) {
+      cell.remove();
+      clearInterval(fall);
     }
   }, FALL_TICK_MS);
+}
 
   cell.addEventListener('pointerdown', (e) => {
     dragging = true;
@@ -623,22 +666,39 @@ clearTimeout(spawnTimer);
     dragging = false;
   });
 }
-    function checkDrop(cell){
-      const hitRect = bottleHit.getBoundingClientRect();
-      const rect = cell.getBoundingClientRect();
-      const overlap = !(rect.right < hitRect.left || rect.left > hitRect.right || rect.bottom < hitRect.top || rect.top > hitRect.bottom);
-      if(!overlap) return;
+  function checkDrop(cell){
+  const hitRect = bottleHit.getBoundingClientRect();
+  const rect = cell.getBoundingClientRect();
 
-      const type = cell.dataset.type;
-      if(type==='good'){ score += SCORE_GOOD; uiGood(); }
-      else if(type==='myco'){ score += PENALTY_MYCO; uiBad(); }
-      else { score += PENALTY_ROD; uiBad(); }
+  const overlap = !(
+    rect.right < hitRect.left ||
+    rect.left > hitRect.right ||
+    rect.bottom < hitRect.top ||
+    rect.top > hitRect.bottom
+  );
 
-      score = Math.max(0, score);
-      scoreEl.textContent = score;
-      updateFill();
-      cell.remove();
-    }
+  if (!overlap) return false;
+
+  const type = cell.dataset.type;
+
+  if (type === 'good') {
+    score += SCORE_GOOD;
+    uiGood();
+  } else if (type === 'myco') {
+    score += PENALTY_MYCO;
+    uiBad();
+  } else {
+    score += PENALTY_ROD;
+    uiBad();
+  }
+
+  score = Math.max(0, score);
+  scoreEl.textContent = score;
+  updateFill();
+
+  cell.remove();
+  return true;
+}
 
     function updateFill(){
       const pct = Math.max(0, Math.min(100, score));
