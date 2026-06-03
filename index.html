@@ -307,6 +307,60 @@ z-index:20;}
   box-sizing: border-box;
 }
     .preform .muted{font-size:12px;color:#94a3b8;margin-top:6px}
+  /* === Ferah laboratuvar temalı arka plan === */
+body {
+  background: linear-gradient(135deg, #eaf7ff 0%, #cfefff 45%, #f8fcff 100%);
+  color: var(--text);
+}
+
+/* Oyun alanı: siyah yerine koyu laboratuvar mavisi */
+.stage {
+  background:
+    radial-gradient(circle at top left, rgba(14,165,233,.26), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(45,212,191,.18), transparent 34%),
+    linear-gradient(180deg, #10324d 0%, #0b2338 55%, #071a2b 100%);
+  border: 2px solid rgba(14,165,233,.65);
+  box-shadow:
+    0 18px 45px rgba(3,105,161,.22),
+    inset 0 0 42px rgba(14,165,233,.12);
+}
+
+/* Giriş ekranını siyah yerine yarı transparan mavi yap */
+.overlay {
+  background: rgba(7, 22, 38, 0.84);
+  backdrop-filter: blur(3px);
+}
+
+/* Bilgi kutuları daha modern görünsün */
+.hud,
+.leaderboard,
+.preform,
+.howto {
+  background: rgba(8, 31, 52, 0.82);
+  border: 1px solid rgba(125, 211, 252, 0.22);
+  box-shadow: 0 10px 28px rgba(0,0,0,.20);
+}
+
+/* Nasıl oynanır kutusu */
+.howto {
+  margin: 12px auto 4px;
+  padding: 10px 14px;
+  max-width: 560px;
+  border-radius: 12px;
+  color: #dff6ff;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* Başlık daha aydınlık görünsün */
+.title {
+  text-shadow: 0 0 22px rgba(125,211,252,.35);
+}
+
+/* Açıklama yazıları daha okunabilir olsun */
+.subtitle {
+  color: #dff6ff;
+}
   </style>
 </head>
 <body>
