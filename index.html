@@ -3,4601 +3,1791 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Cell Freezer – Novagentek</title>
 
   <style>
     :root {
-      --bg-dark: #061a28;
-      --bg-mid: #0a3148;
-      --cyan: #37d9f5;
-      --cyan-light: #a6f4ff;
-      --cyan-dark: #0798c4;
-
-      --green: #79f2ad;
-      --red: #ff7182;
-      --purple: #c084fc;
-      --yellow: #ffd76e;
-
-      --text: #eefcff;
-      --muted: #9bc7d5;
+      --bg-1:#0b3a55;
+      --bg-2:#082b43;
+      --bg-3:#051b2d;
+      --cyan:#49def6;
+      --cyan-soft:#b9f5ff;
+      --text:#eefcff;
+      --muted:#9ccbd7;
+      --green:#8ef2b4;
+      --red:#ff7b8a;
+      --gold:#ffe08b;
+      --panel:#061f30;
+      --panel-2:#0a2a3e;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing:border-box; }
 
-    html,
-    body {
-      margin: 0;
-      width: 100%;
-      min-height: 100%;
+    html, body {
+      margin:0;
+      width:100%;
+      min-height:100%;
     }
 
     body {
-      font-family:
-        Inter,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-
-      background: #eaf8fc;
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      background:#eaf8fc;
+      color:var(--text);
     }
 
-    button,
-    input {
-      font: inherit;
-    }
-
-    button {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* =========================================================
-       GAME STAGE
-    ========================================================= */
+    button, input { font:inherit; }
+    button { -webkit-tap-highlight-color:transparent; }
 
     .stage {
-      position: relative;
-
-      width: 100%;
-      height: 650px;
-
-      overflow: hidden;
-
+      position:relative;
+      width:100%;
+      height:650px;
+      overflow:hidden;
+      touch-action:none;
+      border:1px solid rgba(74,213,241,.5);
       background:
-        radial-gradient(
-          circle at 20% 20%,
-          rgba(61, 219, 245, 0.13),
-          transparent 29%
-        ),
-        radial-gradient(
-          circle at 82% 72%,
-          rgba(83, 239, 192, 0.08),
-          transparent 26%
-        ),
-        linear-gradient(
-          180deg,
-          #0b3b57 0%,
-          #092b43 48%,
-          #061a2b 100%
-        );
-
-      border: 1px solid rgba(64, 210, 242, 0.45);
-
-      box-shadow:
-        0 20px 50px rgba(6, 46, 70, 0.22),
-        inset 0 0 70px rgba(66, 220, 249, 0.04);
-
-      touch-action: none;
+        radial-gradient(circle at 16% 18%,rgba(78,224,244,.13),transparent 28%),
+        radial-gradient(circle at 84% 74%,rgba(75,222,192,.08),transparent 30%),
+        linear-gradient(180deg,var(--bg-1),var(--bg-2) 48%,var(--bg-3));
+      box-shadow:0 18px 48px rgba(4,55,82,.22),inset 0 0 70px rgba(255,255,255,.025);
     }
-
-    /* microscopic ambient background */
 
     .stage::before,
     .stage::after {
-      content: "";
-
-      position: absolute;
-
-      width: 360px;
-      height: 360px;
-
-      border-radius: 50%;
-
-      border: 2px solid rgba(126, 235, 255, 0.055);
-
-      box-shadow:
-        inset 0 0 40px rgba(94, 223, 255, 0.05),
-        0 0 40px rgba(94, 223, 255, 0.025);
-
-      pointer-events: none;
+      content:"";
+      position:absolute;
+      width:340px;
+      height:340px;
+      border-radius:50%;
+      border:2px solid rgba(151,236,251,.04);
+      box-shadow:inset 0 0 40px rgba(91,225,249,.04);
+      pointer-events:none;
     }
 
-    .stage::before {
-      left: -160px;
-      top: 110px;
-    }
+    .stage::before { left:-170px; top:120px; }
+    .stage::after { right:-180px; bottom:20px; }
 
-    .stage::after {
-      right: -190px;
-      bottom: 40px;
-    }
-
-    /* =========================================================
-       HUD
-    ========================================================= */
-
+    /* HUD */
     .hud {
-      position: absolute;
-
-      top: 14px;
-      left: 50%;
-
-      z-index: 30;
-
-      display: flex;
-      align-items: stretch;
-
-      transform: translateX(-50%);
-
-      border: 1px solid rgba(154, 235, 250, 0.22);
-      border-radius: 16px;
-
-      overflow: hidden;
-
-      background: rgba(3, 27, 43, 0.84);
-
-      backdrop-filter: blur(12px);
-
-      box-shadow:
-        0 12px 32px rgba(0, 0, 0, 0.22);
+      position:absolute;
+      top:12px;
+      left:50%;
+      z-index:40;
+      transform:translateX(-50%);
+      display:flex;
+      overflow:hidden;
+      border:1px solid rgba(170,238,251,.18);
+      border-radius:15px;
+      background:rgba(3,25,39,.92);
+      box-shadow:0 10px 28px rgba(0,0,0,.22);
     }
 
     .hud-block {
-      min-width: 125px;
-
-      padding: 9px 18px;
-
-      text-align: center;
+      min-width:112px;
+      padding:8px 16px;
+      text-align:center;
     }
 
-    .hud-block + .hud-block {
-      border-left: 1px solid rgba(255, 255, 255, 0.1);
-    }
+    .hud-block + .hud-block { border-left:1px solid rgba(255,255,255,.08); }
 
     .hud-label {
-      display: block;
-
-      margin-bottom: 1px;
-
-      color: #91c6d6;
-
-      font-size: 10px;
-      font-weight: 800;
-
-      letter-spacing: 0.12em;
-
-      text-transform: uppercase;
+      display:block;
+      margin-bottom:1px;
+      color:#87b9c8;
+      font-size:9px;
+      font-weight:900;
+      letter-spacing:.13em;
+      text-transform:uppercase;
     }
 
     .hud-value {
-      color: #fff;
-
-      font-size: 25px;
-      font-weight: 900;
+      display:block;
+      color:#fff;
+      font-size:24px;
+      line-height:1.05;
+      font-weight:950;
     }
 
     #timeBlock.danger .hud-value {
-      color: #ff8897;
-
-      animation: timerPulse 0.6s ease infinite;
+      color:#ff8a99;
+      animation:timePulse .6s ease-in-out infinite;
     }
 
-    @keyframes timerPulse {
-      50% {
-        transform: scale(1.08);
-      }
+    @keyframes timePulse { 50% { transform:scale(1.08); } }
+
+    /* TOP LEADERBOARD BUTTON */
+    .lb-open-wrap {
+      position:absolute;
+      top:12px;
+      right:12px;
+      z-index:42;
     }
 
-    /* =========================================================
-       LEADERBOARD
-    ========================================================= */
-
-    .leaderboard-button-wrap {
-      position: absolute;
-
-      top: 14px;
-      right: 14px;
-
-      z-index: 41;
+    .icon-button {
+      width:44px;
+      height:44px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(255,255,255,.16);
+      border-radius:50%;
+      background:#08283a;
+      color:#fff;
+      cursor:pointer;
+      font-size:19px;
+      box-shadow:0 8px 20px rgba(0,0,0,.18);
     }
 
-    .leaderboard-button {
-      width: 46px;
-      height: 46px;
+    .icon-button:hover { background:#0b344a; }
 
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 50%;
-
-      background: rgba(4, 32, 49, 0.82);
-
-      color: white;
-
-      cursor: pointer;
-
-      font-size: 20px;
+    /* PURE CSS CRYOVIAL */
+    .vial {
+      position:absolute;
+      left:50%;
+      bottom:8px;
+      z-index:18;
+      width:112px;
+      height:292px;
+      transform:translateX(-50%);
+      transform-origin:bottom center;
+      filter:drop-shadow(0 16px 21px rgba(0,0,0,.32)) drop-shadow(0 0 11px rgba(74,221,247,.18));
+      transition:filter .16s ease, transform .16s ease;
     }
 
-    .leaderboard {
-      position: absolute;
-
-      top: 70px;
-      right: 14px;
-
-      z-index: 40;
-
-      display: none;
-
-      width: min(420px, 92vw);
-      max-height: 70%;
-
-      overflow-y: auto;
-
-      padding: 16px;
-
-      border: 1px solid rgba(143, 229, 247, 0.25);
-      border-radius: 16px;
-
-      background: rgba(3, 28, 44, 0.95);
-
-      backdrop-filter: blur(12px);
-
-      color: white;
-
-      box-shadow:
-        0 18px 42px rgba(0, 0, 0, 0.35);
+    .vial::before {
+      content:"";
+      position:absolute;
+      left:50%;
+      bottom:-4px;
+      width:108px;
+      height:22px;
+      transform:translateX(-50%);
+      border-radius:50%;
+      background:radial-gradient(ellipse,rgba(78,226,255,.42),rgba(78,226,255,.12) 48%,transparent 72%);
+      filter:blur(4px);
+      z-index:0;
     }
 
-    .leaderboard h3 {
-      margin: 0 0 12px;
-
-      font-size: 18px;
+    .vial-body {
+      position:absolute;
+      left:18px;
+      right:18px;
+      bottom:9px;
+      height:205px;
+      overflow:hidden;
+      z-index:3;
+      border:2px solid rgba(218,248,255,.75);
+      border-top-color:rgba(244,254,255,.9);
+      border-radius:14px 14px 34px 34px;
+      background:linear-gradient(90deg,rgba(255,255,255,.16),rgba(255,255,255,.045) 18%,rgba(116,202,223,.045) 55%,rgba(255,255,255,.13) 82%,rgba(255,255,255,.04));
+      box-shadow:inset 8px 0 12px rgba(255,255,255,.07),inset -8px 0 12px rgba(39,126,155,.08),inset 0 -10px 18px rgba(74,197,226,.05);
     }
 
-    .leaderboard table {
-      width: 100%;
-
-      border-collapse: collapse;
-
-      font-size: 14px;
+    .vial-body::before {
+      content:"";
+      position:absolute;
+      left:8px;
+      top:13px;
+      bottom:28px;
+      width:7px;
+      border-radius:99px;
+      background:linear-gradient(180deg,rgba(255,255,255,.58),rgba(255,255,255,.06));
+      opacity:.45;
+      z-index:5;
     }
 
-    .leaderboard th,
-    .leaderboard td {
-      padding: 8px;
-
-      border-bottom:
-        1px solid rgba(255, 255, 255, 0.08);
-
-      text-align: left;
+    .vial-body::after {
+      content:"";
+      position:absolute;
+      left:13px;
+      right:13px;
+      bottom:7px;
+      height:18px;
+      border-radius:50%;
+      border-bottom:2px solid rgba(232,252,255,.44);
+      background:radial-gradient(ellipse,rgba(221,249,255,.15),transparent 72%);
+      z-index:5;
     }
 
-    .leaderboard th:last-child,
-    .leaderboard td:last-child {
-      text-align: right;
+    .vial-liquid {
+      position:absolute;
+      left:22px;
+      right:22px;
+      bottom:17px;
+      height:0%;
+      max-height:187px;
+      z-index:2;
+      border-radius:8px 8px 26px 26px;
+      background:linear-gradient(90deg,rgba(34,177,220,.34),rgba(92,231,250,.58) 24%,rgba(39,193,230,.52) 68%,rgba(8,132,188,.4));
+      box-shadow:inset 0 0 18px rgba(178,251,255,.2),0 0 12px rgba(48,214,246,.12);
+      transition:height .3s cubic-bezier(.2,.8,.2,1),filter .18s ease;
     }
 
-    .leaderboard-note {
-      margin-top: 10px;
-
-      color: #91bcc9;
-
-      font-size: 11px;
+    .vial-liquid::before {
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      top:-5px;
+      height:10px;
+      border-radius:50%;
+      background:radial-gradient(ellipse,rgba(225,254,255,.9),rgba(116,237,252,.61) 36%,rgba(22,173,220,.24) 70%,transparent 74%);
+      box-shadow:0 0 7px rgba(121,241,255,.28);
     }
 
-    /* =========================================================
-       CRYOTUBE CATCHER
-    ========================================================= */
-
-    .catcher {
-      position: absolute;
-
-      left: 50%;
-      bottom: 5px;
-
-      z-index: 10;
-
-      width: 118px;
-      height: 285px;
-
-      transform:
-        translateX(-50%);
-
-      transition:
-        filter 0.15s ease;
-
-      filter:
-        drop-shadow(
-          0 15px 20px
-          rgba(0, 0, 0, 0.35)
-        )
-        drop-shadow(
-          0 0 12px
-          rgba(72, 221, 247, 0.18)
-        );
+    .vial-neck {
+      position:absolute;
+      left:31px;
+      right:31px;
+      bottom:210px;
+      height:34px;
+      z-index:4;
+      border-left:2px solid rgba(219,249,255,.7);
+      border-right:2px solid rgba(219,249,255,.7);
+      background:linear-gradient(90deg,rgba(255,255,255,.1),rgba(255,255,255,.02),rgba(255,255,255,.11));
     }
 
-    .catcher::before {
-      content: "";
-
-      position: absolute;
-
-      left: 50%;
-      bottom: -4px;
-
-      width: 115px;
-      height: 22px;
-
-      transform: translateX(-50%);
-
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          ellipse,
-          rgba(67, 224, 255, 0.38),
-          rgba(67, 224, 255, 0.12) 45%,
-          transparent 72%
-        );
-
-      filter: blur(4px);
-
-      pointer-events: none;
+    .vial-collar {
+      position:absolute;
+      left:25px;
+      right:25px;
+      bottom:238px;
+      height:28px;
+      z-index:6;
+      border:2px solid rgba(208,244,251,.74);
+      border-radius:6px;
+      background:repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 4px,rgba(121,195,214,.1) 4px 7px);
+      box-shadow:inset 0 4px 7px rgba(255,255,255,.14);
     }
 
-    .catcher img {
-      position: absolute;
-
-      inset: 0;
-
-      width: 100%;
-      height: 100%;
-
-      object-fit: contain;
-
-      pointer-events: none;
-
-      user-select: none;
+    .vial-cap {
+      position:absolute;
+      left:22px;
+      right:22px;
+      top:0;
+      height:56px;
+      z-index:7;
+      border:2px solid rgba(224,248,253,.82);
+      border-radius:10px 10px 7px 7px;
+      background:repeating-linear-gradient(90deg,rgba(241,251,253,.82) 0 4px,rgba(178,215,225,.48) 4px 7px);
+      box-shadow:inset 0 8px 12px rgba(255,255,255,.27),inset 0 -7px 11px rgba(84,158,181,.08);
     }
 
-    .catcher-hit {
-      position: absolute;
-
-      left: 15px;
-      right: 15px;
-
-      top: 18px;
-      bottom: 5px;
+    .vial-cap::before {
+      content:"";
+      position:absolute;
+      left:4px;
+      right:4px;
+      top:-5px;
+      height:12px;
+      border:1px solid rgba(225,249,253,.82);
+      border-radius:50%;
+      background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(177,220,231,.35));
     }
 
-    .catcher.good-hit {
-      filter:
-        drop-shadow(
-          0 15px 20px
-          rgba(0, 0, 0, 0.3)
-        )
-        drop-shadow(
-          0 0 28px
-          rgba(80, 235, 255, 0.95)
-        );
+    .vial-scale {
+      position:absolute;
+      left:30px;
+      top:102px;
+      width:24px;
+      height:88px;
+      z-index:8;
+      pointer-events:none;
     }
 
-    .catcher.bad-hit {
-      animation:
-        catcherShake 0.28s ease;
+    .vial-scale::before {
+      content:"";
+      position:absolute;
+      left:0;
+      top:0;
+      bottom:0;
+      width:1px;
+      background:rgba(232,252,255,.62);
     }
 
-    @keyframes catcherShake {
-      0%,
-      100% {
-        margin-left: 0;
-      }
-
-      25% {
-        margin-left: -8px;
-      }
-
-      75% {
-        margin-left: 8px;
-      }
+    .vial-scale i {
+      position:absolute;
+      left:0;
+      height:1px;
+      background:rgba(233,252,255,.66);
     }
 
-    /* =========================================================
-       FALLING OBJECTS
-    ========================================================= */
+    .vial-scale i:nth-child(1){top:2px;width:20px}
+    .vial-scale i:nth-child(2){top:22px;width:11px}
+    .vial-scale i:nth-child(3){top:42px;width:18px}
+    .vial-scale i:nth-child(4){top:62px;width:11px}
+    .vial-scale i:nth-child(5){top:83px;width:20px}
 
+    .vial-label {
+      position:absolute;
+      right:28px;
+      top:116px;
+      z-index:8;
+      width:29px;
+      height:88px;
+      border:1px solid rgba(255,255,255,.42);
+      border-radius:5px;
+      background:linear-gradient(180deg,rgba(239,249,250,.64),rgba(213,236,242,.5));
+    }
+
+    .vial-hit {
+      position:absolute;
+      left:12px;
+      right:12px;
+      top:52px;
+      bottom:4px;
+      z-index:12;
+    }
+
+    .vial.good-glow {
+      filter:drop-shadow(0 16px 21px rgba(0,0,0,.3)) drop-shadow(0 0 28px rgba(69,232,255,.82));
+      transform:translateX(-50%) scale(1.035);
+    }
+
+    .vial.bad-shake { animation:vialShake .27s ease; }
+
+    @keyframes vialShake {
+      0%,100% { margin-left:0; }
+      25% { margin-left:-7px; }
+      75% { margin-left:7px; }
+    }
+
+    .vial-liquid.pulse { animation:liquidPulse .32s ease; }
+    .vial-liquid.bad { animation:liquidBad .38s ease; }
+
+    @keyframes liquidPulse { 50% { filter:brightness(1.35) saturate(1.15); } }
+    @keyframes liquidBad { 50% { filter:hue-rotate(115deg) brightness(.92); } }
+
+    /* FALLING OBJECTS */
     .cell {
-      position: absolute;
-
-      z-index: 9;
-
-      pointer-events: none;
-
-      user-select: none;
+      position:absolute;
+      z-index:15;
+      pointer-events:none;
+      user-select:none;
     }
-
-    /* healthy cell */
 
     .cell.good {
-      width: 48px;
-      height: 48px;
-
-      border: 2px solid rgba(175, 247, 255, 0.8);
-      border-radius: 50%;
-
+      width:48px;
+      height:48px;
+      border:2px solid rgba(180,248,255,.8);
+      border-radius:50%;
       background:
-        radial-gradient(
-          circle at 50% 52%,
-          #4932a8 0 18%,
-          #7563dc 19% 28%,
-          transparent 29%
-        ),
-        radial-gradient(
-          circle at 37% 32%,
-          rgba(255, 255, 255, 0.95),
-          rgba(106, 235, 255, 0.95) 14%,
-          rgba(34, 175, 232, 0.92) 42%,
-          rgba(10, 102, 175, 0.95) 68%,
-          #053869 100%
-        );
-
-      box-shadow:
-        inset 0 0 14px rgba(255, 255, 255, 0.34),
-        0 0 17px rgba(67, 222, 255, 0.55);
+        radial-gradient(circle at 50% 52%,#4633a0 0 18%,#7363da 19% 28%,transparent 29%),
+        radial-gradient(circle at 34% 30%,#fff 0 6%,#93f1ff 7% 17%,#24b6df 41%,#0875a8 69%,#054164 100%);
+      box-shadow:inset 0 0 13px rgba(255,255,255,.3),0 0 16px rgba(66,221,255,.46);
     }
-
-    .cell.good::before,
-    .cell.good::after {
-      content: "";
-
-      position: absolute;
-
-      border-radius: 50%;
-
-      background: rgba(210, 250, 255, 0.65);
-    }
-
-    .cell.good::before {
-      width: 5px;
-      height: 5px;
-
-      left: 9px;
-      top: 20px;
-    }
-
-    .cell.good::after {
-      width: 4px;
-      height: 4px;
-
-      right: 9px;
-      top: 12px;
-    }
-
-    /* mycoplasma */
 
     .cell.myco {
-      width: 54px;
-      height: 54px;
-
-      filter:
-        drop-shadow(
-          0 0 9px
-          rgba(200, 110, 255, 0.42)
-        );
+      width:54px;
+      height:54px;
+      filter:drop-shadow(0 0 9px rgba(192,95,246,.42));
     }
 
     .cell.myco::before {
-      content: "";
-
-      position: absolute;
-
-      inset: 9px;
-
-      border-radius: 50%;
-
-      background: #8b43cf;
-
-      box-shadow:
-        -13px -7px 0 -1px #b465ed,
-        10px -11px 0 -2px #8644cf,
-        14px 4px 0 0 #a34de2,
-        7px 15px 0 -2px #7a37bd,
-        -10px 14px 0 -1px #ae5ce8,
-        -16px 4px 0 -3px #8843cd,
-        0 -17px 0 -4px #ca78fa;
+      content:"";
+      position:absolute;
+      inset:10px;
+      border-radius:50%;
+      background:#8a42cb;
+      box-shadow:-13px -7px 0 -1px #b465ed,10px -11px 0 -2px #8644cf,14px 4px 0 0 #a34de2,7px 15px 0 -2px #7a37bd,-10px 14px 0 -1px #ae5ce8,-16px 4px 0 -3px #8843cd,0 -17px 0 -4px #ca78fa;
     }
 
     .cell.myco::after {
-      content: "";
-
-      position: absolute;
-
-      inset: 18px;
-
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          circle at 35% 30%,
-          #f1d6ff,
-          #7831ba 75%
-        );
+      content:"";
+      position:absolute;
+      inset:19px;
+      border-radius:50%;
+      background:radial-gradient(circle at 35% 30%,#f0d6ff,#7831ba 75%);
     }
-
-    /* bacteria */
 
     .cell.rod {
-      width: 66px;
-      height: 25px;
-
-      border: 2px solid rgba(214, 231, 235, 0.55);
-      border-radius: 20px;
-
-      background:
-        repeating-linear-gradient(
-          100deg,
-          #516875 0 5px,
-          #708794 5px 9px
-        );
-
-      box-shadow:
-        inset 0 0 7px rgba(255, 255, 255, 0.2),
-        0 0 10px rgba(181, 205, 215, 0.2);
-
-      transform: rotate(20deg);
+      width:66px;
+      height:24px;
+      border:2px solid rgba(215,230,235,.5);
+      border-radius:20px;
+      background:repeating-linear-gradient(100deg,#516875 0 5px,#708794 5px 9px);
+      box-shadow:inset 0 0 7px rgba(255,255,255,.18),0 0 10px rgba(181,205,215,.18);
     }
-
-    /* Bambanker bonus */
 
     .cell.bonus {
-      width: 61px;
-      height: 78px;
-
-      background:
-        url("bambanker.png")
-        center /
-        contain
-        no-repeat;
-
-      filter:
-        drop-shadow(
-          0 0 6px
-          rgba(255, 232, 135, 0.9)
-        )
-        drop-shadow(
-          0 0 18px
-          rgba(255, 196, 70, 0.8)
-        );
-
-      animation:
-        bonusGlow 0.9s
-        ease-in-out
-        infinite alternate;
+      width:62px;
+      height:78px;
+      background:url("bambanker.png") center/contain no-repeat;
+      filter:drop-shadow(0 0 7px rgba(255,233,138,.92)) drop-shadow(0 0 17px rgba(255,194,67,.78));
+      animation:bonusPulse .9s ease-in-out infinite alternate;
     }
 
-    @keyframes bonusGlow {
-      to {
-        transform: scale(1.08);
+    @keyframes bonusPulse { to { transform:scale(1.07); filter:drop-shadow(0 0 10px rgba(255,243,176,1)) drop-shadow(0 0 25px rgba(255,191,58,.92)); } }
 
-        filter:
-          drop-shadow(
-            0 0 10px
-            rgba(255, 242, 173, 1)
-          )
-          drop-shadow(
-            0 0 26px
-            rgba(255, 192, 62, 0.95)
-          );
-      }
+    /* FEEDBACK */
+    .floating-score {
+      position:absolute;
+      z-index:70;
+      pointer-events:none;
+      font-size:25px;
+      font-weight:950;
+      text-shadow:0 3px 10px rgba(0,0,0,.44);
+      animation:scoreFloat .78s ease-out forwards;
     }
 
-    /* =========================================================
-       FEEDBACK
-    ========================================================= */
-
-    .score-pop {
-      position: absolute;
-
-      z-index: 50;
-
-      pointer-events: none;
-
-      font-size: 27px;
-      font-weight: 1000;
-
-      text-shadow:
-        0 4px 16px
-        rgba(0, 0, 0, 0.45);
-
-      animation:
-        scoreFloat 0.8s
-        ease-out
-        forwards;
-    }
-
-    .score-pop.good {
-      color: #8df5ff;
-    }
-
-    .score-pop.bad {
-      color: #ff8390;
-    }
-
-    .score-pop.bonus {
-      color: #ffe590;
-
-      font-size: 30px;
-    }
+    .floating-score.good { color:#9af6ff; }
+    .floating-score.bad { color:#ff8392; }
+    .floating-score.bonus { color:#ffe59a; font-size:28px; }
 
     @keyframes scoreFloat {
-      0% {
-        opacity: 0;
+      0% { opacity:0; transform:translate(-50%,5px) scale(.8); }
+      20% { opacity:1; transform:translate(-50%,-4px) scale(1.08); }
+      100% { opacity:0; transform:translate(-50%,-58px) scale(.96); }
+    }
 
-        transform:
-          translate(-50%, 8px)
-          scale(0.8);
-      }
-
-      20% {
-        opacity: 1;
-
-        transform:
-          translate(-50%, 0)
-          scale(1.08);
-      }
-
-      100% {
-        opacity: 0;
-
-        transform:
-          translate(-50%, -55px)
-          scale(1);
-      }
+    .combo-pop,
+    .event-pop {
+      position:absolute;
+      left:50%;
+      z-index:58;
+      pointer-events:none;
+      opacity:0;
+      transform:translateX(-50%) translateY(-5px);
+      transition:.16s ease;
+      border:1px solid rgba(155,237,251,.22);
+      background:#06283a;
+      color:#e9fcff;
+      box-shadow:0 9px 24px rgba(0,0,0,.22);
     }
 
     .combo-pop {
-      position: absolute;
-
-      top: 83px;
-      left: 50%;
-
-      z-index: 45;
-
-      opacity: 0;
-
-      transform:
-        translateX(-50%)
-        scale(0.85);
-
-      color: #fff;
-
-      text-align: center;
-
-      pointer-events: none;
-
-      transition:
-        opacity 0.15s,
-        transform 0.15s;
-    }
-
-    .combo-pop strong {
-      display: block;
-
-      color: #82ebff;
-
-      font-size: 25px;
-      font-weight: 1000;
-    }
-
-    .combo-pop small {
-      color: #c3ecf5;
-
-      font-weight: 800;
-
-      letter-spacing: 0.12em;
-    }
-
-    .combo-pop.show {
-      opacity: 1;
-
-      transform:
-        translateX(-50%)
-        scale(1);
+      top:78px;
+      padding:7px 14px;
+      border-radius:999px;
+      font-size:18px;
+      font-weight:950;
+      letter-spacing:.05em;
     }
 
     .event-pop {
-      position: absolute;
-
-      top: 124px;
-      left: 50%;
-
-      z-index: 46;
-
-      opacity: 0;
-
-      transform: translateX(-50%);
-
-      padding: 8px 15px;
-
-      border: 1px solid rgba(255, 255, 255, 0.17);
-      border-radius: 999px;
-
-      background: rgba(3, 30, 45, 0.9);
-
-      color: white;
-
-      font-size: 13px;
-      font-weight: 900;
-
-      pointer-events: none;
-
-      transition: opacity 0.15s;
+      top:122px;
+      padding:9px 14px;
+      border-radius:11px;
+      font-size:13px;
+      font-weight:900;
     }
 
-    .event-pop.show {
-      opacity: 1;
-    }
+    .combo-pop.show,
+    .event-pop.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
     .countdown-pop {
-      position: absolute;
-
-      inset: 0;
-
-      z-index: 55;
-
-      display: none;
-
-      align-items: center;
-      justify-content: center;
-
-      color: white;
-
-      font-size: 110px;
-      font-weight: 1000;
-
-      text-shadow:
-        0 0 30px
-        rgba(66, 225, 255, 0.4),
-        0 8px 26px
-        rgba(0, 0, 0, 0.4);
-
-      pointer-events: none;
+      position:absolute;
+      inset:0;
+      z-index:60;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      color:#fff;
+      font-size:104px;
+      font-weight:950;
+      text-shadow:0 8px 32px rgba(0,0,0,.4),0 0 30px rgba(90,231,255,.28);
     }
 
-    .danger-flash {
-      position: absolute;
-
-      inset: 0;
-
-      z-index: 25;
-
-      opacity: 0;
-
-      pointer-events: none;
-
-      background:
-        radial-gradient(
-          circle,
-          transparent 45%,
-          rgba(255, 46, 72, 0.29)
-        );
-
-      transition: opacity 0.1s;
+    .screen-flash {
+      position:absolute;
+      inset:0;
+      z-index:50;
+      pointer-events:none;
+      opacity:0;
+      transition:opacity .12s ease;
     }
 
-    .danger-flash.show {
-      opacity: 1;
-    }
+    .screen-flash.bad { background:radial-gradient(circle,transparent 45%,rgba(255,52,77,.28)); }
+    .screen-flash.bonus { background:radial-gradient(circle at 50% 80%,rgba(94,234,255,.28),transparent 55%); }
+    .screen-flash.show { opacity:1; }
 
-    /* =========================================================
-       INTRO OVERLAY
-    ========================================================= */
-
+    /* INTRO / RESULT OVERLAY */
     .overlay {
-      position: absolute;
-
-      inset: 0;
-
-      z-index: 60;
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      padding: 16px;
-
-      overflow-y: auto;
-
+      position:absolute;
+      inset:0;
+      z-index:80;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      overflow-y:auto;
       background:
-        radial-gradient(
-          circle at 50% 46%,
-          rgba(60, 216, 242, 0.11),
-          transparent 29%
-        ),
-        linear-gradient(
-          180deg,
-          rgba(6, 38, 56, 0.79),
-          rgba(3, 23, 37, 0.93)
-        );
-
-      backdrop-filter: blur(4px);
-
-      text-align: center;
+        radial-gradient(circle at 50% 42%,rgba(34,197,235,.13),transparent 28%),
+        linear-gradient(180deg,rgba(3,28,44,.82),rgba(2,17,29,.96));
+      text-align:center;
     }
 
     .overlay-inner {
-      position: relative;
-
-      width: min(96%, 900px);
-
-      color: var(--text);
+      position:relative;
+      width:min(95%,920px);
+      color:var(--text);
     }
 
-    /* small brand chip */
-
     .intro-kicker {
-      display: inline-flex;
-
-      align-items: center;
-
-      gap: 8px;
-
-      margin-bottom: 4px;
-
-      padding: 5px 11px;
-
-      border:
-        1px solid
-        rgba(129, 230, 248, 0.22);
-
-      border-radius: 999px;
-
-      background:
-        rgba(5, 48, 67, 0.46);
-
-      color: #bdeefa;
-
-      font-size: 10px;
-      font-weight: 900;
-
-      letter-spacing: 0.13em;
-
-      text-transform: uppercase;
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      padding:5px 11px;
+      border:1px solid rgba(133,231,248,.2);
+      border-radius:999px;
+      background:rgba(7,57,76,.42);
+      color:#b9ecf7;
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
     }
 
     .intro-kicker::before {
-      content: "";
-
-      width: 6px;
-      height: 6px;
-
-      border-radius: 50%;
-
-      background: #66e8ff;
-
-      box-shadow:
-        0 0 10px
-        rgba(102, 232, 255, 0.8);
+      content:"";
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:#64e7ff;
+      box-shadow:0 0 10px rgba(100,231,255,.8);
     }
 
     .title {
-      margin: 5px 0 0;
-
-      background:
-        linear-gradient(
-          180deg,
-          #f5fdff,
-          #7ee8ff 70%,
-          #31b9e3
-        );
-
-      -webkit-background-clip: text;
-      background-clip: text;
-
-      color: transparent;
-
-      font-size: 59px;
-      font-weight: 1000;
-
-      line-height: 0.94;
-
-      letter-spacing: -0.055em;
-
-      text-shadow:
-        0 0 25px
-        rgba(75, 227, 255, 0.14);
+      margin:6px 0 0;
+      background:linear-gradient(180deg,#f6fdff,#7ce7ff 70%,#2ab6e0);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      font-size:62px;
+      line-height:.95;
+      font-weight:1000;
+      letter-spacing:-.055em;
     }
 
     .intro-tagline {
-      margin-top: 7px;
-
-      color: #a4dcea;
-
-      font-size: 13px;
-      font-weight: 900;
-
-      letter-spacing: 0.08em;
+      margin-top:7px;
+      color:#a6dce9;
+      font-size:13px;
+      font-weight:900;
+      letter-spacing:.08em;
     }
-
-    /* =========================================================
-       INTRO MAIN PRODUCT
-    ========================================================= */
 
     .intro-main {
-      position: relative;
-
-      display: grid;
-
-      grid-template-columns:
-        minmax(0, 1fr)
-        220px
-        minmax(0, 1fr);
-
-      align-items: center;
-
-      gap: 14px;
-
-      max-width: 790px;
-
-      margin: 8px auto 4px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 245px minmax(0,1fr);
+      align-items:center;
+      gap:14px;
+      max-width:820px;
+      margin:8px auto 5px;
     }
 
-    .intro-side {
-      display: flex;
-
-      flex-direction: column;
-
-      gap: 8px;
-    }
-
-    .intro-side.left {
-      text-align: right;
-    }
-
-    .intro-side.right {
-      text-align: left;
-    }
+    .intro-side { display:flex; flex-direction:column; gap:8px; }
+    .intro-side.left { text-align:right; }
+    .intro-side.right { text-align:left; }
 
     .intro-card {
-      padding: 9px 11px;
-
-      border:
-        1px solid
-        rgba(172, 236, 248, 0.12);
-
-      border-radius: 12px;
-
-      background:
-        rgba(255, 255, 255, 0.04);
+      padding:10px 11px;
+      border:1px solid rgba(171,235,248,.11);
+      border-radius:12px;
+      background:rgba(255,255,255,.04);
     }
 
-    .intro-card strong {
-      display: block;
-
-      color: #eafcff;
-
-      font-size: 14px;
-    }
-
-    .intro-card span {
-      display: block;
-
-      margin-top: 2px;
-
-      color: #8dbac7;
-
-      font-size: 10px;
-
-      line-height: 1.3;
-    }
-
-    .intro-card.good strong {
-      color: #8febff;
-    }
-
-    .intro-card.bad strong {
-      color: #ff91a0;
-    }
-
-    .intro-card.bonus strong {
-      color: #ffe394;
-    }
-
-    /* product presentation */
+    .intro-card strong { display:block; color:#eafcff; font-size:14px; }
+    .intro-card span { display:block; margin-top:2px; color:#89b8c6; font-size:10px; line-height:1.3; }
+    .intro-card.good strong { color:#92efff; }
+    .intro-card.bad strong { color:#ff91a0; }
+    .intro-card.bonus strong { color:#ffe294; }
 
     .hero-zone {
-      position: relative;
-
-      height: 220px;
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
+      position:relative;
+      height:270px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
-
-    /* cyan halo */
 
     .hero-zone::before {
-      content: "";
-
-      position: absolute;
-
-      left: 50%;
-      top: 47%;
-
-      width: 205px;
-      height: 205px;
-
-      transform:
-        translate(-50%, -50%);
-
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          circle,
-          rgba(95, 231, 255, 0.20) 0%,
-          rgba(61, 213, 247, 0.10) 40%,
-          rgba(61, 213, 247, 0.025) 62%,
-          transparent 72%
-        );
-
-      filter: blur(4px);
-
-      animation:
-        haloPulse 2.8s
-        ease-in-out
-        infinite;
+      content:"";
+      position:absolute;
+      left:50%;
+      top:47%;
+      width:260px;
+      height:260px;
+      transform:translate(-50%,-50%);
+      border-radius:50%;
+      background:radial-gradient(circle,rgba(92,231,255,.2),rgba(57,210,246,.09) 42%,rgba(57,210,246,.02) 64%,transparent 73%);
+      filter:blur(4px);
+      animation:heroHalo 2.8s ease-in-out infinite;
     }
 
-    @keyframes haloPulse {
-      50% {
-        opacity: 0.68;
+    @keyframes heroHalo { 50% { opacity:.7; transform:translate(-50%,-50%) scale(1.06); } }
 
-        transform:
-          translate(-50%, -50%)
-          scale(1.06);
-      }
+    .hero-ring {
+      position:absolute;
+      left:50%;
+      bottom:7px;
+      width:220px;
+      height:34px;
+      transform:translateX(-50%);
+      border:2px solid rgba(102,231,255,.5);
+      border-radius:50%;
+      box-shadow:0 0 7px rgba(94,232,255,.82),0 0 22px rgba(54,208,247,.36),inset 0 0 14px rgba(80,224,255,.17);
     }
 
-    /* lower light ring */
-
-    .light-ring {
-      position: absolute;
-
-      left: 50%;
-      bottom: 8px;
-
-      width: 180px;
-      height: 30px;
-
-      transform:
-        translateX(-50%);
-
-      border:
-        2px solid
-        rgba(100, 231, 255, 0.55);
-
-      border-radius: 50%;
-
-      box-shadow:
-        0 0 7px
-        rgba(95, 232, 255, 0.9),
-        0 0 22px
-        rgba(54, 208, 247, 0.43),
-        inset 0 0 15px
-        rgba(80, 224, 255, 0.2);
-
-      opacity: 0.88;
-    }
-
-    .light-ring::before,
-    .light-ring::after {
-      content: "";
-
-      position: absolute;
-
-      left: 50%;
-      top: 50%;
-
-      transform:
-        translate(-50%, -50%);
-
-      border:
-        1px solid
-        rgba(106, 231, 255, 0.33);
-
-      border-radius: 50%;
-    }
-
-    .light-ring::before {
-      width: 135px;
-      height: 18px;
-    }
-
-    .light-ring::after {
-      width: 215px;
-      height: 42px;
-
-      opacity: 0.32;
+    .hero-ring::after {
+      content:"";
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:270px;
+      height:48px;
+      transform:translate(-50%,-50%);
+      border:1px solid rgba(105,232,255,.21);
+      border-radius:50%;
     }
 
     .hero-product {
-      position: relative;
-
-      z-index: 2;
-
-      width: 155px;
-      height: 205px;
-
-      object-fit: contain;
-
-      filter:
-        drop-shadow(
-          0 13px 19px
-          rgba(0, 0, 0, 0.35)
-        );
-
-      animation:
-        heroHover 2.8s
-        ease-in-out
-        infinite;
+      position:relative;
+      z-index:2;
+      width:225px;
+      height:255px;
+      object-fit:contain;
+      filter:drop-shadow(0 14px 20px rgba(0,0,0,.34));
+      animation:heroFloat 2.8s ease-in-out infinite;
     }
 
-    @keyframes heroHover {
-      0%,
-      100% {
-        transform: translateY(2px);
-      }
+    @keyframes heroFloat { 0%,100%{transform:translateY(2px)} 50%{transform:translateY(-5px)} }
 
-      50% {
-        transform: translateY(-5px);
-      }
+    .intro-copy {
+      max-width:650px;
+      margin:2px auto 8px;
+      color:#d4eef5;
+      font-size:14px;
     }
-
-    .subtitle {
-      margin:
-        3px auto
-        8px;
-
-      max-width: 650px;
-
-      color: #d4eef5;
-
-      font-size: 14px;
-    }
-
-    /* =========================================================
-       HOW TO PLAY
-    ========================================================= */
 
     .howto {
-      max-width: 680px;
-
-      margin: 5px auto 0;
-
-      padding: 8px;
-
-      border:
-        1px solid
-        rgba(144, 227, 245, 0.16);
-
-      border-radius: 14px;
-
-      background:
-        rgba(3, 30, 46, 0.62);
+      max-width:700px;
+      margin:6px auto 0;
+      padding:9px;
+      border:1px solid rgba(144,227,245,.14);
+      border-radius:14px;
+      background:rgba(4,29,45,.72);
     }
 
     .howto-title {
-      margin-bottom: 7px;
-
-      color: #c9eff7;
-
-      font-size: 11px;
-      font-weight: 900;
-
-      letter-spacing: 0.12em;
-
-      text-transform: uppercase;
+      margin-bottom:6px;
+      color:#c8eef7;
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
     }
 
     .howto-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(4, 1fr);
-
-      gap: 6px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:6px;
     }
 
     .howto-item {
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      gap: 6px;
-
-      min-height: 45px;
-
-      padding: 5px;
-
-      border-radius: 9px;
-
-      background:
-        rgba(255, 255, 255, 0.045);
-
-      color: #dff7fc;
-
-      font-size: 11px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      min-height:43px;
+      padding:5px;
+      border-radius:9px;
+      background:rgba(255,255,255,.045);
+      color:#e0f8fc;
+      font-size:11px;
     }
 
-    .howto-item b {
-      font-size: 14px;
+    .howto-item b { font-size:14px; }
+    .howto-item.good b { color:#8ff2ff; }
+    .howto-item.bad b { color:#ff8b9a; }
+    .howto-item.bonus b { color:#ffe08b; }
+
+    .legend {
+      flex:0 0 auto;
+      width:22px;
+      height:22px;
     }
 
-    .howto-item.good b {
-      color: #80f0ff;
+    .legend.good {
+      border:1px solid #a0f4ff;
+      border-radius:50%;
+      background:radial-gradient(circle,#4932a6 0 23%,#4bc7e8 25% 70%,#075f8f);
     }
 
-    .howto-item.bad b {
-      color: #ff8b9a;
+    .legend.myco {
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 30%,#e1afff,#8441ca);
+      box-shadow:6px 3px 0 -4px #bd64eb,-5px 6px 0 -4px #a653df;
     }
 
-    .howto-item.bonus b {
-      color: #ffe08a;
+    .legend.rod {
+      width:27px;
+      height:11px;
+      border-radius:8px;
+      background:#758b97;
+      transform:rotate(18deg);
     }
 
-    .legend-icon {
-      flex: 0 0 auto;
-
-      width: 24px;
-      height: 24px;
+    .legend.bonus {
+      width:24px;
+      height:28px;
+      background:url("bambanker.png") center/contain no-repeat;
     }
 
-    .legend-icon.good {
-      border:
-        1px solid
-        #9bf2ff;
-
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          circle,
-          #4d2d9f 0 22%,
-          #4cc5e8 24% 70%,
-          #065a8d
-        );
-    }
-
-    .legend-icon.myco {
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          circle at 30% 30%,
-          #dca7ff,
-          #8342c8
-        );
-
-      box-shadow:
-        7px 3px 0 -5px #c568f2,
-        -5px 6px 0 -5px #a653df;
-    }
-
-    .legend-icon.rod {
-      width: 28px;
-      height: 12px;
-
-      border-radius: 8px;
-
-      background: #758d99;
-
-      transform: rotate(20deg);
-    }
-
-    .legend-icon.bonus {
-      width: 23px;
-      height: 28px;
-
-      background:
-        url("bambanker.png")
-        center /
-        contain
-        no-repeat;
-    }
-
-    .instruction {
-      margin-top: 6px;
-
-      color: #8fbdca;
-
-      font-size: 10px;
-    }
-
-    /* =========================================================
-       BUTTONS
-    ========================================================= */
+    .instruction { margin-top:6px; color:#8ebdca; font-size:10px; }
 
     .btn {
-      margin-top: 11px;
-
-      padding:
-        12px 28px;
-
-      border:
-        1px solid
-        rgba(172, 244, 255, 0.28);
-
-      border-radius: 999px;
-
-      background:
-        linear-gradient(
-          90deg,
-          #079dcc,
-          #23cad3
-        );
-
-      color: white;
-
-      cursor: pointer;
-
-      font-weight: 900;
-
-      box-shadow:
-        0 10px 25px
-        rgba(0, 184, 225, 0.27);
-
-      transition:
-        transform 0.15s,
-        filter 0.15s;
+      margin-top:11px;
+      padding:12px 26px;
+      border:1px solid rgba(176,245,255,.24);
+      border-radius:999px;
+      background:linear-gradient(90deg,#079fce,#25cbd3);
+      color:#fff;
+      cursor:pointer;
+      font-weight:900;
+      box-shadow:0 10px 24px rgba(0,181,224,.25);
+      transition:.15s ease;
     }
 
-    .btn:hover {
-      transform: translateY(-2px);
+    .btn:hover { transform:translateY(-1px); filter:brightness(1.07); }
+    .btn.secondary { background:#15546d; }
+    .btn.ghost { background:#0b3448; }
 
-      filter: brightness(1.08);
-    }
-
-    .btn.secondary {
-      background: #15546d;
-    }
-
-    .btn.ghost {
-      background:
-        rgba(255, 255, 255, 0.07);
-    }
-
-    #start {
-      min-width: 210px;
-
-      font-size: 15px;
-    }
-
-    /* =========================================================
-       LOGOS + PRIZE
-    ========================================================= */
+    #startBtn { min-width:210px; font-size:15px; }
 
     .logos {
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      gap: 25px;
-
-      margin-top: 10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:24px;
+      margin-top:10px;
     }
 
-    .logos img {
-      max-height: 42px;
-      max-width: 220px;
+    .logos img { max-height:40px; max-width:220px; object-fit:contain; }
 
-      object-fit: contain;
+    .prize {
+      display:inline-block;
+      margin-top:8px;
+      padding:7px 13px;
+      border:1px solid rgba(255,213,109,.24);
+      border-radius:999px;
+      background:rgba(255,197,70,.07);
+      color:#ffe8aa;
+      font-size:11px;
+      font-weight:800;
     }
 
-    #prizeInfo {
-      display: inline-block;
-
-      margin-top: 8px;
-
-      padding:
-        7px 13px;
-
-      border:
-        1px solid
-        rgba(255, 213, 109, 0.25);
-
-      border-radius: 10px;
-
-      background:
-        rgba(255, 197, 70, 0.07);
-
-      color: #ffe9aa;
-
-      font-size: 11px;
-      font-weight: 800;
+    /* FORM */
+    .form-card {
+      display:none;
+      width:min(100%,520px);
+      margin:0 auto;
+      padding:20px;
+      border:1px solid rgba(155,230,245,.18);
+      border-radius:16px;
+      background:#062336;
+      box-shadow:0 18px 42px rgba(0,0,0,.24);
+      text-align:left;
     }
 
-    /* =========================================================
-       FORM
-    ========================================================= */
+    .form-card h2 { margin:0 0 12px; text-align:center; font-size:20px; }
+    .form-card label { display:block; margin:10px 0; color:#d9f2f7; font-size:13px; }
+    .form-card input {
+      display:block;
+      width:100%;
+      margin-top:5px;
+      padding:11px 12px;
+      border:1px solid rgba(148,214,231,.22);
+      border-radius:10px;
+      outline:none;
+      background:#041a29;
+      color:#fff;
+      font-size:16px;
+    }
+    .form-card input:focus { border-color:#4bd7ef; box-shadow:0 0 0 3px rgba(75,215,239,.08); }
+    .form-actions { display:flex; justify-content:flex-end; gap:9px; margin-top:12px; flex-wrap:wrap; }
+    .form-note { margin-top:8px; color:#7faab7; font-size:10px; text-align:center; }
+    .overlay.form-mode .intro-view { display:none; }
+    .overlay.form-mode .form-card { display:block; }
 
-    .preform {
-      display: none;
+    /* RESULT */
+    .result-view { display:none; }
+    .result-score-label { margin-top:18px; color:#94c4d1; font-size:11px; font-weight:900; letter-spacing:.12em; }
+    .result-score { margin-top:2px; color:#fff; font-size:76px; line-height:1; font-weight:1000; }
+    .result-player { margin-top:8px; color:#b9e6f0; font-size:13px; }
+    .save-status { margin-top:10px; min-height:18px; color:#b8eaf3; font-size:12px; font-weight:800; }
+    .result-actions { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-top:12px; }
 
-      width: 100%;
-      max-width: 520px;
-
-      margin: 15px auto 0;
-
-      padding: 18px;
-
-      border:
-        1px solid
-        rgba(156, 233, 248, 0.2);
-
-      border-radius: 16px;
-
-      background:
-        rgba(3, 31, 48, 0.9);
-
-      text-align: left;
+    /* LEADERBOARD MODAL - deliberately solid and sharp */
+    .lb-modal {
+      position:absolute;
+      inset:0;
+      z-index:200;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      background:rgba(0,11,19,.78);
     }
 
-    .preform h3 {
-      margin:
-        0 0
-        12px;
+    .lb-modal.open { display:flex; }
 
-      text-align: center;
-
-      color: white;
+    .lb-card {
+      width:min(94%,520px);
+      max-height:82%;
+      overflow:auto;
+      border:1px solid rgba(133,225,244,.28);
+      border-radius:18px;
+      background:#061f30;
+      box-shadow:0 20px 55px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.02) inset;
+      color:#fff;
+      text-align:left;
     }
 
-    .preform label {
-      display: block;
-
-      margin: 11px 0;
-
-      color: #d8f1f6;
-
-      font-size: 13px;
+    .lb-header {
+      position:sticky;
+      top:0;
+      z-index:2;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:15px 16px 12px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background:#061f30;
     }
 
-    .preform input {
-      width: 100%;
+    .lb-title { margin:0; color:#f2fdff; font-size:19px; font-weight:950; }
+    .lb-subtitle { margin-top:2px; color:#8eb8c5; font-size:10px; }
 
-      margin-top: 5px;
-
-      padding:
-        11px 12px;
-
-      border:
-        1px solid
-        rgba(150, 219, 235, 0.25);
-
-      border-radius: 10px;
-
-      outline: none;
-
-      background: #071f31;
-
-      color: white;
-
-      font-size: 16px;
+    .close-button {
+      width:38px;
+      height:38px;
+      flex:0 0 auto;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:50%;
+      background:#0a3044;
+      color:#fff;
+      cursor:pointer;
+      font-size:19px;
     }
 
-    .preform input:focus {
-      border-color: #41d7f1;
+    .lb-body { padding:0 16px 15px; }
+    .lb-table { width:100%; border-collapse:collapse; font-size:14px; }
+    .lb-table th {
+      padding:11px 8px 9px;
+      color:#8ebdca;
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
+    .lb-table td {
+      padding:10px 8px;
+      color:#edfaff;
+      border-bottom:1px solid rgba(255,255,255,.075);
+      font-weight:650;
+    }
+    .lb-table th:first-child,.lb-table td:first-child { width:48px; text-align:center; }
+    .lb-table th:last-child,.lb-table td:last-child { width:78px; text-align:right; }
+    .lb-table tr.top-1 td { color:#fff3b5; font-weight:950; }
+    .lb-table tr.top-2 td { color:#dcecf2; font-weight:900; }
+    .lb-table tr.top-3 td { color:#e7c6ad; font-weight:900; }
+    .lb-note { min-height:18px; margin-top:10px; color:#8cb4c0; font-size:11px; line-height:1.4; }
+    .lb-admin { display:none; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    .lb-admin.show { display:flex; }
+    .small-button {
+      padding:8px 11px;
+      border:1px solid rgba(255,255,255,.13);
+      border-radius:9px;
+      background:#0a3044;
+      color:#e8faff;
+      cursor:pointer;
+      font-size:11px;
+      font-weight:800;
     }
 
-    .preform-actions {
-      display: flex;
-
-      justify-content: flex-end;
-
-      gap: 9px;
-
-      flex-wrap: wrap;
-
-      margin-top: 12px;
+    @media (max-width:700px) {
+      .stage { height:100dvh; min-height:620px; border:0; }
+      .overlay { align-items:flex-start; padding:12px 7px; }
+      .title { font-size:43px; }
+      .intro-main { grid-template-columns:1fr 145px 1fr; gap:7px; }
+      .hero-zone { height:190px; }
+      .hero-product { width:145px; height:180px; }
+      .hero-ring { width:145px; height:24px; }
+      .hero-zone::before { width:180px; height:180px; }
+      .intro-card { padding:7px 6px; }
+      .intro-card strong { font-size:11px; }
+      .intro-card span { font-size:8px; }
+      .howto-grid { grid-template-columns:1fr 1fr; }
+      .logos { gap:12px; flex-wrap:wrap; }
+      .logos img { max-width:40vw; max-height:32px; }
+      .hud { top:8px; left:8px; transform:none; }
+      .hud-block { min-width:72px; padding:7px 9px; }
+      .hud-value { font-size:18px; }
+      .lb-open-wrap { top:8px; right:8px; }
+      .icon-button { width:40px; height:40px; }
+      .vial { width:94px; height:248px; bottom:5px; }
+      .vial-body { left:15px; right:15px; height:173px; }
+      .vial-liquid { left:19px; right:19px; max-height:157px; }
+      .vial-neck { left:26px; right:26px; bottom:178px; }
+      .vial-collar { left:21px; right:21px; bottom:202px; }
+      .vial-cap { left:19px; right:19px; height:48px; }
+      .vial-scale { left:26px; top:91px; transform:scale(.83); transform-origin:top left; }
+      .vial-label { right:24px; top:101px; width:24px; height:74px; }
+      .countdown-pop { font-size:74px; }
+      .combo-pop { top:58px; font-size:15px; }
+      .event-pop { top:98px; max-width:90%; text-align:center; }
     }
 
-    .simple-button {
-      padding:
-        10px 17px;
-
-      border:
-        1px solid
-        rgba(255, 255, 255, 0.15);
-
-      border-radius: 999px;
-
-      background:
-        rgba(255, 255, 255, 0.07);
-
-      color: white;
-
-      cursor: pointer;
-    }
-
-    .form-note {
-      margin-top: 8px;
-
-      color: #82aebb;
-
-      text-align: center;
-
-      font-size: 10px;
-    }
-
-    .overlay.formMode
-    .intro-content {
-      display: none;
-    }
-
-    .overlay.formMode
-    .preform {
-      display: block;
-    }
-
-    /* =========================================================
-       MOBILE
-    ========================================================= */
-
-    @media (max-width: 700px) {
-
-      .stage {
-        height: 100dvh;
-        min-height: 620px;
-      }
-
-      .overlay {
-        align-items: flex-start;
-
-        padding:
-          13px 7px;
-      }
-
-      .title {
-        font-size: 42px;
-      }
-
-      .intro-main {
-        grid-template-columns:
-          1fr
-          130px
-          1fr;
-
-        gap: 6px;
-      }
-
-      .hero-zone {
-        height: 180px;
-      }
-
-      .hero-product {
-        width: 118px;
-        height: 165px;
-      }
-
-      .light-ring {
-        width: 135px;
-      }
-
-      .intro-card {
-        padding: 7px 5px;
-      }
-
-      .intro-card strong {
-        font-size: 11px;
-      }
-
-      .intro-card span {
-        font-size: 8px;
-      }
-
-      .howto-grid {
-        grid-template-columns:
-          1fr 1fr;
-      }
-
-      .logos img {
-        max-height: 32px;
-        max-width: 38vw;
-      }
-
-      .hud {
-        left: 8px;
-
-        transform: none;
-      }
-
-      .hud-block {
-        min-width: 75px;
-
-        padding:
-          7px 9px;
-      }
-
-      .hud-value {
-        font-size: 18px;
-      }
-
-      .hud-label {
-        font-size: 8px;
-      }
-
-      .leaderboard-button-wrap {
-        right: 7px;
-        top: 8px;
-      }
-
-      .leaderboard-button {
-        width: 40px;
-        height: 40px;
-      }
-
-      .catcher {
-        width: 90px;
-        height: 220px;
-      }
-    }
-
-    @media (max-width: 480px) {
-
-      .title {
-        font-size: 36px;
-      }
-
-      .intro-tagline {
-        font-size: 10px;
-      }
-
-      .intro-main {
-        grid-template-columns:
-          1fr
-          104px
-          1fr;
-
-        margin-top: 5px;
-      }
-
-      .hero-zone {
-        height: 145px;
-      }
-
-      .hero-product {
-        width: 88px;
-        height: 135px;
-      }
-
-      .light-ring {
-        width: 110px;
-        height: 20px;
-      }
-
-      .intro-card span {
-        display: none;
-      }
-
-      .intro-card strong {
-        font-size: 9px;
-      }
-
-      .howto {
-        padding: 6px;
-      }
-
-      .howto-item {
-        font-size: 9px;
-      }
-
-      .instruction {
-        font-size: 9px;
-      }
-
-      .subtitle {
-        font-size: 11px;
-      }
-
-      #prizeInfo {
-        font-size: 9px;
-      }
+    @media (max-width:480px) {
+      .title { font-size:36px; }
+      .intro-tagline { font-size:10px; }
+      .intro-main { grid-template-columns:1fr 108px 1fr; }
+      .hero-zone { height:150px; }
+      .hero-product { width:108px; height:142px; }
+      .hero-ring { width:112px; height:20px; }
+      .hero-zone::before { width:145px; height:145px; }
+      .intro-card span { display:none; }
+      .intro-card strong { font-size:9px; }
+      .intro-copy { font-size:11px; }
+      .howto { padding:6px; }
+      .howto-item { font-size:9px; }
+      .instruction { font-size:9px; }
+      .prize { font-size:9px; }
+      .lb-card { width:100%; }
+      .lb-body { padding-left:10px; padding-right:10px; }
+      .lb-table { font-size:12px; }
     }
   </style>
 </head>
 
 <body>
+  <div class="stage" id="stage">
 
-<div class="stage" id="stage">
-
-  <!-- HUD -->
-
-  <div
-    class="hud"
-    id="hud"
-  >
-
-    <div
-      class="hud-block"
-      id="timeBlock"
-    >
-
-      <span class="hud-label">
-        Time
-      </span>
-
-      <span class="hud-value">
-        <span id="time">20</span>s
-      </span>
-
+    <div class="hud" aria-label="Oyun skoru">
+      <div class="hud-block" id="timeBlock">
+        <span class="hud-label">Time</span>
+        <span class="hud-value"><span id="time">20</span>s</span>
+      </div>
+      <div class="hud-block">
+        <span class="hud-label">Score</span>
+        <span class="hud-value" id="score">0</span>
+      </div>
+      <div class="hud-block">
+        <span class="hud-label">Combo</span>
+        <span class="hud-value" id="comboHud">×0</span>
+      </div>
     </div>
 
-    <div class="hud-block">
-
-      <span class="hud-label">
-        Score
-      </span>
-
-      <span
-        class="hud-value"
-        id="score"
-      >
-        0
-      </span>
-
+    <div class="lb-open-wrap">
+      <button class="icon-button" id="openLeaderboard" type="button" title="Skor Tablosu">🏆</button>
     </div>
 
-    <div class="hud-block">
+    <div class="countdown-pop" id="countdownPop"></div>
+    <div class="combo-pop" id="comboPop"></div>
+    <div class="event-pop" id="eventPop"></div>
+    <div class="screen-flash bad" id="badFlash"></div>
+    <div class="screen-flash bonus" id="bonusFlash"></div>
 
-      <span class="hud-label">
-        Combo
-      </span>
-
-      <span
-        class="hud-value"
-        id="comboHud"
-      >
-        ×0
-      </span>
-
+    <!-- CSS cryovial catcher: no external cryovial/cryotube image -->
+    <div class="vial" id="vial" aria-label="Cryovial">
+      <div class="vial-cap"></div>
+      <div class="vial-collar"></div>
+      <div class="vial-neck"></div>
+      <div class="vial-body"></div>
+      <div class="vial-liquid" id="vialLiquid"></div>
+      <div class="vial-scale" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="vial-label" aria-hidden="true"></div>
+      <div class="vial-hit" id="vialHit"></div>
     </div>
 
-  </div>
+    <!-- Intro / form / result -->
+    <div class="overlay" id="overlay">
+      <div class="overlay-inner">
 
+        <div class="intro-view" id="introView">
+          <div class="intro-kicker">Nippon Genetics × Novagentek</div>
+          <h1 class="title">CELL FREEZER</h1>
+          <div class="intro-tagline">20 SANİYEDE HÜCRE KÜLTÜRÜNÜ KORU</div>
 
-  <!-- GAME FEEDBACK -->
+          <div class="intro-main">
+            <div class="intro-side left">
+              <div class="intro-card good">
+                <strong>Sağlıklı hücreleri yakala</strong>
+                <span>Seriyi bozma, combo'yu büyüt.</span>
+              </div>
+              <div class="intro-card bad">
+                <strong>Kontaminasyondan kaç</strong>
+                <span>Mycoplasma ve bakteri puan kaybettirir.</span>
+              </div>
+            </div>
 
-  <div
-    class="countdown-pop"
-    id="countdownPop"
-  ></div>
+            <div class="hero-zone">
+              <div class="hero-ring" aria-hidden="true"></div>
+              <img class="hero-product" src="bambanker.png" alt="Nippon Bambanker">
+            </div>
 
-  <div
-    class="combo-pop"
-    id="comboPop"
-  ></div>
+            <div class="intro-side right">
+              <div class="intro-card bonus">
+                <strong>Nippon Bambanker +30</strong>
+                <span>Bambanker'ı yakala, skorunu yükselt.</span>
+              </div>
+              <div class="intro-card">
+                <strong>En yüksek skoru yap</strong>
+                <span>Liderlik tablosunda zirveye çık.</span>
+              </div>
+            </div>
+          </div>
 
-  <div
-    class="event-pop"
-    id="eventPop"
-  ></div>
+          <p class="intro-copy"><b>Cryovialı sağa-sola hareket ettir.</b> Sağlıklı hücreleri topla, kontaminantlardan kaç.</p>
 
-  <div
-    class="danger-flash"
-    id="dangerFlash"
-  ></div>
+          <div class="howto">
+            <div class="howto-title">Nasıl oynanır?</div>
+            <div class="howto-grid">
+              <div class="howto-item good"><span class="legend good"></span>Sağlıklı hücre <b>+10</b></div>
+              <div class="howto-item bad"><span class="legend myco"></span>Mycoplasma <b>-15</b></div>
+              <div class="howto-item bad"><span class="legend rod"></span>Bakteri <b>-20</b></div>
+              <div class="howto-item bonus"><span class="legend bonus"></span>Nippon Bambanker <b>+30</b></div>
+            </div>
+            <div class="instruction">Arka arkaya sağlıklı hücre yakaladıkça combo bonusu kazan. Skor yükseldikçe vial dolar; puan kaybedince sıvı seviyesi azalır.</div>
+          </div>
 
+          <button class="btn" id="startBtn" type="button">OYUNA BAŞLA →</button>
 
-  <!-- LEADERBOARD BUTTON -->
+          <div class="logos">
+            <img src="novagentek_logo.png" alt="Novagentek">
+            <img src="nippon_logo.png" alt="Nippon Genetics">
+          </div>
 
-  <div class="leaderboard-button-wrap">
-
-    <button
-      class="leaderboard-button"
-      id="lbBtn"
-      type="button"
-      title="Skor Tablosu"
-    >
-      🏆
-    </button>
-
-  </div>
-
-
-  <!-- LEADERBOARD -->
-
-  <div
-    class="leaderboard"
-    id="lbPanel"
-  >
-
-    <h3>
-      🏆 Skor Tablosu
-    </h3>
-
-    <table id="lbTable">
-
-      <thead>
-
-        <tr>
-          <th>#</th>
-          <th>İsim</th>
-          <th>Skor</th>
-        </tr>
-
-      </thead>
-
-      <tbody></tbody>
-
-    </table>
-
-    <div
-      class="leaderboard-note"
-      id="leaderboardNote"
-    ></div>
-
-  </div>
-
-
-  <!-- CRYOTUBE CATCHER -->
-
-  <div
-    class="catcher"
-    id="catcher"
-  >
-
-    <img
-      src="cryotube.png"
-      alt="Cryotube"
-    >
-
-    <div
-      class="catcher-hit"
-      id="catcherHit"
-    ></div>
-
-  </div>
-
-
-  <!-- INTRO / END OVERLAY -->
-
-  <div
-    class="overlay"
-    id="overlay"
-  >
-
-    <div class="overlay-inner">
-
-      <div
-        class="intro-content"
-        id="introContent"
-      >
-
-        <div class="intro-kicker">
-          Nippon Genetics × Novagentek
+          <div class="prize">🏆 Sempozyum sonunda en yüksek puanı alan katılımcıya sürpriz ödül.</div>
         </div>
 
-        <h1 class="title">
-          CELL FREEZER
-        </h1>
+        <form class="form-card" id="participantForm" novalidate>
+          <h2>Katılımcı Bilgileri</h2>
 
-        <div class="intro-tagline">
-          20 SANİYEDE HÜCRE KÜLTÜRÜNÜ KORU
-        </div>
+          <label>
+            İsim Soyisim
+            <input id="pfName" type="text" autocomplete="name" placeholder="Ad Soyad" required>
+          </label>
 
+          <label>
+            E-posta
+            <input id="pfEmail" type="email" autocomplete="email" placeholder="ornek@eposta.com" required>
+          </label>
 
-        <div class="intro-main">
+          <label>
+            Şirket / Üniversite
+            <input id="pfCompany" type="text" placeholder="Şirket / Üniversite" required>
+          </label>
 
-          <!-- LEFT -->
-
-          <div class="intro-side left">
-
-            <div class="intro-card good">
-
-              <strong>
-                Sağlıklı hücreleri yakala
-              </strong>
-
-              <span>
-                Seriyi bozma, combo'yu büyüt.
-              </span>
-
-            </div>
-
-            <div class="intro-card bad">
-
-              <strong>
-                Kontaminasyondan kaç
-              </strong>
-
-              <span>
-                Mycoplasma ve bakteri puan kaybettirir.
-              </span>
-
-            </div>
-
+          <div class="form-actions">
+            <button class="btn ghost" id="cancelForm" type="button">İptal</button>
+            <button class="btn" type="submit">Devam Et</button>
           </div>
 
+          <div class="form-note" id="formError" role="alert"></div>
+        </form>
 
-          <!-- CENTER BAMBANKER -->
-
-          <div class="hero-zone">
-
-            <div
-              class="light-ring"
-              aria-hidden="true"
-            ></div>
-
-            <img
-              class="hero-product"
-              src="bambanker.png"
-              alt="Nippon Bambanker"
-            >
-
+        <div class="result-view" id="resultView">
+          <div class="intro-kicker">ROUND COMPLETE</div>
+          <h1 class="title">OYUN BİTTİ</h1>
+          <div class="result-score-label">SKORUN</div>
+          <div class="result-score" id="resultScore">0</div>
+          <div class="result-player">Oyuncu: <b id="resultPlayer">-</b></div>
+          <div class="save-status" id="saveStatus">Skor kaydediliyor...</div>
+          <div class="result-actions">
+            <button class="btn secondary" id="resultLeaderboard" type="button">🏆 Skor Tablosu</button>
+            <button class="btn" id="playAgain" type="button">Tekrar Oyna</button>
+            <button class="btn ghost" id="newPlayer" type="button">Yeni Katılımcı</button>
           </div>
-
-
-          <!-- RIGHT -->
-
-          <div class="intro-side right">
-
-            <div class="intro-card bonus">
-
-              <strong>
-                Nippon Bambanker +30
-              </strong>
-
-              <span>
-                Bambanker'ı yakala, skorunu yükselt.
-              </span>
-
-            </div>
-
-            <div class="intro-card">
-
-              <strong>
-                En yüksek skoru yap
-              </strong>
-
-              <span>
-                Liderlik tablosunda zirveye çık.
-              </span>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <p class="subtitle">
-
-          <b>
-            Cryotube'u sağa-sola hareket ettir.
-          </b>
-
-          Sağlıklı hücreleri topla,
-          kontaminantlardan kaç.
-
-        </p>
-
-
-        <!-- HOW TO PLAY -->
-
-        <div
-          class="howto"
-          id="howToBox"
-        >
-
-          <div class="howto-title">
-            Nasıl oynanır?
-          </div>
-
-          <div class="howto-grid">
-
-            <div
-              class="howto-item good"
-            >
-
-              <span
-                class="legend-icon good"
-              ></span>
-
-              Sağlıklı hücre
-
-              <b>
-                +10
-              </b>
-
-            </div>
-
-
-            <div
-              class="howto-item bad"
-            >
-
-              <span
-                class="legend-icon myco"
-              ></span>
-
-              Mycoplasma
-
-              <b>
-                -15
-              </b>
-
-            </div>
-
-
-            <div
-              class="howto-item bad"
-            >
-
-              <span
-                class="legend-icon rod"
-              ></span>
-
-              Bakteri
-
-              <b>
-                -20
-              </b>
-
-            </div>
-
-
-            <div
-              class="howto-item bonus"
-            >
-
-              <span
-                class="legend-icon bonus"
-              ></span>
-
-              Nippon Bambanker
-
-              <b>
-                +30
-              </b>
-
-            </div>
-
-          </div>
-
-
-          <div class="instruction">
-
-            Arka arkaya sağlıklı hücre
-            yakaladıkça combo bonusu kazan.
-
-          </div>
-
-        </div>
-
-
-        <!-- START -->
-
-        <button
-          class="btn"
-          id="start"
-          type="button"
-        >
-          OYUNA BAŞLA →
-        </button>
-
-
-        <!-- LOGOS -->
-
-        <div class="logos">
-
-          <img
-            src="novagentek_logo.png"
-            alt="Novagentek"
-          >
-
-          <img
-            src="nippon_logo.png"
-            alt="Nippon Genetics"
-          >
-
-        </div>
-
-
-        <!-- PRIZE -->
-
-        <div id="prizeInfo">
-
-          🏆 Sempozyum sonunda en yüksek puanı
-          alan katılımcıya sürpriz ödül.
-
         </div>
 
       </div>
+    </div>
 
-
-      <!-- PARTICIPANT FORM -->
-
-      <div
-        class="preform"
-        id="preForm"
-      >
-
-        <h3>
-          Katılımcı Bilgileri
-        </h3>
-
-
-        <label>
-
-          İsim Soyisim
-
-          <input
-            id="pfName"
-            type="text"
-            placeholder="Ad Soyad"
-            autocomplete="name"
-            required
-          >
-
-        </label>
-
-
-        <label>
-
-          E-posta
-
-          <input
-            id="pfEmail"
-            type="email"
-            placeholder="ornek@eposta.com"
-            autocomplete="email"
-            required
-          >
-
-        </label>
-
-
-        <label>
-
-          Şirket / Üniversite
-
-          <input
-            id="pfCompany"
-            type="text"
-            placeholder="Şirket / Üniversite"
-            required
-          >
-
-        </label>
-
-
-        <div class="preform-actions">
-
-          <button
-            class="simple-button"
-            id="pfCancel"
-            type="button"
-          >
-            İptal
-          </button>
-
-          <button
-            class="btn"
-            id="pfGo"
-            type="button"
-          >
-            Devam Et
-          </button>
-
+    <!-- Sharp leaderboard modal; it is not blurred by the main overlay -->
+    <div class="lb-modal" id="leaderboardModal" aria-hidden="true">
+      <div class="lb-card" role="dialog" aria-modal="true" aria-labelledby="leaderboardTitle">
+        <div class="lb-header">
+          <div>
+            <h2 class="lb-title" id="leaderboardTitle">🏆 Skor Tablosu</h2>
+            <div class="lb-subtitle">Her katılımcının en yüksek skoru gösterilir.</div>
+          </div>
+          <button class="close-button" id="closeLeaderboard" type="button" aria-label="Skor tablosunu kapat">×</button>
         </div>
 
-
-        <div class="form-note">
-          Bilgiler skor kaydı için kullanılır.
+        <div class="lb-body">
+          <table class="lb-table">
+            <thead>
+              <tr><th>#</th><th>İsim</th><th>Skor</th></tr>
+            </thead>
+            <tbody id="leaderboardRows">
+              <tr><td colspan="3">Henüz skor yok</td></tr>
+            </tbody>
+          </table>
+          <div class="lb-note" id="leaderboardNote"></div>
+          <div class="lb-admin" id="lbAdmin">
+            <button class="small-button" id="downloadCsv" type="button">CSV indir</button>
+            <button class="small-button" id="retrySync" type="button">Bekleyen kayıtları gönder</button>
+          </div>
         </div>
-
       </div>
-
     </div>
 
   </div>
 
-</div>
-
-
-<script type="module">
-
-  /* =========================================================
-     FIREBASE
-  ========================================================= */
-
-  import {
-    initializeApp
-  }
-  from
-  "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-
-
-  import {
-    getFirestore,
-    collection,
-    getDocs,
-    query,
-    orderBy,
-    limit,
-    doc,
-    setDoc,
-    serverTimestamp
-  }
-  from
-  "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-
-  const firebaseConfig = {
-
-    apiKey:
-      "AIzaSyDZEBs2xiFLp_IG6_L_27yLetCtdEWHlP4",
-
-    authDomain:
-      "nippon-game-5c77d.firebaseapp.com",
-
-    projectId:
-      "nippon-game-5c77d",
-
-    storageBucket:
-      "nippon-game-5c77d.firebasestorage.app",
-
-    messagingSenderId:
-      "1002140228635",
-
-    appId:
-      "1:1002140228635:web:c8a54aa125a6a6ff28acbe"
-
-  };
-
-
-  const app =
-    initializeApp(
-      firebaseConfig
-    );
-
-
-  const db =
-    getFirestore(
-      app
-    );
-
-
-  /* =========================================================
-     GAME SETTINGS
-  ========================================================= */
-
-  const GAME_TIME = 20;
-
-  const FALL_TICK_MS = 20;
-
-  const SCORE_GOOD = 10;
-
-  const PENALTY_MYCO = -15;
-
-  const PENALTY_ROD = -20;
-
-  const SCORE_BAMBANKER = 30;
-
-
-  const LOCAL_QUEUE_KEY =
-    "cell_freezer_pending_scores_v2";
-
-
-  /* =========================================================
-     DOM
-  ========================================================= */
-
-  const stage =
-    document.getElementById(
-      "stage"
-    );
-
-  const overlay =
-    document.getElementById(
-      "overlay"
-    );
-
-  const introContent =
-    document.getElementById(
-      "introContent"
-    );
-
-  const catcher =
-    document.getElementById(
-      "catcher"
-    );
-
-  const catcherHit =
-    document.getElementById(
-      "catcherHit"
-    );
-
-  const timeEl =
-    document.getElementById(
-      "time"
-    );
-
-  const scoreEl =
-    document.getElementById(
-      "score"
-    );
-
-  const comboHud =
-    document.getElementById(
-      "comboHud"
-    );
-
-  const timeBlock =
-    document.getElementById(
-      "timeBlock"
-    );
-
-  const startBtn =
-    document.getElementById(
-      "start"
-    );
-
-  const comboPop =
-    document.getElementById(
-      "comboPop"
-    );
-
-  const eventPop =
-    document.getElementById(
-      "eventPop"
-    );
-
-  const countdownPop =
-    document.getElementById(
-      "countdownPop"
-    );
-
-  const dangerFlash =
-    document.getElementById(
-      "dangerFlash"
-    );
-
-
-  const preForm =
-    document.getElementById(
-      "preForm"
-    );
-
-  const pfName =
-    document.getElementById(
-      "pfName"
-    );
-
-  const pfEmail =
-    document.getElementById(
-      "pfEmail"
-    );
-
-  const pfCompany =
-    document.getElementById(
-      "pfCompany"
-    );
-
-  const pfGo =
-    document.getElementById(
-      "pfGo"
-    );
-
-  const pfCancel =
-    document.getElementById(
-      "pfCancel"
-    );
-
-
-  const lbBtn =
-    document.getElementById(
-      "lbBtn"
-    );
-
-  const lbPanel =
-    document.getElementById(
-      "lbPanel"
-    );
-
-  const lbTable =
-    document.querySelector(
-      "#lbTable tbody"
-    );
-
-  const leaderboardNote =
-    document.getElementById(
-      "leaderboardNote"
-    );
-
-
-  /* =========================================================
-     STATE
-  ========================================================= */
-
-  let score = 0;
-
-  let time = GAME_TIME;
-
-  let combo = 0;
-
-  let timer = null;
-
-  let spawnTimer = null;
-
-  let gameRunning = false;
-
-  let dragging = false;
-
-  let currentRoundId = null;
-
-  let currentPlayer = {
-
-    name: "",
-
-    email: "",
-
-    company: ""
-
-  };
-
-
-  /* =========================================================
-     HELPERS
-  ========================================================= */
-
-  function escapeHtml(value) {
-
-    return String(value)
-
-      .replaceAll(
-        "&",
-        "&amp;"
-      )
-
-      .replaceAll(
-        "<",
-        "&lt;"
-      )
-
-      .replaceAll(
-        ">",
-        "&gt;"
-      )
-
-      .replaceAll(
-        '"',
-        "&quot;"
-      )
-
-      .replaceAll(
-        "'",
-        "&#039;"
-      );
-
-  }
-
-
-  function createRoundId() {
-
-    if (
-      window.crypto &&
-      typeof
-      window.crypto.randomUUID
-      === "function"
-    ) {
-
-      return
-        window.crypto.randomUUID();
-
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      query,
+      orderBy,
+      limit,
+      doc,
+      setDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDZEBs2xiFLp_IG6_L_27yLetCtdEWHlP4",
+      authDomain: "nippon-game-5c77d.firebaseapp.com",
+      projectId: "nippon-game-5c77d",
+      storageBucket: "nippon-game-5c77d.firebasestorage.app",
+      messagingSenderId: "1002140228635",
+      appId: "1:1002140228635:web:c8a54aa125a6a6ff28acbe"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const GAME_TIME = 20;
+    const SCORE_GOOD = 10;
+    const PENALTY_MYCO = -15;
+    const PENALTY_ROD = -20;
+    const SCORE_BAMBANKER = 30;
+    const FULL_VIAL_SCORE = 220;
+    const LOCAL_QUEUE_KEY = "cell_freezer_pending_scores_v3";
+
+    const stage = document.getElementById("stage");
+    const overlay = document.getElementById("overlay");
+    const introView = document.getElementById("introView");
+    const participantForm = document.getElementById("participantForm");
+    const resultView = document.getElementById("resultView");
+
+    const startBtn = document.getElementById("startBtn");
+    const cancelForm = document.getElementById("cancelForm");
+    const pfName = document.getElementById("pfName");
+    const pfEmail = document.getElementById("pfEmail");
+    const pfCompany = document.getElementById("pfCompany");
+    const formError = document.getElementById("formError");
+
+    const timeEl = document.getElementById("time");
+    const timeBlock = document.getElementById("timeBlock");
+    const scoreEl = document.getElementById("score");
+    const comboHud = document.getElementById("comboHud");
+    const countdownPop = document.getElementById("countdownPop");
+    const comboPop = document.getElementById("comboPop");
+    const eventPop = document.getElementById("eventPop");
+    const badFlash = document.getElementById("badFlash");
+    const bonusFlash = document.getElementById("bonusFlash");
+
+    const vial = document.getElementById("vial");
+    const vialHit = document.getElementById("vialHit");
+    const vialLiquid = document.getElementById("vialLiquid");
+
+    const resultScore = document.getElementById("resultScore");
+    const resultPlayer = document.getElementById("resultPlayer");
+    const saveStatus = document.getElementById("saveStatus");
+    const resultLeaderboard = document.getElementById("resultLeaderboard");
+    const playAgain = document.getElementById("playAgain");
+    const newPlayer = document.getElementById("newPlayer");
+
+    const openLeaderboard = document.getElementById("openLeaderboard");
+    const leaderboardModal = document.getElementById("leaderboardModal");
+    const closeLeaderboard = document.getElementById("closeLeaderboard");
+    const leaderboardRows = document.getElementById("leaderboardRows");
+    const leaderboardNote = document.getElementById("leaderboardNote");
+    const lbAdmin = document.getElementById("lbAdmin");
+    const downloadCsv = document.getElementById("downloadCsv");
+    const retrySync = document.getElementById("retrySync");
+
+    let score = 0;
+    let time = GAME_TIME;
+    let combo = 0;
+    let gameRunning = false;
+    let dragging = false;
+    let timerId = null;
+    let spawnTimerId = null;
+    let comboHideId = null;
+    let eventHideId = null;
+    let currentRoundId = null;
+    let currentPlayer = { name:"", email:"", company:"" };
+    let lastLeaderboardData = [];
+
+    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
     }
 
-    return (
-      Date.now()
-      + "-"
-      +
-      Math.random()
-        .toString(36)
-        .slice(2)
-    );
-
-  }
-
-
-  /* =========================================================
-     LOCAL BACKUP
-  ========================================================= */
-
-  function loadPendingScores() {
-
-    try {
-
-      return JSON.parse(
-
-        localStorage.getItem(
-          LOCAL_QUEUE_KEY
-        )
-        || "[]"
-
-      );
-
-    }
-
-    catch {
-
-      return [];
-
-    }
-
-  }
-
-
-  function savePendingScores(
-    data
-  ) {
-
-    localStorage.setItem(
-
-      LOCAL_QUEUE_KEY,
-
-      JSON.stringify(data)
-
-    );
-
-  }
-
-
-  function addPendingScore(
-    record
-  ) {
-
-    const data =
-      loadPendingScores();
-
-
-    const exists =
-      data.some(
-        item =>
-          item.id === record.id
-      );
-
-
-    if (!exists) {
-
-      data.push(
-        record
-      );
-
-    }
-
-
-    savePendingScores(
-      data
-    );
-
-  }
-
-
-  function removePendingScore(
-    id
-  ) {
-
-    const data =
-      loadPendingScores()
-        .filter(
-          item =>
-            item.id !== id
-        );
-
-
-    savePendingScores(
-      data
-    );
-
-  }
-
-
-  /* =========================================================
-     FIRESTORE WRITE
-  ========================================================= */
-
-  async function saveRecordToFirestore(
-    record
-  ) {
-
-    const documentRef =
-      doc(
-
-        db,
-
-        "scores",
-
-        record.id
-
-      );
-
-
-    await setDoc(
-
-      documentRef,
-
-      {
-
-        name:
-          record.name,
-
-        email:
-          record.email,
-
-        company:
-          record.company,
-
-        score:
-          Number(
-            record.score
-          ),
-
-        roundId:
-          record.id,
-
-        playedAt:
-          record.playedAt,
-
-        createdAt:
-          serverTimestamp()
-
+    function createRoundId() {
+      if (window.crypto && typeof window.crypto.randomUUID === "function") {
+        return window.crypto.randomUUID();
       }
+      return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    }
 
-    );
-
-  }
-
-
-  async function syncPendingScores() {
-
-    const pending =
-      loadPendingScores();
-
-
-    for (
-      const record
-      of pending
-    ) {
-
+    function loadPendingScores() {
       try {
-
-        await
-        saveRecordToFirestore(
-          record
-        );
-
-
-        removePendingScore(
-          record.id
-        );
-
+        return JSON.parse(localStorage.getItem(LOCAL_QUEUE_KEY) || "[]");
+      } catch {
+        return [];
       }
-
-      catch (
-        error
-      ) {
-
-        console.error(
-          "Pending sync error:",
-          error
-        );
-
-      }
-
     }
 
-  }
-
-
-  async function saveCurrentScore() {
-
-    const record = {
-
-      id:
-        currentRoundId,
-
-      name:
-        currentPlayer.name
-          .trim(),
-
-      email:
-        currentPlayer.email
-          .trim()
-          .toLowerCase(),
-
-      company:
-        currentPlayer.company
-          .trim(),
-
-      score:
-        Number(score),
-
-      playedAt:
-        new Date()
-          .toISOString()
-
-    };
-
-
-    addPendingScore(
-      record
-    );
-
-
-    try {
-
-      await
-      saveRecordToFirestore(
-        record
-      );
-
-
-      removePendingScore(
-        record.id
-      );
-
-
-      return true;
-
+    function savePendingScores(data) {
+      localStorage.setItem(LOCAL_QUEUE_KEY, JSON.stringify(data));
     }
 
-    catch (
-      error
-    ) {
-
-      console.error(
-        "Score save error:",
-        error
-      );
-
-
-      return false;
-
+    function addPendingScore(record) {
+      const data = loadPendingScores();
+      if (!data.some(item => item.id === record.id)) data.push(record);
+      savePendingScores(data);
     }
 
-  }
+    function removePendingScore(id) {
+      savePendingScores(loadPendingScores().filter(item => item.id !== id));
+    }
 
+    async function saveRecordToFirestore(record) {
+      await setDoc(doc(db, "scores", record.id), {
+        name: record.name,
+        email: record.email,
+        company: record.company,
+        score: Number(record.score),
+        roundId: record.id,
+        playedAt: record.playedAt,
+        createdAt: serverTimestamp()
+      });
+    }
 
-  /* =========================================================
-     LEADERBOARD
-  ========================================================= */
+    async function syncPendingScores() {
+      const pending = loadPendingScores();
+      let successCount = 0;
 
-  async function loadScores() {
-
-    const scoresQuery =
-      query(
-
-        collection(
-          db,
-          "scores"
-        ),
-
-        orderBy(
-          "score",
-          "desc"
-        ),
-
-        limit(
-          300
-        )
-
-      );
-
-
-    const snapshot =
-      await getDocs(
-        scoresQuery
-      );
-
-
-    return snapshot.docs
-      .map(
-        item =>
-          item.data()
-      );
-
-  }
-
-
-  function buildLeaderboard(
-    raw
-  ) {
-
-    const bestByPlayer =
-      new Map();
-
-
-    raw.forEach(
-      result => {
-
-        const key = (
-
-          result.email
-          ||
-          result.name
-          ||
-          ""
-
-        )
-          .trim()
-          .toLowerCase();
-
-
-        if (!key) {
-
-          return;
-
+      for (const record of pending) {
+        try {
+          await saveRecordToFirestore(record);
+          removePendingScore(record.id);
+          successCount += 1;
+        } catch (error) {
+          console.error("Pending sync error:", error);
         }
-
-
-        const previous =
-          bestByPlayer.get(
-            key
-          );
-
-
-        if (
-          !previous
-          ||
-          Number(
-            result.score || 0
-          )
-          >
-          Number(
-            previous.score || 0
-          )
-        ) {
-
-          bestByPlayer.set(
-            key,
-            result
-          );
-
-        }
-
-      }
-    );
-
-
-    return Array
-
-      .from(
-        bestByPlayer.values()
-      )
-
-      .sort(
-        (a, b) =>
-          Number(
-            b.score || 0
-          )
-          -
-          Number(
-            a.score || 0
-          )
-      )
-
-      .slice(
-        0,
-        10
-      );
-
-  }
-
-
-  function renderRows(
-    data
-  ) {
-
-    if (
-      !data.length
-    ) {
-
-      lbTable.innerHTML =
-        `
-          <tr>
-            <td colspan="3">
-              Henüz skor yok
-            </td>
-          </tr>
-        `;
-
-      return;
-
-    }
-
-
-    lbTable.innerHTML =
-      data.map(
-        (
-          result,
-          index
-        ) => {
-
-          let rank =
-            index + 1;
-
-
-          if (
-            index === 0
-          ) {
-
-            rank = "🥇";
-
-          }
-
-
-          if (
-            index === 1
-          ) {
-
-            rank = "🥈";
-
-          }
-
-
-          if (
-            index === 2
-          ) {
-
-            rank = "🥉";
-
-          }
-
-
-          return `
-
-            <tr>
-
-              <td>
-                ${rank}
-              </td>
-
-              <td>
-                ${
-                  escapeHtml(
-                    result.name
-                    || "-"
-                  )
-                }
-              </td>
-
-              <td>
-                ${
-                  Number(
-                    result.score
-                    || 0
-                  )
-                }
-              </td>
-
-            </tr>
-
-          `;
-
-        }
-
-      ).join("");
-
-  }
-
-
-  async function renderLeaderboard() {
-
-    lbTable.innerHTML =
-      `
-        <tr>
-          <td colspan="3">
-            Yükleniyor...
-          </td>
-        </tr>
-      `;
-
-
-    leaderboardNote.textContent =
-      "";
-
-
-    try {
-
-      await
-      syncPendingScores();
-
-
-      const raw =
-        await loadScores();
-
-
-      const data =
-        buildLeaderboard(
-          raw
-        );
-
-
-      renderRows(
-        data
-      );
-
-
-      leaderboardNote.textContent =
-        "Her katılımcının en yüksek skoru gösterilir.";
-
-    }
-
-    catch (
-      error
-    ) {
-
-      console.error(
-        error
-      );
-
-
-      const local =
-        buildLeaderboard(
-          loadPendingScores()
-        );
-
-
-      renderRows(
-        local
-      );
-
-
-      leaderboardNote.textContent =
-        "Skor tablosuna şu anda ulaşılamıyor.";
-
-    }
-
-  }
-
-
-  function toggleLeaderboard(
-    forceOpen = false
-  ) {
-
-    if (
-      forceOpen
-    ) {
-
-      lbPanel.style.display =
-        "block";
-
-      renderLeaderboard();
-
-      return;
-
-    }
-
-
-    const open =
-      lbPanel.style.display
-      === "block";
-
-
-    lbPanel.style.display =
-      open
-        ? "none"
-        : "block";
-
-
-    if (!open) {
-
-      renderLeaderboard();
-
-    }
-
-  }
-
-
-  lbBtn.addEventListener(
-    "click",
-    () =>
-      toggleLeaderboard()
-  );
-
-
-  /* =========================================================
-     CATCHER MOVEMENT
-  ========================================================= */
-
-  function moveCatcherTo(
-    clientX
-  ) {
-
-    const stageRect =
-      stage.getBoundingClientRect();
-
-
-    const catcherRect =
-      catcher.getBoundingClientRect();
-
-
-    const half =
-      catcherRect.width / 2;
-
-
-    let centerX =
-      clientX
-      -
-      stageRect.left;
-
-
-    centerX =
-      Math.max(
-
-        half,
-
-        Math.min(
-
-          centerX,
-
-          stageRect.width
-          -
-          half
-
-        )
-
-      );
-
-
-    catcher.style.left =
-      centerX
-      +
-      "px";
-
-  }
-
-
-  stage.addEventListener(
-    "pointerdown",
-    event => {
-
-      if (
-        !gameRunning
-      ) {
-
-        return;
-
       }
 
-
-      dragging = true;
-
-
-      moveCatcherTo(
-        event.clientX
-      );
-
-    }
-  );
-
-
-  stage.addEventListener(
-    "pointermove",
-    event => {
-
-      if (
-        !dragging
-        ||
-        !gameRunning
-      ) {
-
-        return;
-
-      }
-
-
-      event.preventDefault();
-
-
-      moveCatcherTo(
-        event.clientX
-      );
-
-    }
-  );
-
-
-  window.addEventListener(
-    "pointerup",
-    () => {
-
-      dragging = false;
-
-    }
-  );
-
-
-  /* =========================================================
-     VISUAL FEEDBACK
-  ========================================================= */
-
-  function showScorePop(
-    x,
-    y,
-    text,
-    type
-  ) {
-
-    const pop =
-      document.createElement(
-        "div"
-      );
-
-
-    pop.className =
-      "score-pop "
-      +
-      type;
-
-
-    pop.textContent =
-      text;
-
-
-    pop.style.left =
-      x
-      +
-      "px";
-
-
-    pop.style.top =
-      y
-      +
-      "px";
-
-
-    stage.appendChild(
-      pop
-    );
-
-
-    setTimeout(
-      () =>
-        pop.remove(),
-      850
-    );
-
-  }
-
-
-  let comboHideTimer = null;
-
-
-  function showCombo() {
-
-    clearTimeout(
-      comboHideTimer
-    );
-
-
-    comboPop.innerHTML =
-      `
-
-        <strong>
-          ×${combo}
-        </strong>
-
-        <small>
-          CELL STREAK
-        </small>
-
-      `;
-
-
-    comboPop.classList.add(
-      "show"
-    );
-
-
-    comboHideTimer =
-      setTimeout(
-        () =>
-          comboPop.classList.remove(
-            "show"
-          ),
-        750
-      );
-
-  }
-
-
-  let eventHideTimer = null;
-
-
-  function showEvent(
-    message
-  ) {
-
-    clearTimeout(
-      eventHideTimer
-    );
-
-
-    eventPop.textContent =
-      message;
-
-
-    eventPop.classList.add(
-      "show"
-    );
-
-
-    eventHideTimer =
-      setTimeout(
-        () =>
-          eventPop.classList.remove(
-            "show"
-          ),
-        950
-      );
-
-  }
-
-
-  function flashDanger() {
-
-    dangerFlash.classList.add(
-      "show"
-    );
-
-
-    setTimeout(
-      () =>
-        dangerFlash
-          .classList
-          .remove(
-            "show"
-          ),
-      170
-    );
-
-  }
-
-
-  function showCountdown(
-    value
-  ) {
-
-    countdownPop.textContent =
-      value;
-
-
-    countdownPop.style.display =
-      "flex";
-
-
-    setTimeout(
-      () => {
-
-        countdownPop.style.display =
-          "none";
-
-      },
-      420
-    );
-
-  }
-
-
-  /* =========================================================
-     GAME SPAWN
-  ========================================================= */
-
-  function scheduleNextSpawn() {
-
-    if (
-      !gameRunning
-    ) {
-
-      return;
-
+      return { successCount, remaining: loadPendingScores().length };
     }
 
-
-    const elapsed =
-      GAME_TIME
-      -
-      time;
-
-
-    let minDelay = 500;
-
-    let maxDelay = 720;
-
-
-    if (
-      elapsed >= 7
-    ) {
-
-      minDelay = 400;
-
-      maxDelay = 610;
-
-    }
-
-
-    if (
-      elapsed >= 14
-    ) {
-
-      minDelay = 320;
-
-      maxDelay = 520;
-
-    }
-
-
-    const delay =
-      minDelay
-      +
-      Math.random()
-      *
-      (
-        maxDelay
-        -
-        minDelay
-      );
-
-
-    spawnTimer =
-      setTimeout(
-        () => {
-
-          spawnCell();
-
-          scheduleNextSpawn();
-
-        },
-        delay
-      );
-
-  }
-
-
-  function chooseCellType() {
-
-    const random =
-      Math.random();
-
-
-    if (
-      random < 0.56
-    ) {
-
-      return "good";
-
-    }
-
-
-    if (
-      random < 0.73
-    ) {
-
-      return "myco";
-
-    }
-
-
-    if (
-      random < 0.92
-    ) {
-
-      return "rod";
-
-    }
-
-
-    return "bonus";
-
-  }
-
-
-  function spawnCell() {
-
-    if (
-      !gameRunning
-    ) {
-
-      return;
-
-    }
-
-
-    const type =
-      chooseCellType();
-
-
-    const cell =
-      document.createElement(
-        "div"
-      );
-
-
-    cell.classList.add(
-      "cell"
-    );
-
-
-    if (
-      type === "good"
-    ) {
-
-      cell.classList.add(
-        "good"
-      );
-
-    }
-
-
-    if (
-      type === "myco"
-    ) {
-
-      cell.classList.add(
-        "myco"
-      );
-
-    }
-
-
-    if (
-      type === "rod"
-    ) {
-
-      cell.classList.add(
-        "rod"
-      );
-
-    }
-
-
-    if (
-      type === "bonus"
-    ) {
-
-      cell.classList.add(
-        "bonus"
-      );
-
-    }
-
-
-    cell.dataset.type =
-      type;
-
-
-    stage.appendChild(
-      cell
-    );
-
-
-    const width =
-      cell.offsetWidth;
-
-
-    const maxX =
-      Math.max(
-        1,
-        stage.clientWidth
-        -
-        width
-      );
-
-
-    cell.style.left =
-      Math.floor(
-        Math.random()
-        *
-        maxX
-      )
-      +
-      "px";
-
-
-    cell.style.top =
-      "-90px";
-
-
-    const elapsed =
-      GAME_TIME
-      -
-      time;
-
-
-    const speed =
-      3.1
-      +
-      (
-        elapsed
-        *
-        0.085
-      )
-      +
-      Math.random()
-      *
-      0.8;
-
-
-    const rotationSpeed =
-      (
-        Math.random()
-        -
-        0.5
-      )
-      *
-      2.4;
-
-
-    let y = -90;
-
-    let rotation =
-      Math.random()
-      *
-      40
-      -
-      20;
-
-
-    function fall() {
-
-      if (
-        !gameRunning
-        ||
-        !cell.isConnected
-      ) {
-
-        cell.remove();
-
-        return;
-
-      }
-
-
-      y += speed;
-
-      rotation +=
-        rotationSpeed;
-
-
-      cell.style.top =
-        y
-        +
-        "px";
-
-
-      if (
-        type !== "rod"
-      ) {
-
-        cell.style.rotate =
-          rotation
-          +
-          "deg";
-
-      }
-
-
-      if (
-        hasCollision(
-          cell
-        )
-      ) {
-
-        handleCatch(
-          cell,
-          type
-        );
-
-        return;
-
-      }
-
-
-      if (
-        y
-        >
-        stage.clientHeight
-        +
-        100
-      ) {
-
-        cell.remove();
-
-        return;
-
-      }
-
-
-      requestAnimationFrame(
-        fall
-      );
-
-    }
-
-
-    requestAnimationFrame(
-      fall
-    );
-
-  }
-
-
-  /* =========================================================
-     COLLISION
-  ========================================================= */
-
-  function hasCollision(
-    cell
-  ) {
-
-    const a =
-      cell.getBoundingClientRect();
-
-
-    const b =
-      catcherHit.getBoundingClientRect();
-
-
-    return !(
-      a.right
-      <
-      b.left
-      ||
-      a.left
-      >
-      b.right
-      ||
-      a.bottom
-      <
-      b.top
-      ||
-      a.top
-      >
-      b.bottom
-    );
-
-  }
-
-
-  /* =========================================================
-     CATCH RESULTS
-  ========================================================= */
-
-  function handleCatch(
-    cell,
-    type
-  ) {
-
-    const cellRect =
-      cell.getBoundingClientRect();
-
-
-    const stageRect =
-      stage.getBoundingClientRect();
-
-
-    const x =
-      cellRect.left
-      -
-      stageRect.left
-      +
-      cellRect.width / 2;
-
-
-    const y =
-      cellRect.top
-      -
-      stageRect.top;
-
-
-    cell.remove();
-
-
-    if (
-      type === "good"
-    ) {
-
-      combo++;
-
-
-      let gained =
-        SCORE_GOOD;
-
-
-      if (
-        combo >= 5
-      ) {
-
-        gained += 5;
-
-      }
-
-
-      score += gained;
-
-
-      showScorePop(
-        x,
-        y,
-        "+"
-        +
-        gained,
-        "good"
-      );
-
-
-      catcher.classList.add(
-        "good-hit"
-      );
-
-
-      setTimeout(
-        () =>
-          catcher
-            .classList
-            .remove(
-              "good-hit"
-            ),
-        180
-      );
-
-
-      if (
-        combo >= 2
-      ) {
-
-        showCombo();
-
-      }
-
-    }
-
-
-    if (
-      type === "myco"
-    ) {
-
-      score +=
-        PENALTY_MYCO;
-
-
-      combo = 0;
-
-
-      showScorePop(
-        x,
-        y,
-        "-15",
-        "bad"
-      );
-
-
-      flashDanger();
-
-
-      catcher.classList.add(
-        "bad-hit"
-      );
-
-
-      setTimeout(
-        () =>
-          catcher
-            .classList
-            .remove(
-              "bad-hit"
-            ),
-        300
-      );
-
-
-      showEvent(
-        "MYCOPLASMA! −15"
-      );
-
-    }
-
-
-    if (
-      type === "rod"
-    ) {
-
-      score +=
-        PENALTY_ROD;
-
-
-      combo = 0;
-
-
-      showScorePop(
-        x,
-        y,
-        "-20",
-        "bad"
-      );
-
-
-      flashDanger();
-
-
-      catcher.classList.add(
-        "bad-hit"
-      );
-
-
-      setTimeout(
-        () =>
-          catcher
-            .classList
-            .remove(
-              "bad-hit"
-            ),
-        300
-      );
-
-
-      showEvent(
-        "BAKTERİ! −20"
-      );
-
-    }
-
-
-    if (
-      type === "bonus"
-    ) {
-
-      score +=
-        SCORE_BAMBANKER;
-
-
-      showScorePop(
-        x,
-        y,
-        "+30",
-        "bonus"
-      );
-
-
-      showEvent(
-        "NIPPON BAMBANKER +30"
-      );
-
-
-      catcher.classList.add(
-        "good-hit"
-      );
-
-
-      setTimeout(
-        () =>
-          catcher
-            .classList
-            .remove(
-              "good-hit"
-            ),
-        330
-      );
-
-    }
-
-
-    scoreEl.textContent =
-      score;
-
-
-    comboHud.textContent =
-      "×"
-      +
-      combo;
-
-  }
-
-
-  /* =========================================================
-     GAME START
-  ========================================================= */
-
-  function startGame() {
-
-    clearInterval(
-      timer
-    );
-
-
-    clearTimeout(
-      spawnTimer
-    );
-
-
-    document
-      .querySelectorAll(
-        ".cell"
-      )
-      .forEach(
-        item =>
-          item.remove()
-      );
-
-
-    score = 0;
-
-    combo = 0;
-
-    time =
-      GAME_TIME;
-
-
-    scoreEl.textContent =
-      score;
-
-
-    comboHud.textContent =
-      "×0";
-
-
-    timeEl.textContent =
-      time;
-
-
-    timeBlock
-      .classList
-      .remove(
-        "danger"
-      );
-
-
-    gameRunning = true;
-
-    dragging = false;
-
-
-    currentRoundId =
-      createRoundId();
-
-
-    overlay.style.display =
-      "none";
-
-
-    lbPanel.style.display =
-      "none";
-
-
-    catcher.style.left =
-      "50%";
-
-
-    syncPendingScores();
-
-
-    timer =
-      setInterval(
-        () => {
-
-          time--;
-
-
-          timeEl.textContent =
-            time;
-
-
-          if (
-            time <= 5
-            &&
-            time > 0
-          ) {
-
-            timeBlock
-              .classList
-              .add(
-                "danger"
-              );
-
-
-            showCountdown(
-              time
-            );
-
-          }
-
-
-          if (
-            time <= 0
-          ) {
-
-            endGame();
-
-          }
-
-        },
-        1000
-      );
-
-
-    spawnCell();
-
-    spawnCell();
-
-    scheduleNextSpawn();
-
-  }
-
-
-  /* =========================================================
-     END GAME
-  ========================================================= */
-
-  async function endGame() {
-
-    if (
-      !gameRunning
-    ) {
-
-      return;
-
-    }
-
-
-    gameRunning = false;
-
-    dragging = false;
-
-
-    clearInterval(
-      timer
-    );
-
-
-    clearTimeout(
-      spawnTimer
-    );
-
-
-    document
-      .querySelectorAll(
-        ".cell"
-      )
-      .forEach(
-        item =>
-          item.remove()
-      );
-
-
-    timeBlock
-      .classList
-      .remove(
-        "danger"
-      );
-
-
-    overlay.style.display =
-      "flex";
-
-
-    overlay.classList.remove(
-      "formMode"
-    );
-
-
-    preForm.style.display =
-      "none";
-
-
-    introContent.style.display =
-      "block";
-
-
-    introContent.innerHTML =
-      `
-
-        <div class="intro-kicker">
-          ROUND COMPLETE
-        </div>
-
-        <h1 class="title">
-          OYUN BİTTİ
-        </h1>
-
-        <div
-          style="
-            margin:24px 0 4px;
-            color:#98cbd8;
-            font-size:13px;
-            font-weight:800;
-          "
-        >
-          SKORUN
-        </div>
-
-        <div
-          style="
-            color:white;
-            font-size:72px;
-            line-height:1;
-            font-weight:1000;
-          "
-        >
-          ${score}
-        </div>
-
-        <div
-          style="
-            margin-top:10px;
-            color:#bce9f3;
-            font-size:13px;
-          "
-        >
-          Oyuncu:
-          <b>
-            ${
-              escapeHtml(
-                currentPlayer.name
-              )
-            }
-          </b>
-        </div>
-
-        <div
-          id="saveStatus"
-          style="
-            margin-top:14px;
-            color:#b7eaf4;
-            font-size:12px;
-            font-weight:800;
-          "
-        >
-          Skor kaydediliyor...
-        </div>
-
-        <div
-          style="
-            display:flex;
-            justify-content:center;
-            gap:9px;
-            flex-wrap:wrap;
-            margin-top:12px;
-          "
-        >
-
-          <button
-            class="btn secondary"
-            id="showLeaderboardAfter"
-            type="button"
-          >
-            🏆 Skor Tablosu
-          </button>
-
-          <button
-            class="btn"
-            id="playAgain"
-            type="button"
-          >
-            Tekrar Oyna
-          </button>
-
-          <button
-            class="btn ghost"
-            id="newPlayer"
-            type="button"
-          >
-            Yeni Katılımcı
-          </button>
-
-        </div>
-
-      `;
-
-
-    document
-      .getElementById(
-        "showLeaderboardAfter"
-      )
-      .addEventListener(
-        "click",
-        () =>
-          toggleLeaderboard(
-            true
-          )
-      );
-
-
-    document
-      .getElementById(
-        "playAgain"
-      )
-      .addEventListener(
-        "click",
-        startGame
-      );
-
-
-    document
-      .getElementById(
-        "newPlayer"
-      )
-      .addEventListener(
-        "click",
-        resetForNewPlayer
-      );
-
-
-    const saveStatus =
-      document.getElementById(
-        "saveStatus"
-      );
-
-
-    const success =
-      await saveCurrentScore();
-
-
-    if (
-      success
-    ) {
-
-      saveStatus.textContent =
-        "✓ Skor kaydedildi";
-
-
-      saveStatus.style.color =
-        "#91f3bc";
-
-    }
-
-    else {
-
-      saveStatus.textContent =
-        "Skor cihazda yedeklendi ve tekrar gönderilecek.";
-
-
-      saveStatus.style.color =
-        "#ffe09b";
-
-    }
-
-  }
-
-
-  /* =========================================================
-     INTRO RESTORE
-  ========================================================= */
-
-  const originalIntroHtml =
-    introContent.innerHTML;
-
-
-  function restoreIntro() {
-
-    overlay.classList.remove(
-      "formMode"
-    );
-
-
-    preForm.style.display =
-      "none";
-
-
-    introContent.style.display =
-      "block";
-
-
-    introContent.innerHTML =
-      originalIntroHtml;
-
-
-    const newStart =
-      document.getElementById(
-        "start"
-      );
-
-
-    newStart.addEventListener(
-      "click",
-      openParticipantForm
-    );
-
-  }
-
-
-  /* =========================================================
-     PARTICIPANT FORM
-  ========================================================= */
-
-  function openParticipantForm() {
-
-    overlay.classList.add(
-      "formMode"
-    );
-
-
-    introContent.style.display =
-      "none";
-
-
-    preForm.style.display =
-      "block";
-
-
-    pfName.focus();
-
-  }
-
-
-  function resetForNewPlayer() {
-
-    currentPlayer = {
-
-      name: "",
-
-      email: "",
-
-      company: ""
-
-    };
-
-
-    pfName.value = "";
-
-    pfEmail.value = "";
-
-    pfCompany.value = "";
-
-
-    overlay.style.display =
-      "flex";
-
-
-    restoreIntro();
-
-
-    openParticipantForm();
-
-  }
-
-
-  startBtn.addEventListener(
-    "click",
-    openParticipantForm
-  );
-
-
-  pfCancel.addEventListener(
-    "click",
-    () => {
-
-      restoreIntro();
-
-    }
-  );
-
-
-  pfGo.addEventListener(
-    "click",
-    () => {
-
-      const name =
-        pfName.value.trim();
-
-
-      const email =
-        pfEmail.value
-          .trim();
-
-
-      const company =
-        pfCompany.value
-          .trim();
-
-
-      if (
-        !name
-        ||
-        !email
-        ||
-        !company
-      ) {
-
-        alert(
-          "Lütfen tüm alanları doldurun."
-        );
-
-        return;
-
-      }
-
-
-      if (
-        !email.includes("@")
-        ||
-        !email.includes(".")
-      ) {
-
-        alert(
-          "Lütfen geçerli bir e-posta adresi girin."
-        );
-
-        return;
-
-      }
-
-
-      currentPlayer = {
-
-        name,
-
-        email,
-
-        company
-
+    async function saveCurrentScore() {
+      const record = {
+        id: currentRoundId,
+        name: currentPlayer.name.trim(),
+        email: currentPlayer.email.trim().toLowerCase(),
+        company: currentPlayer.company.trim(),
+        score: Number(score),
+        playedAt: new Date().toISOString()
       };
 
+      addPendingScore(record);
 
-      overlay.classList.remove(
-        "formMode"
-      );
-
-
-      startGame();
-
+      try {
+        await saveRecordToFirestore(record);
+        removePendingScore(record.id);
+        return { success:true };
+      } catch (error) {
+        console.error("Score save error:", error);
+        return { success:false, error };
+      }
     }
-  );
 
+    async function loadScoresFromFirestore() {
+      const scoresQuery = query(
+        collection(db, "scores"),
+        orderBy("score", "desc"),
+        limit(300)
+      );
+      const snapshot = await getDocs(scoresQuery);
+      return snapshot.docs.map(item => item.data());
+    }
 
-  /* =========================================================
-     INITIAL POSITION
-  ========================================================= */
+    function buildLeaderboard(raw) {
+      const bestByPlayer = new Map();
 
-  window.addEventListener(
-    "resize",
-    () => {
+      raw.forEach(result => {
+        const key = String(result.email || result.name || "").trim().toLowerCase();
+        if (!key) return;
 
-      if (
-        !gameRunning
-      ) {
+        const previous = bestByPlayer.get(key);
+        if (!previous || Number(result.score || 0) > Number(previous.score || 0)) {
+          bestByPlayer.set(key, result);
+        }
+      });
 
-        catcher.style.left =
-          "50%";
+      return Array.from(bestByPlayer.values())
+        .sort((a,b) => Number(b.score || 0) - Number(a.score || 0))
+        .slice(0,10);
+    }
 
+    function renderLeaderboardRows(data) {
+      lastLeaderboardData = data;
+
+      if (!data.length) {
+        leaderboardRows.innerHTML = '<tr><td colspan="3">Henüz skor yok</td></tr>';
+        return;
       }
 
+      leaderboardRows.innerHTML = data.map((result,index) => {
+        const rank = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : String(index + 1);
+        const rowClass = index < 3 ? ` class="top-${index + 1}"` : "";
+        return `<tr${rowClass}><td>${rank}</td><td>${escapeHtml(result.name || "-")}</td><td>${Number(result.score || 0)}</td></tr>`;
+      }).join("");
     }
-  );
 
+    async function renderLeaderboard() {
+      leaderboardRows.innerHTML = '<tr><td colspan="3">Yükleniyor...</td></tr>';
+      leaderboardNote.textContent = "";
 
-  syncPendingScores();
+      try {
+        await syncPendingScores();
+        const raw = await loadScoresFromFirestore();
+        const data = buildLeaderboard(raw);
+        renderLeaderboardRows(data);
 
-</script>
+        const pending = loadPendingScores().length;
+        leaderboardNote.textContent = pending > 0
+          ? `${pending} kayıt henüz Firestore'a gönderilemedi.`
+          : "Skorlar güncel.";
+      } catch (error) {
+        console.error("Leaderboard error:", error);
+        const localData = buildLeaderboard(loadPendingScores());
+        renderLeaderboardRows(localData);
+        leaderboardNote.textContent = localData.length
+          ? "Firestore'a ulaşılamadı; bu cihazdaki bekleyen skorlar gösteriliyor."
+          : "Skor tablosuna şu anda ulaşılamıyor.";
+      }
+    }
 
+    function showLeaderboard() {
+      leaderboardModal.classList.add("open");
+      leaderboardModal.setAttribute("aria-hidden", "false");
+      renderLeaderboard();
+    }
+
+    function hideLeaderboard() {
+      leaderboardModal.classList.remove("open");
+      leaderboardModal.setAttribute("aria-hidden", "true");
+    }
+
+    function updateFill() {
+      const percent = clamp((Math.max(0, score) / FULL_VIAL_SCORE) * 100, 0, 100);
+      vialLiquid.style.height = `${percent}%`;
+    }
+
+    function updateHud() {
+      scoreEl.textContent = String(score);
+      comboHud.textContent = `×${combo}`;
+      updateFill();
+    }
+
+    function moveVialTo(clientX) {
+      const stageRect = stage.getBoundingClientRect();
+      const vialRect = vial.getBoundingClientRect();
+      const half = vialRect.width / 2;
+      const center = clamp(clientX - stageRect.left, half, stageRect.width - half);
+      vial.style.left = `${center}px`;
+    }
+
+    function showFloatingScore(x,y,text,type) {
+      const pop = document.createElement("div");
+      pop.className = `floating-score ${type}`;
+      pop.textContent = text;
+      pop.style.left = `${x}px`;
+      pop.style.top = `${y}px`;
+      stage.appendChild(pop);
+      setTimeout(() => pop.remove(), 820);
+    }
+
+    function showCombo() {
+      clearTimeout(comboHideId);
+      comboPop.textContent = `CELL STREAK ×${combo}`;
+      comboPop.classList.add("show");
+      comboHideId = setTimeout(() => comboPop.classList.remove("show"), 720);
+    }
+
+    function showEvent(message) {
+      clearTimeout(eventHideId);
+      eventPop.textContent = message;
+      eventPop.classList.add("show");
+      eventHideId = setTimeout(() => eventPop.classList.remove("show"), 900);
+    }
+
+    function flash(element, duration=170) {
+      element.classList.add("show");
+      setTimeout(() => element.classList.remove("show"), duration);
+    }
+
+    function showCountdown(value) {
+      countdownPop.textContent = String(value);
+      countdownPop.style.display = "flex";
+      setTimeout(() => { countdownPop.style.display = "none"; }, 420);
+    }
+
+    function animateVialGood() {
+      vial.classList.add("good-glow");
+      vialLiquid.classList.add("pulse");
+      setTimeout(() => {
+        vial.classList.remove("good-glow");
+        vialLiquid.classList.remove("pulse");
+      }, 260);
+    }
+
+    function animateVialBad() {
+      vial.classList.add("bad-shake");
+      vialLiquid.classList.add("bad");
+      setTimeout(() => {
+        vial.classList.remove("bad-shake");
+        vialLiquid.classList.remove("bad");
+      }, 300);
+    }
+
+    function chooseCellType() {
+      const r = Math.random();
+      if (r < 0.56) return "good";
+      if (r < 0.74) return "myco";
+      if (r < 0.92) return "rod";
+      return "bonus";
+    }
+
+    function scheduleNextSpawn() {
+      if (!gameRunning) return;
+      const elapsed = GAME_TIME - time;
+      const minDelay = elapsed >= 14 ? 320 : elapsed >= 7 ? 390 : 460;
+      const maxDelay = elapsed >= 14 ? 500 : elapsed >= 7 ? 600 : 700;
+      const delay = minDelay + Math.random() * (maxDelay - minDelay);
+
+      spawnTimerId = setTimeout(() => {
+        spawnCell();
+        scheduleNextSpawn();
+      }, delay);
+    }
+
+    function spawnCell() {
+      if (!gameRunning) return;
+
+      const type = chooseCellType();
+      const cell = document.createElement("div");
+      cell.classList.add("cell", type);
+      cell.dataset.type = type;
+      stage.appendChild(cell);
+
+      const maxX = Math.max(1, stage.clientWidth - cell.offsetWidth);
+      cell.style.left = `${Math.floor(Math.random() * maxX)}px`;
+
+      let y = -90;
+      let rotation = Math.random() * 35 - 17;
+      const elapsed = GAME_TIME - time;
+      const speed = 3.0 + elapsed * 0.085 + Math.random() * 0.75;
+      const rotationSpeed = (Math.random() - 0.5) * 2.1;
+
+      function fall() {
+        if (!gameRunning || !cell.isConnected) {
+          cell.remove();
+          return;
+        }
+
+        y += speed;
+        rotation += rotationSpeed;
+        cell.style.top = `${y}px`;
+        cell.style.transform = `rotate(${rotation}deg)`;
+
+        if (hasCollision(cell)) {
+          handleCatch(cell, type);
+          return;
+        }
+
+        if (y > stage.clientHeight + 100) {
+          cell.remove();
+          return;
+        }
+
+        requestAnimationFrame(fall);
+      }
+
+      requestAnimationFrame(fall);
+    }
+
+    function hasCollision(cell) {
+      const a = cell.getBoundingClientRect();
+      const b = vialHit.getBoundingClientRect();
+      return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+    }
+
+    function handleCatch(cell, type) {
+      const cellRect = cell.getBoundingClientRect();
+      const stageRect = stage.getBoundingClientRect();
+      const x = cellRect.left - stageRect.left + cellRect.width / 2;
+      const y = cellRect.top - stageRect.top;
+      cell.remove();
+
+      if (type === "good") {
+        combo += 1;
+        const gained = SCORE_GOOD + (combo >= 5 ? 5 : 0);
+        score += gained;
+        showFloatingScore(x,y,`+${gained}`,"good");
+        animateVialGood();
+        if (combo >= 2) showCombo();
+      }
+
+      if (type === "myco") {
+        score += PENALTY_MYCO;
+        combo = 0;
+        showFloatingScore(x,y,"-15","bad");
+        showEvent("MYCOPLASMA! −15");
+        flash(badFlash);
+        animateVialBad();
+      }
+
+      if (type === "rod") {
+        score += PENALTY_ROD;
+        combo = 0;
+        showFloatingScore(x,y,"-20","bad");
+        showEvent("BAKTERİ! −20");
+        flash(badFlash);
+        animateVialBad();
+      }
+
+      if (type === "bonus") {
+        score += SCORE_BAMBANKER;
+        showFloatingScore(x,y,"+30","bonus");
+        showEvent("NIPPON BAMBANKER +30");
+        flash(bonusFlash,260);
+        animateVialGood();
+      }
+
+      updateHud();
+    }
+
+    function resetGameVisuals() {
+      document.querySelectorAll(".cell,.floating-score").forEach(el => el.remove());
+      comboPop.classList.remove("show");
+      eventPop.classList.remove("show");
+      countdownPop.style.display = "none";
+      badFlash.classList.remove("show");
+      bonusFlash.classList.remove("show");
+      timeBlock.classList.remove("danger");
+      vial.classList.remove("good-glow","bad-shake");
+      vialLiquid.classList.remove("pulse","bad");
+    }
+
+    function startGame() {
+      clearInterval(timerId);
+      clearTimeout(spawnTimerId);
+      resetGameVisuals();
+
+      score = 0;
+      combo = 0;
+      time = GAME_TIME;
+      gameRunning = true;
+      dragging = false;
+      currentRoundId = createRoundId();
+
+      timeEl.textContent = String(time);
+      updateHud();
+      vial.style.left = "50%";
+      overlay.style.display = "none";
+      hideLeaderboard();
+      syncPendingScores();
+
+      timerId = setInterval(() => {
+        time -= 1;
+        timeEl.textContent = String(time);
+
+        if (time <= 5 && time > 0) {
+          timeBlock.classList.add("danger");
+          showCountdown(time);
+        }
+
+        if (time <= 0) endGame();
+      },1000);
+
+      spawnCell();
+      spawnCell();
+      scheduleNextSpawn();
+    }
+
+    async function endGame() {
+      if (!gameRunning) return;
+
+      gameRunning = false;
+      dragging = false;
+      clearInterval(timerId);
+      clearTimeout(spawnTimerId);
+      resetGameVisuals();
+
+      resultScore.textContent = String(score);
+      resultPlayer.textContent = currentPlayer.name;
+      saveStatus.textContent = "Skor kaydediliyor...";
+      saveStatus.style.color = "#b8eaf3";
+
+      introView.style.display = "none";
+      participantForm.style.display = "none";
+      resultView.style.display = "block";
+      overlay.classList.remove("form-mode");
+      overlay.style.display = "flex";
+
+      const result = await saveCurrentScore();
+      if (result.success) {
+        saveStatus.textContent = "✓ Skor kaydedildi";
+        saveStatus.style.color = "#8ef2b4";
+      } else {
+        saveStatus.textContent = "Skor cihazda yedeklendi; bağlantı geldiğinde tekrar gönderilecek.";
+        saveStatus.style.color = "#ffe08b";
+      }
+    }
+
+    function showIntro() {
+      overlay.classList.remove("form-mode");
+      introView.style.display = "block";
+      participantForm.style.display = "none";
+      resultView.style.display = "none";
+      overlay.style.display = "flex";
+      formError.textContent = "";
+    }
+
+    function showParticipantForm() {
+      overlay.classList.add("form-mode");
+      introView.style.display = "none";
+      resultView.style.display = "none";
+      participantForm.style.display = "block";
+      formError.textContent = "";
+      requestAnimationFrame(() => pfName.focus());
+    }
+
+    function resetForNewPlayer() {
+      currentPlayer = { name:"", email:"", company:"" };
+      pfName.value = "";
+      pfEmail.value = "";
+      pfCompany.value = "";
+      showParticipantForm();
+    }
+
+    function csvEscape(value) {
+      const text = String(value ?? "");
+      return `"${text.replaceAll('"','""')}"`;
+    }
+
+    function downloadLeaderboardCsv() {
+      const rows = [["Sıra","İsim","E-posta","Şirket/Üniversite","Skor"]];
+      lastLeaderboardData.forEach((item,index) => {
+        rows.push([index+1,item.name || "",item.email || "",item.company || "",Number(item.score || 0)]);
+      });
+      const csv = rows.map(row => row.map(csvEscape).join(",")).join("\n");
+      const blob = new Blob(["\uFEFF" + csv], { type:"text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "cell-freezer-leaderboard.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    stage.addEventListener("pointerdown", event => {
+      if (!gameRunning) return;
+      dragging = true;
+      moveVialTo(event.clientX);
+    });
+
+    stage.addEventListener("pointermove", event => {
+      if (!gameRunning || !dragging) return;
+      event.preventDefault();
+      moveVialTo(event.clientX);
+    });
+
+    window.addEventListener("pointerup", () => { dragging = false; });
+    window.addEventListener("pointercancel", () => { dragging = false; });
+
+    startBtn.addEventListener("click", showParticipantForm);
+    cancelForm.addEventListener("click", showIntro);
+
+    participantForm.addEventListener("submit", event => {
+      event.preventDefault();
+      const name = pfName.value.trim();
+      const email = pfEmail.value.trim();
+      const company = pfCompany.value.trim();
+
+      if (!name || !email || !company) {
+        formError.textContent = "Lütfen tüm alanları doldurun.";
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        formError.textContent = "Lütfen geçerli bir e-posta adresi girin.";
+        return;
+      }
+
+      currentPlayer = { name, email, company };
+      startGame();
+    });
+
+    playAgain.addEventListener("click", startGame);
+    newPlayer.addEventListener("click", resetForNewPlayer);
+    resultLeaderboard.addEventListener("click", showLeaderboard);
+    openLeaderboard.addEventListener("click", showLeaderboard);
+    closeLeaderboard.addEventListener("click", hideLeaderboard);
+
+    leaderboardModal.addEventListener("pointerdown", event => {
+      if (event.target === leaderboardModal) hideLeaderboard();
+    });
+
+    window.addEventListener("keydown", event => {
+      if (event.key === "Escape" && leaderboardModal.classList.contains("open")) hideLeaderboard();
+    });
+
+    downloadCsv.addEventListener("click", downloadLeaderboardCsv);
+    retrySync.addEventListener("click", async () => {
+      leaderboardNote.textContent = "Bekleyen kayıtlar gönderiliyor...";
+      const result = await syncPendingScores();
+      leaderboardNote.textContent = result.remaining === 0
+        ? "Bekleyen tüm kayıtlar gönderildi."
+        : `${result.remaining} kayıt hâlâ gönderilemedi.`;
+      renderLeaderboard();
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("admin") === "1" || window.location.hash === "#admin") {
+      lbAdmin.classList.add("show");
+    }
+
+    window.addEventListener("resize", () => {
+      if (!gameRunning) vial.style.left = "50%";
+    });
+
+    showIntro();
+    updateHud();
+    syncPendingScores();
+  </script>
 </body>
 </html>
