@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Cell Freezer – Novagentek</title>
 
   <style>
@@ -16,7 +17,8 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       width: 100%;
       min-height: 100%;
@@ -24,7 +26,12 @@
 
     body {
       font-family: Inter, system-ui, "Segoe UI", Roboto, Arial, sans-serif;
-      background: linear-gradient(135deg, #f4fbff 0%, #dff5ff 45%, #ffffff 100%);
+      background: linear-gradient(
+        135deg,
+        #f4fbff 0%,
+        #dff5ff 45%,
+        #ffffff 100%
+      );
       color: var(--text);
     }
 
@@ -37,12 +44,26 @@
       width: 100%;
       height: 600px;
       overflow: hidden;
+
       border: 2px solid #38bdf8;
 
       background:
-        radial-gradient(circle at 15% 15%, rgba(125,211,252,.42), transparent 28%),
-        radial-gradient(circle at 85% 85%, rgba(45,212,191,.28), transparent 32%),
-        linear-gradient(180deg, #1e5b7a 0%, #164463 45%, #0f2f4a 100%);
+        radial-gradient(
+          circle at 15% 15%,
+          rgba(125,211,252,.42),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 85% 85%,
+          rgba(45,212,191,.28),
+          transparent 32%
+        ),
+        linear-gradient(
+          180deg,
+          #1e5b7a 0%,
+          #164463 45%,
+          #0f2f4a 100%
+        );
 
       box-shadow:
         0 18px 42px rgba(14,165,233,.25),
@@ -75,7 +96,7 @@
     }
 
     /* =========================
-       BAMBANKER ŞİŞESİ
+       BAMBANKER
     ========================= */
 
     .bottle {
@@ -101,6 +122,7 @@
 
     .bottle .cap {
       position: absolute;
+
       left: 48px;
       right: 48px;
       bottom: 257px;
@@ -110,11 +132,16 @@
       border: 2px solid rgba(29,78,216,.8);
       border-radius: 6px 6px 0 0;
 
-      background: linear-gradient(180deg, #2563eb, #1d4ed8);
+      background: linear-gradient(
+        180deg,
+        #2563eb,
+        #1d4ed8
+      );
     }
 
     .bottle .neck {
       position: absolute;
+
       left: 55px;
       right: 55px;
       bottom: 215px;
@@ -133,6 +160,7 @@
 
     .bottle .body {
       position: absolute;
+
       left: 20px;
       right: 20px;
       bottom: 0;
@@ -153,6 +181,7 @@
 
     .bottle .label {
       position: absolute;
+
       left: 30px;
       right: 30px;
       bottom: 70px;
@@ -165,10 +194,13 @@
       border: 1px solid #93c5fd;
       border-radius: 10px;
 
-      background: linear-gradient(180deg, #e0f2fe, #bae6fd);
+      background: linear-gradient(
+        180deg,
+        #e0f2fe,
+        #bae6fd
+      );
 
       color: #0b1320;
-
       font-weight: 800;
       text-align: center;
     }
@@ -181,6 +213,7 @@
 
     .bottle .fill {
       position: absolute;
+
       left: 26px;
       right: 26px;
       bottom: 6px;
@@ -189,7 +222,11 @@
 
       border-radius: 12px;
 
-      background: linear-gradient(180deg, #38bdf8, #22d3ee);
+      background: linear-gradient(
+        180deg,
+        #38bdf8,
+        #22d3ee
+      );
 
       box-shadow:
         0 10px 30px rgba(14,165,233,.3) inset;
@@ -201,6 +238,7 @@
 
     .bottle .hit {
       position: absolute;
+
       left: 26px;
       right: 26px;
       top: 40px;
@@ -220,12 +258,20 @@
     }
 
     @keyframes pulse {
-      0%, 100% { filter: brightness(1); }
-      50% { filter: brightness(1.5); }
+      0%, 100% {
+        filter: brightness(1);
+      }
+
+      50% {
+        filter: brightness(1.5);
+      }
     }
 
     @keyframes badpulse {
-      0%, 100% { filter: hue-rotate(0); }
+      0%, 100% {
+        filter: hue-rotate(0);
+      }
+
       50% {
         filter:
           hue-rotate(-60deg)
@@ -234,9 +280,17 @@
     }
 
     @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-6px); }
-      75% { transform: translateX(6px); }
+      0%, 100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-6px);
+      }
+
+      75% {
+        transform: translateX(6px);
+      }
     }
 
     /* =========================
@@ -261,13 +315,20 @@
 
     .cell.good {
       background:
-        radial-gradient(circle at 30% 30%, #fff, #0ea5e9);
+        radial-gradient(
+          circle at 30% 30%,
+          #fff,
+          #0ea5e9
+        );
 
       box-shadow:
         0 6px 16px rgba(14,165,233,.3);
     }
 
     .cell.bad.myco {
+      width: 56px;
+      height: 56px;
+
       background:
         radial-gradient(
           circle at 35% 35%,
@@ -287,7 +348,11 @@
       border-radius: 14px;
 
       background:
-        linear-gradient(90deg, #94a3b8, #64748b);
+        linear-gradient(
+          90deg,
+          #94a3b8,
+          #64748b
+        );
 
       box-shadow:
         0 6px 16px rgba(100,116,139,.35);
@@ -320,6 +385,7 @@
 
     .bubble {
       position: absolute;
+
       bottom: 6px;
 
       width: 10px;
@@ -358,16 +424,18 @@
     }
 
     /* =========================
-       OYUN İÇİ MESAJLAR
+       GERİ SAYIM
     ========================= */
 
     .countdown-pop {
       position: absolute;
+
       inset: 0;
 
       z-index: 9;
 
       display: none;
+
       align-items: center;
       justify-content: center;
 
@@ -381,6 +449,10 @@
 
       pointer-events: none;
     }
+
+    /* =========================
+       COMBO
+    ========================= */
 
     .combo-pop {
       position: absolute;
@@ -417,6 +489,10 @@
         scale(1.08);
     }
 
+    /* =========================
+       EVENT MESAJI
+    ========================= */
+
     .event-pop {
       position: absolute;
 
@@ -431,12 +507,10 @@
 
       padding: 8px 14px;
 
-      border:
-        1px solid rgba(255,255,255,.25);
-
+      border: 1px solid rgba(255,255,255,.25);
       border-radius: 999px;
 
-      background: rgba(5,30,50,.90);
+      background: rgba(5,30,50,.92);
 
       font-size: 15px;
       font-weight: 800;
@@ -458,6 +532,7 @@
 
     .overlay {
       position: absolute;
+
       inset: 0;
 
       z-index: 10;
@@ -488,12 +563,11 @@
     .title {
       margin: 0 0 6px;
 
-      background:
-        linear-gradient(
-          90deg,
-          #7dd3fc,
-          #99f6e4
-        );
+      background: linear-gradient(
+        90deg,
+        #7dd3fc,
+        #99f6e4
+      );
 
       -webkit-background-clip: text;
       background-clip: text;
@@ -501,8 +575,6 @@
       color: transparent;
 
       font-size: 44px;
-
-      letter-spacing: .5px;
 
       text-shadow:
         0 0 26px rgba(186,230,253,.55);
@@ -525,8 +597,7 @@
     .leaderboard {
       background: rgba(13,53,82,.88);
 
-      border:
-        1px solid rgba(186,230,253,.35);
+      border: 1px solid rgba(186,230,253,.35);
 
       box-shadow:
         0 10px 28px rgba(0,0,0,.18);
@@ -544,6 +615,7 @@
       color: #ecfeff;
 
       font-size: 14px;
+
       line-height: 1.45;
     }
 
@@ -565,8 +637,7 @@
 
       border-radius: 9px;
 
-      background:
-        rgba(255,255,255,.06);
+      background: rgba(255,255,255,.06);
     }
 
     /* =========================
@@ -588,8 +659,6 @@
       cursor: pointer;
 
       font-weight: 800;
-
-      letter-spacing: .3px;
 
       box-shadow:
         0 10px 20px rgba(14,165,233,.25);
@@ -645,8 +714,7 @@
       height: 56px;
 
       border:
-        1px dashed
-        rgba(255,255,255,.4);
+        1px dashed rgba(255,255,255,.4);
 
       border-radius: 10px;
 
@@ -667,8 +735,7 @@
       padding: 10px 16px;
 
       border:
-        1px solid
-        rgba(250,204,21,.45);
+        1px solid rgba(250,204,21,.45);
 
       border-radius: 12px;
 
@@ -839,7 +906,7 @@
     }
 
     /* =========================
-       SKOR TABLOSU
+       LEADERBOARD
     ========================= */
 
     .lb-wrap {
@@ -879,7 +946,7 @@
 
       display: none;
 
-      width: min(92vw, 420px);
+      width: min(92vw,420px);
 
       max-height: 70vh;
 
@@ -925,15 +992,25 @@
       font-weight: 800;
     }
 
-    .leaderboard .admin {
+    .leaderboard-note {
+      margin-top: 8px;
+
+      color: #94a3b8;
+
+      font-size: 11px;
+    }
+
+    .admin {
       display: none;
 
       gap: 8px;
 
-      margin-top: 8px;
+      margin-top: 10px;
+
+      flex-wrap: wrap;
     }
 
-    .leaderboard .admin button {
+    .admin button {
       padding: 8px 10px;
 
       border:
@@ -967,18 +1044,8 @@
         padding: 18px 10px;
       }
 
-      .overlay .inner {
-        width: 100%;
-
-        padding-top: 12px;
-      }
-
       .title {
         font-size: 34px;
-      }
-
-      .subtitle {
-        font-size: 14px;
       }
 
       .howto-grid {
@@ -993,7 +1060,6 @@
 
       .logos img {
         max-width: 78vw;
-        max-height: 58px;
       }
 
       .intro-cell {
@@ -1006,25 +1072,15 @@
       .intro-cell.sm {
         width: 36px;
         height: 36px;
-
-        font-size: 16px;
       }
 
       .intro-cell.lg {
         width: 58px;
         height: 58px;
-
-        font-size: 22px;
       }
 
       .bottle {
-        width: 220px;
-        height: 360px;
-
-        bottom: 18px;
-
         transform: scale(.48);
-
         opacity: .45;
       }
 
@@ -1035,6 +1091,7 @@
 
       .leaderboard {
         top: 54px;
+
         left: 10px;
         right: 10px;
 
@@ -1049,11 +1106,13 @@
 
       .combo-pop {
         top: 62px;
+
         font-size: 22px;
       }
 
       .event-pop {
         top: 102px;
+
         font-size: 13px;
       }
     }
@@ -1065,7 +1124,10 @@
 
 <div class="stage" id="stage">
 
+  <!-- HUD -->
+
   <div class="hud">
+
     <div>
       ⏱️ <span id="time">20</span>s
     </div>
@@ -1073,15 +1135,23 @@
     <div>
       ⭐ <span id="score">0</span>
     </div>
+
   </div>
 
+
+  <!-- OYUN MESAJLARI -->
+
   <div id="countdownPop" class="countdown-pop"></div>
+
   <div id="comboPop" class="combo-pop"></div>
+
   <div id="eventPop" class="event-pop"></div>
 
-  <!-- SKOR TABLOSU -->
+
+  <!-- LEADERBOARD BUTTON -->
 
   <div class="lb-wrap">
+
     <button
       id="lbBtn"
       class="lb-btn"
@@ -1089,24 +1159,31 @@
     >
       🏆
     </button>
+
   </div>
+
+
+  <!-- LEADERBOARD -->
 
   <div
     id="lbPanel"
     class="leaderboard"
-    aria-live="polite"
   >
 
-    <h3>🏆 Skor Tablosu</h3>
+    <h3>
+      🏆 Skor Tablosu
+    </h3>
 
     <table id="lbTable">
 
       <thead>
+
         <tr>
           <th>#</th>
           <th>İsim</th>
           <th>Skor</th>
         </tr>
+
       </thead>
 
       <tbody></tbody>
@@ -1114,21 +1191,27 @@
     </table>
 
     <div
-      class="admin"
+      id="leaderboardNote"
+      class="leaderboard-note"
+    ></div>
+
+    <div
       id="lbAdmin"
+      class="admin"
     >
 
       <button id="lbDownload">
         CSV indir
       </button>
 
-      <button id="lbClear">
-        Yerel kayıtları temizle
+      <button id="retrySync">
+        Bekleyenleri Firestore'a gönder
       </button>
 
     </div>
 
   </div>
+
 
   <!-- BAMBANKER -->
 
@@ -1138,12 +1221,19 @@
   >
 
     <div class="cap"></div>
+
     <div class="neck"></div>
+
     <div class="body"></div>
 
     <div class="label">
+
       Bambanker
-      <small>Nippon Genetics</small>
+
+      <small>
+        Nippon Genetics
+      </small>
+
     </div>
 
     <div
@@ -1158,7 +1248,8 @@
 
   </div>
 
-  <!-- GİRİŞ / BİTİŞ OVERLAY -->
+
+  <!-- OVERLAY -->
 
   <div
     class="overlay"
@@ -1166,6 +1257,8 @@
   >
 
     <div class="inner">
+
+      <!-- YÜZEN HÜCRELER -->
 
       <div
         class="intro-cell float1"
@@ -1188,53 +1281,73 @@
         🙂
       </div>
 
+
+      <!-- BAŞLIK -->
+
       <h1 class="title">
         🧊 Cell Freezer
       </h1>
 
+
       <p class="subtitle">
+
         Sağlıklı hücreleri Bambanker'a taşı,
-        <b>kontaminantlardan kaç!</b>
+
+        <b>
+          kontaminantlardan kaç!
+        </b>
+
       </p>
+
+
+      <!-- NASIL OYNANIR -->
 
       <div
         class="howto"
         id="howToBox"
       >
 
-        <b>Nasıl oynanır?</b>
+        <b>
+          Nasıl oynanır?
+        </b>
 
         <div class="howto-grid">
 
           <div class="howto-item">
-            🔵 Sağlıklı hücre
-            <b>+10</b>
+            🔵 Sağlıklı hücre <b>+10</b>
           </div>
 
           <div class="howto-item">
-            🟣 Mycoplasma
-            <b>-15</b>
+            🟣 Mycoplasma <b>-15</b>
           </div>
 
           <div class="howto-item">
-            ▬ Bakteri
-            <b>-20</b>
+            ▬ Bakteri <b>-20</b>
           </div>
 
           <div class="howto-item">
-            ❄️ Cryoprotection bonus
-            <b>+30</b>
+            ❄️ Cryoprotection bonus <b>+30</b>
           </div>
 
         </div>
 
         <div style="margin-top:8px">
+
           Şişeyi sağa-sola hareket ettir.
           Arka arkaya sağlıklı hücre yakalayarak
-          <b>combo bonusu</b> kazan.
+
+          <b>
+            combo bonusu
+          </b>
+
+          kazan.
+
         </div>
 
       </div>
+
+
+      <!-- BAŞLAT -->
 
       <button
         class="btn"
@@ -1243,37 +1356,50 @@
         Oyunu Başlat
       </button>
 
-      <!-- KATILIMCI FORMU -->
+
+      <!-- FORM -->
 
       <div
         class="preform"
         id="preForm"
       >
 
-        <h3>Katılımcı Bilgileri</h3>
+        <h3>
+          Katılımcı Bilgileri
+        </h3>
+
 
         <label>
+
           İsim Soyisim
 
           <input
             id="pfName"
             placeholder="Ad Soyad"
+            autocomplete="name"
             required
           >
+
         </label>
 
+
         <label>
+
           E-posta
 
           <input
             id="pfEmail"
             placeholder="ornek@eposta.com"
             type="email"
+            autocomplete="email"
             required
           >
+
         </label>
 
+
         <label>
+
           Şirket / Okul
 
           <input
@@ -1281,7 +1407,9 @@
             placeholder="Şirket / Okul"
             required
           >
+
         </label>
+
 
         <div class="actions">
 
@@ -1291,6 +1419,7 @@
           >
             İptal
           </button>
+
 
           <button
             id="pfGo"
@@ -1302,11 +1431,13 @@
 
         </div>
 
+
         <div class="muted">
           Bilgiler skor kaydı için kullanılır.
         </div>
 
       </div>
+
 
       <!-- LOGOLAR -->
 
@@ -1327,10 +1458,13 @@
 
       </div>
 
+
       <!-- ÖDÜL -->
 
       <div id="prizeInfo">
+
         🏆 Sempozyum sonunda en yüksek puanı alan 1 kişiye sürpriz ödül!
+
       </div>
 
     </div>
@@ -1339,9 +1473,6 @@
 
 </div>
 
-<!-- =========================================================
-     FIREBASE + OYUN
-========================================================= -->
 
 <script type="module">
 
@@ -1355,14 +1486,16 @@
   from
   "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 
+
   import {
     getFirestore,
     collection,
-    addDoc,
     getDocs,
     query,
     orderBy,
     limit,
+    doc,
+    setDoc,
     serverTimestamp
   }
   from
@@ -1370,67 +1503,46 @@
 
 
   /* =========================================================
-     FIREBASE CONFIG
+     DOĞRU FIREBASE CONFIG
   ========================================================= */
 
   const firebaseConfig = {
 
     apiKey:
-      "AIzaSyDWTza-MBwQ7ruzmWNFFdurX0qYUjFSXmM",
+      "AIzaSyDZEBs2xiFLp_IG6_L_27yLetCtdEWHlP4",
 
     authDomain:
-      "cell-freezer-de0c3.firebaseapp.com",
+      "nippon-game-5c77d.firebaseapp.com",
 
     projectId:
-      "cell-freezer-de0c3",
+      "nippon-game-5c77d",
 
     storageBucket:
-      "cell-freezer-de0c3.firebasestorage.app",
+      "nippon-game-5c77d.firebasestorage.app",
 
     messagingSenderId:
-      "608677842749",
+      "1002140228635",
 
     appId:
-      "1:608677842749:web:2a3c244bc0181e9077ff54"
+      "1:1002140228635:web:c8a54aa125a6a6ff28acbe"
 
   };
 
 
-  let db = null;
-  let firebaseReady = false;
-
-
-  try {
-
-    const app =
-      initializeApp(
-        firebaseConfig
-      );
-
-    db =
-      getFirestore(
-        app
-      );
-
-    firebaseReady =
-      true;
-
-    console.log(
-      "Firebase hazır."
+  const app =
+    initializeApp(
+      firebaseConfig
     );
 
-  }
-  catch (error) {
 
-    console.error(
-      "Firebase başlatma hatası:",
-      error
+  const db =
+    getFirestore(
+      app
     );
-  }
 
 
   /* =========================================================
-     AYARLAR
+     OYUN AYARLARI
   ========================================================= */
 
   const GAME_TIME = 20;
@@ -1444,6 +1556,10 @@
   const PENALTY_MYCO = -15;
 
   const PENALTY_ROD = -20;
+
+
+  const LOCAL_QUEUE_KEY =
+    "cell_freezer_pending_scores_v1";
 
 
   /* =========================================================
@@ -1498,6 +1614,9 @@
   const lbBtn =
     document.getElementById("lbBtn");
 
+  const leaderboardNote =
+    document.getElementById("leaderboardNote");
+
 
   /* =========================================================
      OYUN DEĞİŞKENLERİ
@@ -1505,8 +1624,7 @@
 
   let score = 0;
 
-  let time =
-    GAME_TIME;
+  let time = GAME_TIME;
 
   let combo = 0;
 
@@ -1514,11 +1632,11 @@
 
   let spawnTimer = null;
 
-  let bottleDragging = false;
-
   let gameRunning = false;
 
-  let scoreSavedThisRound = false;
+  let bottleDragging = false;
+
+  let currentRoundId = null;
 
   let currentPlayer = {
     name: "",
@@ -1530,7 +1648,7 @@
 
 
   /* =========================================================
-     HTML ESCAPE
+     YARDIMCI
   ========================================================= */
 
   function escapeHtml(value) {
@@ -1549,36 +1667,601 @@
   }
 
 
+  function createRoundId() {
+
+    if (
+      window.crypto &&
+      typeof window.crypto.randomUUID === "function"
+    ) {
+
+      return window.crypto.randomUUID();
+    }
+
+    return (
+      Date.now()
+      + "-"
+      + Math.random()
+        .toString(36)
+        .slice(2)
+    );
+  }
+
+
+  /* =========================================================
+     LOCAL QUEUE
+  ========================================================= */
+
+  function loadPendingScores() {
+
+    try {
+
+      return JSON.parse(
+        localStorage.getItem(
+          LOCAL_QUEUE_KEY
+        )
+        || "[]"
+      );
+
+    } catch {
+
+      return [];
+    }
+  }
+
+
+  function savePendingScores(data) {
+
+    localStorage.setItem(
+      LOCAL_QUEUE_KEY,
+      JSON.stringify(data)
+    );
+  }
+
+
+  function addPendingScore(record) {
+
+    const data =
+      loadPendingScores();
+
+    const exists =
+      data.some(
+        item =>
+          item.id === record.id
+      );
+
+    if (!exists) {
+
+      data.push(record);
+    }
+
+    savePendingScores(data);
+  }
+
+
+  function removePendingScore(id) {
+
+    const data =
+      loadPendingScores()
+        .filter(
+          item =>
+            item.id !== id
+        );
+
+    savePendingScores(data);
+  }
+
+
+  /* =========================================================
+     FIRESTORE YAZ
+  ========================================================= */
+
+  async function saveRecordToFirestore(record) {
+
+    const documentRef =
+      doc(
+        db,
+        "scores",
+        record.id
+      );
+
+
+    await setDoc(
+      documentRef,
+      {
+
+        name:
+          record.name,
+
+        email:
+          record.email,
+
+        company:
+          record.company,
+
+        score:
+          Number(record.score),
+
+        roundId:
+          record.id,
+
+        playedAt:
+          record.playedAt,
+
+        createdAt:
+          serverTimestamp()
+
+      }
+    );
+  }
+
+
+  /* =========================================================
+     PENDING SYNC
+  ========================================================= */
+
+  async function syncPendingScores() {
+
+    const pending =
+      loadPendingScores();
+
+
+    let successCount = 0;
+
+
+    for (
+      const record of pending
+    ) {
+
+      try {
+
+        await saveRecordToFirestore(
+          record
+        );
+
+
+        removePendingScore(
+          record.id
+        );
+
+
+        successCount++;
+
+      } catch (error) {
+
+        console.error(
+          "Pending sync hatası:",
+          error
+        );
+      }
+    }
+
+
+    return {
+      successCount,
+      remaining:
+        loadPendingScores().length
+    };
+  }
+
+
+  /* =========================================================
+     MEVCUT OYUNU KAYDET
+  ========================================================= */
+
+  async function saveCurrentScore() {
+
+    const record = {
+
+      id:
+        currentRoundId,
+
+      name:
+        currentPlayer.name.trim(),
+
+      email:
+        currentPlayer.email
+          .trim()
+          .toLowerCase(),
+
+      company:
+        currentPlayer.company.trim(),
+
+      score:
+        Number(score),
+
+      playedAt:
+        new Date().toISOString()
+
+    };
+
+
+    /*
+      Önce local backup.
+    */
+
+    addPendingScore(
+      record
+    );
+
+
+    try {
+
+      await saveRecordToFirestore(
+        record
+      );
+
+
+      removePendingScore(
+        record.id
+      );
+
+
+      return {
+        success: true
+      };
+
+    } catch (error) {
+
+      console.error(
+        "Firestore kayıt hatası:",
+        error
+      );
+
+
+      return {
+
+        success: false,
+
+        error:
+          error?.message
+          || String(error)
+
+      };
+    }
+  }
+
+
+  /* =========================================================
+     FIRESTORE OKU
+  ========================================================= */
+
+  async function loadScoresFromFirestore() {
+
+    const scoresQuery =
+      query(
+
+        collection(
+          db,
+          "scores"
+        ),
+
+        orderBy(
+          "score",
+          "desc"
+        ),
+
+        limit(300)
+
+      );
+
+
+    const snapshot =
+      await getDocs(
+        scoresQuery
+      );
+
+
+    return snapshot.docs
+      .map(
+        item =>
+          item.data()
+      );
+  }
+
+
+  /* =========================================================
+     LEADERBOARD
+  ========================================================= */
+
+  function buildLeaderboard(raw) {
+
+    const bestByEmail =
+      new Map();
+
+
+    raw.forEach(
+      result => {
+
+        const key =
+          (
+            result.email
+            ||
+            result.name
+            ||
+            ""
+          )
+          .trim()
+          .toLowerCase();
+
+
+        if (!key) {
+          return;
+        }
+
+
+        const previous =
+          bestByEmail.get(key);
+
+
+        if (
+          !previous
+          ||
+          Number(result.score || 0)
+          >
+          Number(previous.score || 0)
+        ) {
+
+          bestByEmail.set(
+            key,
+            result
+          );
+        }
+
+      }
+    );
+
+
+    return Array
+      .from(
+        bestByEmail.values()
+      )
+      .sort(
+        (a,b) =>
+          Number(b.score || 0)
+          -
+          Number(a.score || 0)
+      )
+      .slice(
+        0,
+        10
+      );
+  }
+
+
+  function renderRows(data) {
+
+    const tbody =
+      document.querySelector(
+        "#lbTable tbody"
+      );
+
+
+    if (!data.length) {
+
+      tbody.innerHTML =
+        `
+          <tr>
+            <td colspan="3">
+              Henüz skor yok
+            </td>
+          </tr>
+        `;
+
+      return;
+    }
+
+
+    tbody.innerHTML =
+      data.map(
+        (result,index) => {
+
+          let rank =
+            index + 1;
+
+
+          if (index === 0) {
+            rank = "🥇";
+          }
+
+          if (index === 1) {
+            rank = "🥈";
+          }
+
+          if (index === 2) {
+            rank = "🥉";
+          }
+
+
+          const cls =
+            index < 3
+              ? ` class="lb-rank-${index+1}"`
+              : "";
+
+
+          return `
+            <tr${cls}>
+
+              <td>
+                ${rank}
+              </td>
+
+              <td>
+                ${escapeHtml(
+                  result.name || "-"
+                )}
+              </td>
+
+              <td>
+                ${Number(
+                  result.score || 0
+                )}
+              </td>
+
+            </tr>
+          `;
+        }
+      ).join("");
+  }
+
+
+  async function renderLeaderboard() {
+
+    const tbody =
+      document.querySelector(
+        "#lbTable tbody"
+      );
+
+
+    tbody.innerHTML =
+      `
+        <tr>
+          <td colspan="3">
+            Yükleniyor...
+          </td>
+        </tr>
+      `;
+
+
+    leaderboardNote.textContent =
+      "";
+
+
+    try {
+
+      await syncPendingScores();
+
+
+      const raw =
+        await loadScoresFromFirestore();
+
+
+      const data =
+        buildLeaderboard(raw);
+
+
+      renderRows(data);
+
+
+      const pending =
+        loadPendingScores().length;
+
+
+      leaderboardNote.textContent =
+        pending > 0
+          ? `${pending} kayıt henüz Firestore'a gönderilemedi.`
+          : "Skorlar Firestore'dan yükleniyor.";
+
+
+    } catch (error) {
+
+      console.error(
+        "Leaderboard hatası:",
+        error
+      );
+
+
+      const pendingData =
+        buildLeaderboard(
+          loadPendingScores()
+        );
+
+
+      if (pendingData.length) {
+
+        renderRows(
+          pendingData
+        );
+
+
+        leaderboardNote.textContent =
+          "Firestore'a ulaşılamadı. Bu cihazdaki bekleyen skorlar gösteriliyor.";
+
+      } else {
+
+        tbody.innerHTML =
+          `
+            <tr>
+              <td colspan="3">
+                Skorlar yüklenemedi
+              </td>
+            </tr>
+          `;
+
+
+        leaderboardNote.textContent =
+          "Firestore bağlantısı kontrol edilmeli.";
+      }
+    }
+  }
+
+
+  function toggleLeaderboard(
+    forceOpen = false
+  ) {
+
+    if (forceOpen) {
+
+      lbPanel.style.display =
+        "block";
+
+
+      renderLeaderboard();
+
+
+      return;
+    }
+
+
+    lbPanel.style.display =
+      lbPanel.style.display === "block"
+        ? "none"
+        : "block";
+
+
+    if (
+      lbPanel.style.display === "block"
+    ) {
+
+      renderLeaderboard();
+    }
+  }
+
+
   /* =========================================================
      LOGO FALLBACK
   ========================================================= */
 
   document
     .querySelectorAll(".logos img")
-    .forEach(img => {
+    .forEach(
+      img => {
 
-      img.addEventListener(
-        "error",
-        () => {
+        img.addEventListener(
+          "error",
+          () => {
 
-          const box =
-            document.createElement(
-              "div"
-            );
+            const box =
+              document.createElement(
+                "div"
+              );
 
-          box.className =
-            "logo-fallback";
 
-          box.textContent =
-            img.alt || "Logo";
+            box.className =
+              "logo-fallback";
 
-          img.replaceWith(
-            box
-          );
-        },
-        { once: true }
-      );
-    });
+
+            box.textContent =
+              img.alt || "Logo";
+
+
+            img.replaceWith(box);
+
+          },
+          { once:true }
+        );
+
+      }
+    );
 
 
   /* =========================================================
@@ -1598,13 +2281,8 @@
             window.webkitAudioContext
           )();
       }
-    }
-    catch (error) {
 
-      console.log(
-        "Ses başlatılamadı."
-      );
-    }
+    } catch {}
   }
 
 
@@ -1615,39 +2293,44 @@
 
     try {
 
-      if (!audioCtx) return;
+      if (!audioCtx) {
+        return;
+      }
+
 
       const oscillator =
         audioCtx.createOscillator();
 
+
       const gain =
         audioCtx.createGain();
+
 
       oscillator.type =
         "triangle";
 
-      oscillator
-        .frequency
+
+      oscillator.frequency
         .setValueAtTime(
           frequency,
           audioCtx.currentTime
         );
 
-      gain
-        .gain
+
+      gain.gain
         .setValueAtTime(
           .14,
           audioCtx.currentTime
         );
 
-      gain
-        .gain
+
+      gain.gain
         .exponentialRampToValueAtTime(
           .0001,
           audioCtx.currentTime
-          +
-          duration
+          + duration
         );
+
 
       oscillator
         .connect(gain)
@@ -1655,15 +2338,16 @@
           audioCtx.destination
         );
 
+
       oscillator.start();
+
 
       oscillator.stop(
         audioCtx.currentTime
-        +
-        duration
+        + duration
       );
-    }
-    catch (error) {}
+
+    } catch {}
   }
 
 
@@ -1671,15 +2355,15 @@
      ŞİŞE HAREKETİ
   ========================================================= */
 
-  function moveBottleTo(
-    clientX
-  ) {
+  function moveBottleTo(clientX) {
 
     const stageRect =
       stage.getBoundingClientRect();
 
+
     const bottleWidth =
       bottle.offsetWidth;
+
 
     let left =
       clientX
@@ -1687,6 +2371,7 @@
       stageRect.left
       -
       bottleWidth / 2;
+
 
     left =
       Math.max(
@@ -1699,8 +2384,10 @@
         )
       );
 
+
     bottle.style.left =
       left + "px";
+
 
     bottle.style.right =
       "auto";
@@ -1711,10 +2398,14 @@
     "pointerdown",
     event => {
 
-      if (!gameRunning) return;
+      if (!gameRunning) {
+        return;
+      }
+
 
       bottleDragging =
         true;
+
 
       moveBottleTo(
         event.clientX
@@ -1727,9 +2418,13 @@
     "pointermove",
     event => {
 
-      if (!bottleDragging) return;
+      if (!bottleDragging) {
+        return;
+      }
+
 
       event.preventDefault();
+
 
       moveBottleTo(
         event.clientX
@@ -1759,7 +2454,7 @@
 
 
   /* =========================================================
-     GİRİŞ EKRANINI GERİ GETİR
+     GİRİŞ
   ========================================================= */
 
   function restoreIntroScreen() {
@@ -1768,41 +2463,51 @@
       "formMode"
     );
 
+
     overlay
       .querySelector(".title")
       .textContent =
       "🧊 Cell Freezer";
+
 
     overlay
       .querySelector(".subtitle")
       .innerHTML =
       `Sağlıklı hücreleri Bambanker'a taşı, <b>kontaminantlardan kaç!</b>`;
 
+
     document
       .getElementById("howToBox")
       .style.display =
       "";
+
 
     document
       .getElementById("logos")
       .style.display =
       "";
 
+
     document
       .getElementById("prizeInfo")
       .style.display =
       "";
 
+
     document
       .querySelectorAll(".intro-cell")
-      .forEach(element => {
+      .forEach(
+        item => {
 
-        element.style.display =
-          "grid";
-      });
+          item.style.display =
+            "grid";
+        }
+      );
+
 
     startBtn.style.display =
       "";
+
 
     startBtn.textContent =
       "Oyunu Başlat";
@@ -1810,53 +2515,70 @@
 
 
   /* =========================================================
-     OYUN BAŞLAT
+     START
   ========================================================= */
 
   function startGame() {
+
+    syncPendingScores();
+
 
     clearInterval(timer);
 
     clearTimeout(spawnTimer);
 
+
     document
       .querySelectorAll(".cell")
       .forEach(
-        cell => cell.remove()
+        cell =>
+          cell.remove()
       );
+
 
     gameRunning =
       true;
 
+
     bottleDragging =
       false;
 
-    scoreSavedThisRound =
-      false;
+
+    currentRoundId =
+      createRoundId();
+
 
     score =
       0;
 
+
     combo =
       0;
+
 
     time =
       GAME_TIME;
 
+
     scoreEl.textContent =
       score;
+
 
     timeEl.textContent =
       time;
 
+
     fill.style.height =
       "0%";
+
 
     lbPanel.style.display =
       "none";
 
+
     overlay.style.display =
       "none";
+
 
     bottle.style.left =
       Math.max(
@@ -1871,6 +2593,7 @@
       +
       "px";
 
+
     bottle.style.right =
       "auto";
 
@@ -1881,8 +2604,10 @@
 
           time--;
 
+
           timeEl.textContent =
             time;
+
 
           if (
             time <= 5
@@ -1890,10 +2615,9 @@
             time > 0
           ) {
 
-            showCountdown(
-              time
-            );
+            showCountdown(time);
           }
+
 
           if (
             time <= 0
@@ -1909,6 +2633,7 @@
 
     scheduleNextSpawn();
 
+
     spawnCell();
 
     spawnCell();
@@ -1916,18 +2641,23 @@
 
 
   /* =========================================================
-     OYUN BİTİŞ
+     END GAME
   ========================================================= */
 
   async function endGame() {
 
-    if (!gameRunning) return;
+    if (!gameRunning) {
+      return;
+    }
+
 
     gameRunning =
       false;
 
+
     bottleDragging =
       false;
+
 
     clearInterval(timer);
 
@@ -1937,12 +2667,14 @@
     document
       .querySelectorAll(".cell")
       .forEach(
-        cell => cell.remove()
+        cell =>
+          cell.remove()
       );
 
 
     overlay.style.display =
       "flex";
+
 
     overlay.classList.remove(
       "formMode"
@@ -1954,22 +2686,25 @@
       .style.display =
       "none";
 
+
     document
       .getElementById("logos")
       .style.display =
       "none";
+
 
     document
       .getElementById("prizeInfo")
       .style.display =
       "none";
 
+
     document
       .querySelectorAll(".intro-cell")
       .forEach(
-        element => {
+        item => {
 
-          element.style.display =
+          item.style.display =
             "none";
         }
       );
@@ -1995,14 +2730,19 @@
 
         <br>
 
-        <span style="
-          font-size:14px;
-          color:#cfeafe;
-        ">
+        <span
+          style="
+            font-size:14px;
+            color:#cfeafe;
+          "
+        >
 
           Oyuncu:
+
           <b>
-            ${escapeHtml(currentPlayer.name)}
+            ${escapeHtml(
+              currentPlayer.name
+            )}
           </b>
 
         </span>
@@ -2014,11 +2754,11 @@
           style="
             margin-top:12px;
             font-size:14px;
-            font-weight:700;
+            font-weight:800;
             color:#bae6fd;
           "
         >
-          Skor kaydediliyor...
+          Skor Firestore'a kaydediliyor...
         </div>
 
         <button
@@ -2042,6 +2782,7 @@
     startBtn.textContent =
       "Tekrar Oyna";
 
+
     startBtn.style.display =
       "";
 
@@ -2049,7 +2790,8 @@
     document
       .getElementById("showLb")
       .onclick =
-      () => toggleLeaderboard(true);
+      () =>
+        toggleLeaderboard(true);
 
 
     document
@@ -2072,39 +2814,37 @@
       result.success
     ) {
 
-      saveStatus.innerHTML =
-        "✅ Skor kaydedildi";
+      saveStatus.textContent =
+        "✅ Skor Firestore'a kaydedildi";
+
 
       saveStatus.style.color =
         "#86efac";
-    }
 
-    else {
+    } else {
 
       saveStatus.innerHTML =
-        "❌ Skor kaydedilemedi";
+        `
+          ⚠️ Firestore'a henüz gönderilemedi.<br>
+
+          <span
+            style="
+              font-size:12px;
+              font-weight:600;
+              color:#fde68a;
+            "
+          >
+            Veri bu cihazda yedeklendi ve tekrar gönderilecek.
+          </span>
+        `;
+
 
       saveStatus.style.color =
-        "#fca5a5";
+        "#fde68a";
 
 
       console.error(
-        "Firebase kayıt hatası:",
         result.error
-      );
-
-
-      setTimeout(
-        () => {
-
-          alert(
-            "Skor Firebase'e kaydedilemedi.\n\n"
-            +
-            result.error
-          );
-
-        },
-        100
       );
     }
   }
@@ -2122,26 +2862,34 @@
       company: ""
     };
 
+
     pfName.value =
       "";
+
 
     pfEmail.value =
       "";
 
+
     pfCompany.value =
       "";
 
+
     restoreIntroScreen();
+
 
     overlay.style.display =
       "flex";
+
 
     overlay.classList.add(
       "formMode"
     );
 
+
     preForm.style.display =
       "block";
+
 
     pfName.focus();
   }
@@ -2153,7 +2901,9 @@
 
   function scheduleNextSpawn() {
 
-    if (!gameRunning) return;
+    if (!gameRunning) {
+      return;
+    }
 
 
     const elapsed =
@@ -2164,22 +2914,18 @@
 
     const minDelay =
       elapsed >= 14
-      ? 330
-      :
-      elapsed >= 7
-      ? 390
-      :
-      450;
+        ? 330
+        : elapsed >= 7
+          ? 390
+          : 450;
 
 
     const extraDelay =
       elapsed >= 14
-      ? 470
-      :
-      elapsed >= 7
-      ? 560
-      :
-      650;
+        ? 470
+        : elapsed >= 7
+          ? 560
+          : 650;
 
 
     const randomDelay =
@@ -2199,10 +2945,13 @@
             ||
             time <= 0
           ) {
+
             return;
           }
 
+
           spawnCell();
+
 
           scheduleNextSpawn();
 
@@ -2214,7 +2963,9 @@
 
   function spawnCell() {
 
-    if (!gameRunning) return;
+    if (!gameRunning) {
+      return;
+    }
 
 
     const random =
@@ -2232,16 +2983,14 @@
       type =
         "bonus";
 
-    }
-    else if (
+    } else if (
       random > .86
     ) {
 
       type =
         "rod";
 
-    }
-    else if (
+    } else if (
       random > .72
     ) {
 
@@ -2266,33 +3015,26 @@
 
       cell.className =
         "cell good";
-    }
 
-
-    if (
+    } else if (
       type === "myco"
     ) {
 
       cell.className =
         "cell bad myco";
-    }
 
-
-    if (
+    } else if (
       type === "rod"
     ) {
 
       cell.className =
         "cell bad rod";
-    }
 
-
-    if (
-      type === "bonus"
-    ) {
+    } else {
 
       cell.className =
         "cell bonus";
+
 
       cell.textContent =
         "❄️";
@@ -2304,9 +3046,7 @@
       *
       Math.max(
         10,
-        stage.clientWidth
-        -
-        90
+        stage.clientWidth - 90
       )
       +
       "px";
@@ -2329,12 +3069,10 @@
 
     const difficultyBoost =
       elapsed >= 14
-      ? 3
-      :
-      elapsed >= 7
-      ? 1.5
-      :
-      0;
+        ? 3
+        : elapsed >= 7
+          ? 1.5
+          : 0;
 
 
     const speed =
@@ -2361,7 +3099,9 @@
               fall
             );
 
+
             cell.remove();
+
 
             return;
           }
@@ -2385,6 +3125,7 @@
               fall
             );
 
+
             return;
           }
 
@@ -2396,6 +3137,7 @@
           ) {
 
             cell.remove();
+
 
             clearInterval(
               fall
@@ -2409,7 +3151,7 @@
 
 
   /* =========================================================
-     ÇARPIŞMA
+     COLLISION
   ========================================================= */
 
   function checkDrop(cell) {
@@ -2437,7 +3179,6 @@
 
 
     if (!overlap) {
-
       return false;
     }
 
@@ -2452,6 +3193,7 @@
 
       combo++;
 
+
       let gained =
         SCORE_GOOD;
 
@@ -2460,20 +3202,17 @@
         combo >= 5
       ) {
 
-        gained +=
-          10;
-      }
-      else if (
+        gained += 10;
+
+      } else if (
         combo >= 3
       ) {
 
-        gained +=
-          5;
+        gained += 5;
       }
 
 
-      score +=
-        gained;
+      score += gained;
 
 
       uiGood();
@@ -2488,15 +3227,13 @@
           gained
         );
       }
-    }
 
 
-    else if (
+    } else if (
       type === "bonus"
     ) {
 
-      score +=
-        30;
+      score += 30;
 
 
       showEvent(
@@ -2505,15 +3242,13 @@
 
 
       uiGood();
-    }
 
 
-    else if (
+    } else if (
       type === "myco"
     ) {
 
-      combo =
-        0;
+      combo = 0;
 
 
       score +=
@@ -2526,15 +3261,13 @@
 
 
       uiBad();
-    }
 
 
-    else if (
+    } else if (
       type === "rod"
     ) {
 
-      combo =
-        0;
+      combo = 0;
 
 
       score +=
@@ -2577,17 +3310,16 @@
 
   function updateFill() {
 
-    const percent =
+    fill.style.height =
       Math.max(
         0,
         Math.min(
           100,
           score
         )
-      );
-
-    fill.style.height =
-      percent + "%";
+      )
+      +
+      "%";
   }
 
 
@@ -2598,34 +3330,35 @@
         "countdownPop"
       );
 
+
     element.textContent =
       number;
+
 
     element.style.display =
       "flex";
 
-    element.animate(
 
+    element.animate(
       [
         {
-          transform: "scale(.7)",
-          opacity: .2
+          transform:"scale(.7)",
+          opacity:.2
         },
 
         {
-          transform: "scale(1.15)",
-          opacity: 1
+          transform:"scale(1.15)",
+          opacity:1
         },
 
         {
-          transform: "scale(1)",
-          opacity: 0
+          transform:"scale(1)",
+          opacity:0
         }
       ],
-
       {
-        duration: 850,
-        easing: "ease-out"
+        duration:850,
+        easing:"ease-out"
       }
     );
 
@@ -2635,6 +3368,7 @@
 
         element.style.display =
           "none";
+
       },
       820
     );
@@ -2651,16 +3385,20 @@
         "comboPop"
       );
 
+
     element.textContent =
       `COMBO x${count}  +${gained}`;
+
 
     element.classList.add(
       "show"
     );
 
+
     clearTimeout(
       element._timer
     );
+
 
     element._timer =
       setTimeout(
@@ -2683,16 +3421,20 @@
         "eventPop"
       );
 
+
     element.textContent =
       text;
+
 
     element.classList.add(
       "show"
     );
 
+
     clearTimeout(
       element._timer
     );
+
 
     element._timer =
       setTimeout(
@@ -2714,13 +3456,17 @@
       "pulse"
     );
 
+
     void fill.offsetWidth;
+
 
     fill.classList.add(
       "pulse"
     );
 
+
     burstBubbles();
+
 
     playTone(
       700,
@@ -2734,6 +3480,7 @@
     bottle.classList.add(
       "shake"
     );
+
 
     setTimeout(
       () => {
@@ -2751,7 +3498,9 @@
       "bad"
     );
 
+
     void fill.offsetWidth;
+
 
     fill.classList.add(
       "bad"
@@ -2833,7 +3582,7 @@
 
 
   /* =========================================================
-     BAŞLAT BUTONU
+     START BUTTON
   ========================================================= */
 
   startBtn.onclick =
@@ -2903,11 +3652,13 @@
         pfEmail,
         pfCompany
       ]
-      .forEach(element => {
+      .forEach(
+        element => {
 
-        element.style.borderColor =
-          "#335";
-      });
+          element.style.borderColor =
+            "#335";
+        }
+      );
 
 
       if (!name) {
@@ -2915,7 +3666,9 @@
         pfName.style.borderColor =
           "#ef4444";
 
+
         pfName.focus();
+
 
         return;
       }
@@ -2930,7 +3683,9 @@
         pfEmail.style.borderColor =
           "#ef4444";
 
+
         pfEmail.focus();
+
 
         return;
       }
@@ -2941,7 +3696,9 @@
         pfCompany.style.borderColor =
           "#ef4444";
 
+
         pfCompany.focus();
+
 
         return;
       }
@@ -2971,576 +3728,12 @@
 
 
   /* =========================================================
-     FIREBASE SKOR KAYDI
-  ========================================================= */
-
-  async function saveCurrentScore() {
-
-    if (
-      scoreSavedThisRound
-    ) {
-
-      return {
-        success: true
-      };
-    }
-
-
-    if (
-      !firebaseReady
-      ||
-      !db
-    ) {
-
-      return {
-        success: false,
-        error:
-          "Firebase bağlantısı başlatılamadı."
-      };
-    }
-
-
-    try {
-
-      const saveOperation =
-        addDoc(
-
-          collection(
-            db,
-            "scores"
-          ),
-
-          {
-
-            name:
-              currentPlayer.name.trim(),
-
-            email:
-              currentPlayer.email
-                .trim()
-                .toLowerCase(),
-
-            company:
-              currentPlayer.company.trim(),
-
-            score:
-              Number(score),
-
-            createdAt:
-              serverTimestamp()
-
-          }
-        );
-
-
-      /*
-        Firebase cevap vermezse
-        10 saniye sonra timeout.
-      */
-
-      const timeout =
-        new Promise(
-          (
-            _,
-            reject
-          ) => {
-
-            setTimeout(
-              () => {
-
-                reject(
-                  new Error(
-                    "Firebase bağlantısı zaman aşımına uğradı."
-                  )
-                );
-
-              },
-              10000
-            );
-          }
-        );
-
-
-      const documentRef =
-        await Promise.race(
-          [
-            saveOperation,
-            timeout
-          ]
-        );
-
-
-      console.log(
-        "Skor kaydedildi:",
-        documentRef.id
-      );
-
-
-      scoreSavedThisRound =
-        true;
-
-
-      /*
-        Yerel yedek de tut.
-      */
-
-      saveLocalBackup();
-
-
-      return {
-        success: true
-      };
-
-    }
-    catch (error) {
-
-      /*
-        Firebase başarısız olsa bile
-        cihaz üzerinde yedekle.
-      */
-
-      saveLocalBackup();
-
-
-      return {
-
-        success: false,
-
-        error:
-          error?.message
-          ||
-          String(error)
-
-      };
-    }
-  }
-
-
-  /* =========================================================
-     YEREL YEDEK
-  ========================================================= */
-
-  const LOCAL_KEY =
-    "cell_freezer_local_scores";
-
-
-  function loadLocalBackup() {
-
-    try {
-
-      return JSON.parse(
-        localStorage.getItem(
-          LOCAL_KEY
-        )
-        ||
-        "[]"
-      );
-    }
-    catch {
-
-      return [];
-    }
-  }
-
-
-  function saveLocalBackup() {
-
-    const array =
-      loadLocalBackup();
-
-
-    array.push(
-      {
-
-        name:
-          currentPlayer.name,
-
-        email:
-          currentPlayer.email,
-
-        company:
-          currentPlayer.company,
-
-        score:
-          score,
-
-        time:
-          new Date()
-            .toISOString()
-
-      }
-    );
-
-
-    localStorage.setItem(
-      LOCAL_KEY,
-      JSON.stringify(array)
-    );
-  }
-
-
-  /* =========================================================
-     FIREBASE SKOR TABLOSU
-  ========================================================= */
-
-  async function loadScoresFromFirebase() {
-
-    if (
-      !firebaseReady
-      ||
-      !db
-    ) {
-
-      throw new Error(
-        "Firebase bağlantısı hazır değil."
-      );
-    }
-
-
-    const scoresQuery =
-      query(
-
-        collection(
-          db,
-          "scores"
-        ),
-
-        orderBy(
-          "score",
-          "desc"
-        ),
-
-        limit(
-          200
-        )
-
-      );
-
-
-    const loadOperation =
-      getDocs(
-        scoresQuery
-      );
-
-
-    const timeout =
-      new Promise(
-        (
-          _,
-          reject
-        ) => {
-
-          setTimeout(
-            () => {
-
-              reject(
-                new Error(
-                  "Skor tablosu yüklenirken zaman aşımı oluştu."
-                )
-              );
-
-            },
-            10000
-          );
-        }
-      );
-
-
-    const snapshot =
-      await Promise.race(
-        [
-          loadOperation,
-          timeout
-        ]
-      );
-
-
-    return snapshot.docs.map(
-      document =>
-        document.data()
-    );
-  }
-
-
-  async function renderLeaderboard() {
-
-    const tbody =
-      document.querySelector(
-        "#lbTable tbody"
-      );
-
-
-    tbody.innerHTML =
-      `
-        <tr>
-          <td colspan="3">
-            Yükleniyor...
-          </td>
-        </tr>
-      `;
-
-
-    try {
-
-      const raw =
-        await
-        loadScoresFromFirebase();
-
-
-      /*
-        Aynı e-mail adresi:
-        yalnızca en yüksek skor.
-      */
-
-      const bestByPlayer =
-        new Map();
-
-
-      raw.forEach(result => {
-
-        const key =
-          (
-            result.email
-            ||
-            result.name
-            ||
-            ""
-          )
-          .trim()
-          .toLowerCase();
-
-
-        if (!key) return;
-
-
-        const previous =
-          bestByPlayer.get(
-            key
-          );
-
-
-        if (
-          !previous
-          ||
-          Number(
-            result.score
-            ||
-            0
-          )
-          >
-          Number(
-            previous.score
-            ||
-            0
-          )
-        ) {
-
-          bestByPlayer.set(
-            key,
-            result
-          );
-        }
-      });
-
-
-      const data =
-        Array
-          .from(
-            bestByPlayer.values()
-          )
-          .sort(
-            (a, b) =>
-              Number(
-                b.score
-                ||
-                0
-              )
-              -
-              Number(
-                a.score
-                ||
-                0
-              )
-          )
-          .slice(
-            0,
-            10
-          );
-
-
-      if (
-        data.length === 0
-      ) {
-
-        tbody.innerHTML =
-          `
-            <tr>
-              <td colspan="3">
-                Henüz skor yok
-              </td>
-            </tr>
-          `;
-
-        return;
-      }
-
-
-      tbody.innerHTML =
-        data
-          .map(
-            (
-              result,
-              index
-            ) => {
-
-              let rank =
-                index + 1;
-
-
-              if (
-                index === 0
-              ) {
-
-                rank =
-                  "🥇";
-              }
-
-
-              if (
-                index === 1
-              ) {
-
-                rank =
-                  "🥈";
-              }
-
-
-              if (
-                index === 2
-              ) {
-
-                rank =
-                  "🥉";
-              }
-
-
-              const className =
-                index < 3
-                ?
-                ` class="lb-rank-${index + 1}"`
-                :
-                "";
-
-
-              return `
-
-                <tr${className}>
-
-                  <td>
-                    ${rank}
-                  </td>
-
-                  <td>
-                    ${
-                      escapeHtml(
-                        result.name
-                        ||
-                        "-"
-                      )
-                    }
-                  </td>
-
-                  <td>
-                    ${
-                      Number(
-                        result.score
-                        ||
-                        0
-                      )
-                    }
-                  </td>
-
-                </tr>
-
-              `;
-            }
-          )
-          .join("");
-
-    }
-    catch (error) {
-
-      console.error(
-        "Skor tablosu hatası:",
-        error
-      );
-
-
-      tbody.innerHTML =
-        `
-          <tr>
-
-            <td
-              colspan="3"
-              style="
-                color:#fca5a5;
-              "
-            >
-              Skorlar yüklenemedi
-            </td>
-
-          </tr>
-        `;
-    }
-  }
-
-
-  async function toggleLeaderboard(
-    forceOpen = false
-  ) {
-
-    if (forceOpen) {
-
-      lbPanel.style.display =
-        "block";
-
-
-      await
-      renderLeaderboard();
-
-
-      return;
-    }
-
-
-    lbPanel.style.display =
-      lbPanel.style.display
-      ===
-      "block"
-      ?
-      "none"
-      :
-      "block";
-
-
-    if (
-      lbPanel.style.display
-      ===
-      "block"
-    ) {
-
-      await
-      renderLeaderboard();
-    }
-  }
-
-
-  /* =========================================================
-     SKOR TABLOSU BUTONU
+     LEADERBOARD BUTTON
   ========================================================= */
 
   let longPressTimer =
     null;
+
 
   let longPressTriggered =
     false;
@@ -3563,7 +3756,9 @@
 
 
             document
-              .getElementById("lbAdmin")
+              .getElementById(
+                "lbAdmin"
+              )
               .style.display =
               "flex";
 
@@ -3579,18 +3774,20 @@
     "pointercancel",
     "pointerleave"
   ]
-  .forEach(eventName => {
+  .forEach(
+    eventName => {
 
-    lbBtn.addEventListener(
-      eventName,
-      () => {
+      lbBtn.addEventListener(
+        eventName,
+        () => {
 
-        clearTimeout(
-          longPressTimer
-        );
-      }
-    );
-  });
+          clearTimeout(
+            longPressTimer
+          );
+        }
+      );
+    }
+  );
 
 
   lbBtn.addEventListener(
@@ -3604,6 +3801,7 @@
         longPressTriggered =
           false;
 
+
         return;
       }
 
@@ -3614,57 +3812,100 @@
 
 
   /* =========================================================
+     RETRY
+  ========================================================= */
+
+  document
+    .getElementById(
+      "retrySync"
+    )
+    .addEventListener(
+      "click",
+      async () => {
+
+        const result =
+          await syncPendingScores();
+
+
+        alert(
+          `Gönderilen kayıt: ${result.successCount}\nBekleyen kayıt: ${result.remaining}`
+        );
+
+
+        renderLeaderboard();
+      }
+    );
+
+
+  /* =========================================================
      CSV
   ========================================================= */
 
   document
-    .getElementById("lbDownload")
+    .getElementById(
+      "lbDownload"
+    )
     .addEventListener(
       "click",
-      () => {
+      async () => {
 
-        const localScores =
-          loadLocalBackup();
+        let data = [];
 
 
-        const rows =
+        try {
+
+          data =
+            await loadScoresFromFirestore();
+
+        } catch {
+
+          data =
+            loadPendingScores();
+        }
+
+
+        const rows = [
+
           [
-            [
-              "Sıra",
-              "İsim",
-              "E-posta",
-              "Şirket / Okul",
-              "Skor",
-              "Tarih"
-            ]
-          ];
+            "İsim",
+            "E-posta",
+            "Şirket / Okul",
+            "Skor",
+            "Oyun Tarihi",
+            "Round ID"
+          ]
+
+        ];
 
 
-        localScores
-          .sort(
-            (a, b) =>
-              Number(b.score)
-              -
-              Number(a.score)
-          )
-          .forEach(
-            (
-              result,
-              index
-            ) => {
+        data.forEach(
+          result => {
 
-              rows.push(
-                [
-                  index + 1,
-                  result.name || "",
-                  result.email || "",
-                  result.company || "",
-                  result.score || 0,
-                  result.time || ""
-                ]
-              );
-            }
-          );
+            rows.push(
+              [
+
+                result.name || "",
+
+                result.email || "",
+
+                result.company || "",
+
+                Number(
+                  result.score || 0
+                ),
+
+                result.playedAt || "",
+
+                result.roundId
+                ||
+                result.id
+                ||
+                ""
+
+              ]
+            );
+          }
+        );
 
 
         const csv =
@@ -3689,6 +3930,24 @@
             .join("\n");
 
 
+        const blob =
+          new Blob(
+            [
+              "\uFEFF" + csv
+            ],
+            {
+              type:
+                "text/csv;charset=utf-8;"
+            }
+          );
+
+
+        const url =
+          URL.createObjectURL(
+            blob
+          );
+
+
         const link =
           document.createElement(
             "a"
@@ -3696,40 +3955,49 @@
 
 
         link.href =
-          "data:text/csv;charset=utf-8,"
-          +
-          encodeURIComponent(
-            csv
-          );
+          url;
 
 
         link.download =
           "cell_freezer_scores.csv";
 
 
+        document.body.appendChild(
+          link
+        );
+
+
         link.click();
+
+
+        link.remove();
+
+
+        URL.revokeObjectURL(
+          url
+        );
       }
     );
 
 
-  document
-    .getElementById("lbClear")
-    .addEventListener(
-      "click",
-      () => {
+  /* =========================================================
+     SAYFA AÇILINCA SYNC
+  ========================================================= */
 
-        if (
-          confirm(
-            "Bu cihazdaki yerel yedek skorları temizlemek istiyor musun?"
-          )
-        ) {
+  window.addEventListener(
+    "load",
+    () => {
 
-          localStorage.removeItem(
-            LOCAL_KEY
-          );
-        }
-      }
-    );
+      setTimeout(
+        () => {
+
+          syncPendingScores();
+
+        },
+        1000
+      );
+    }
+  );
 
 </script>
 
