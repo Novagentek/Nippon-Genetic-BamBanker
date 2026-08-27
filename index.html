@@ -7,7 +7,7 @@
   <style>
 /* Hide public settings gear */
 .settings {
-  display: none !important;
+  display: none !important; 
 }
 
 /* Katılımcı formu açılınca intro elemanlarını gizle */
@@ -732,26 +732,22 @@ clearTimeout(spawnTimer);
   const email = (pfEmail.value || '').trim();
   const company = (pfCompany.value || '').trim();
 
-  // Önce eski kırmızı uyarıları temizle
   pfName.style.borderColor = '#335';
   pfEmail.style.borderColor = '#335';
   pfCompany.style.borderColor = '#335';
 
-  // İsim zorunlu
   if (!name) {
     pfName.style.borderColor = '#ef4444';
     pfName.focus();
     return;
   }
 
-  // E-posta zorunlu ve geçerli formatta olmalı
   if (!email || !pfEmail.checkValidity()) {
     pfEmail.style.borderColor = '#ef4444';
     pfEmail.focus();
     return;
   }
 
-  // Şirket / kurum zorunlu
   if (!company) {
     pfCompany.style.borderColor = '#ef4444';
     pfCompany.focus();
