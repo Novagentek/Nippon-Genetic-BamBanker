@@ -16,20 +16,15 @@
       box-sizing: border-box;
     }
 
-    html,
-    body {
+    html, body {
       margin: 0;
+      width: 100%;
       min-height: 100%;
     }
 
     body {
       font-family: Inter, system-ui, "Segoe UI", Roboto, Arial, sans-serif;
-      background: linear-gradient(
-        135deg,
-        #f4fbff 0%,
-        #dff5ff 45%,
-        #ffffff 100%
-      );
+      background: linear-gradient(135deg, #f4fbff 0%, #dff5ff 45%, #ffffff 100%);
       color: var(--text);
     }
 
@@ -45,32 +40,19 @@
       border: 2px solid #38bdf8;
 
       background:
-        radial-gradient(
-          circle at 15% 15%,
-          rgba(125, 211, 252, 0.42),
-          transparent 28%
-        ),
-        radial-gradient(
-          circle at 85% 85%,
-          rgba(45, 212, 191, 0.28),
-          transparent 32%
-        ),
-        linear-gradient(
-          180deg,
-          #1e5b7a 0%,
-          #164463 45%,
-          #0f2f4a 100%
-        );
+        radial-gradient(circle at 15% 15%, rgba(125,211,252,.42), transparent 28%),
+        radial-gradient(circle at 85% 85%, rgba(45,212,191,.28), transparent 32%),
+        linear-gradient(180deg, #1e5b7a 0%, #164463 45%, #0f2f4a 100%);
 
       box-shadow:
-        0 18px 42px rgba(14, 165, 233, 0.25),
-        inset 0 0 45px rgba(255, 255, 255, 0.08);
+        0 18px 42px rgba(14,165,233,.25),
+        inset 0 0 45px rgba(255,255,255,.08);
 
       touch-action: none;
     }
 
     /* =========================
-       SKOR / SÜRE
+       HUD
     ========================= */
 
     .hud {
@@ -84,13 +66,12 @@
 
       padding: 7px 11px;
 
+      border: 1px solid rgba(186,230,253,.35);
       border-radius: 10px;
-      border: 1px solid rgba(186, 230, 253, 0.35);
 
-      background: rgba(13, 53, 82, 0.82);
+      background: rgba(13,53,82,.82);
 
-      box-shadow:
-        0 10px 28px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 10px 28px rgba(0,0,0,.18);
     }
 
     /* =========================
@@ -99,102 +80,79 @@
 
     .bottle {
       position: absolute;
-
       left: 50%;
       bottom: 22px;
-
-      z-index: 2;
 
       width: 220px;
       height: 360px;
 
-      background-image:
-        url("bambanker_bottle.png.png");
+      z-index: 2;
 
+      background-image: url("bambanker_bottle.png.png");
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center bottom;
 
-      transform: scale(0.72);
+      transform: scale(.72);
       transform-origin: bottom center;
 
-      opacity: 0.78;
+      opacity: .78;
     }
 
     .bottle .cap {
       position: absolute;
-
       left: 48px;
       right: 48px;
       bottom: 257px;
 
       height: 28px;
 
-      border:
-        2px solid rgba(29, 78, 216, 0.8);
+      border: 2px solid rgba(29,78,216,.8);
+      border-radius: 6px 6px 0 0;
 
-      border-radius:
-        6px 6px 0 0;
-
-      background:
-        linear-gradient(
-          180deg,
-          #2563eb,
-          #1d4ed8
-        );
+      background: linear-gradient(180deg, #2563eb, #1d4ed8);
     }
 
     .bottle .neck {
       position: absolute;
-
       left: 55px;
       right: 55px;
       bottom: 215px;
 
       height: 46px;
 
-      border:
-        2px solid rgba(173, 216, 230, 0.5);
+      border: 2px solid rgba(173,216,230,.5);
+      border-radius: 10px 10px 6px 6px;
 
-      border-radius:
-        10px 10px 6px 6px;
-
-      background:
-        linear-gradient(
-          180deg,
-          rgba(255,255,255,.12),
-          rgba(255,255,255,.06)
-        );
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,.12),
+        rgba(255,255,255,.06)
+      );
     }
 
     .bottle .body {
       position: absolute;
-
       left: 20px;
       right: 20px;
       bottom: 0;
 
       height: 220px;
 
-      border:
-        2px solid rgba(173, 216, 230, 0.5);
+      border: 2px solid rgba(173,216,230,.5);
+      border-radius: 14px 14px 22px 22px;
 
-      border-radius:
-        14px 14px 22px 22px;
-
-      background:
-        linear-gradient(
-          180deg,
-          rgba(255,255,255,.08),
-          rgba(255,255,255,.03)
-        );
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,.08),
+        rgba(255,255,255,.03)
+      );
 
       backdrop-filter: blur(2px);
     }
 
     .bottle .label {
       position: absolute;
-
       left: 30px;
       right: 30px;
       bottom: 70px;
@@ -204,17 +162,10 @@
       display: grid;
       place-items: center;
 
-      border:
-        1px solid #93c5fd;
-
+      border: 1px solid #93c5fd;
       border-radius: 10px;
 
-      background:
-        linear-gradient(
-          180deg,
-          #e0f2fe,
-          #bae6fd
-        );
+      background: linear-gradient(180deg, #e0f2fe, #bae6fd);
 
       color: #0b1320;
 
@@ -224,17 +175,12 @@
 
     .bottle .label small {
       display: block;
-
       color: #0369a1;
-
       font-weight: 700;
     }
 
-    /* Şişenin dolma efekti */
-
     .bottle .fill {
       position: absolute;
-
       left: 26px;
       right: 26px;
       bottom: 6px;
@@ -243,37 +189,23 @@
 
       border-radius: 12px;
 
-      background:
-        linear-gradient(
-          180deg,
-          #38bdf8,
-          #22d3ee
-        );
+      background: linear-gradient(180deg, #38bdf8, #22d3ee);
 
       box-shadow:
-        0 10px 30px
-        rgba(14,165,233,.3)
-        inset;
+        0 10px 30px rgba(14,165,233,.3) inset;
 
       transition:
         height .25s,
         filter .25s;
     }
 
-    /* Yakalama bölgesi */
-
     .bottle .hit {
       position: absolute;
-
       left: 26px;
       right: 26px;
       top: 40px;
       bottom: 6px;
     }
-
-    /* =========================
-       ŞİŞE EFEKTLERİ
-    ========================= */
 
     .bottle .fill.pulse {
       animation: pulse .35s ease;
@@ -288,24 +220,12 @@
     }
 
     @keyframes pulse {
-
-      0%,
-      100% {
-        filter: brightness(1);
-      }
-
-      50% {
-        filter: brightness(1.5);
-      }
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.5); }
     }
 
     @keyframes badpulse {
-
-      0%,
-      100% {
-        filter: hue-rotate(0);
-      }
-
+      0%, 100% { filter: hue-rotate(0); }
       50% {
         filter:
           hue-rotate(-60deg)
@@ -314,19 +234,9 @@
     }
 
     @keyframes shake {
-
-      0%,
-      100% {
-        transform: translateX(0);
-      }
-
-      25% {
-        transform: translateX(-6px);
-      }
-
-      75% {
-        transform: translateX(6px);
-      }
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
     }
 
     /* =========================
@@ -349,22 +259,13 @@
       pointer-events: none;
     }
 
-    /* Sağlıklı hücre */
-
     .cell.good {
       background:
-        radial-gradient(
-          circle at 30% 30%,
-          #fff,
-          #0ea5e9
-        );
+        radial-gradient(circle at 30% 30%, #fff, #0ea5e9);
 
       box-shadow:
-        0 6px 16px
-        rgba(14,165,233,.3);
+        0 6px 16px rgba(14,165,233,.3);
     }
-
-    /* Mycoplasma */
 
     .cell.bad.myco {
       background:
@@ -376,11 +277,8 @@
         );
 
       box-shadow:
-        0 6px 16px
-        rgba(168,85,247,.35);
+        0 6px 16px rgba(168,85,247,.35);
     }
-
-    /* Bakteri */
 
     .cell.bad.rod {
       width: 68px;
@@ -389,26 +287,17 @@
       border-radius: 14px;
 
       background:
-        linear-gradient(
-          90deg,
-          #94a3b8,
-          #64748b
-        );
+        linear-gradient(90deg, #94a3b8, #64748b);
 
       box-shadow:
-        0 6px 16px
-        rgba(100,116,139,.35);
+        0 6px 16px rgba(100,116,139,.35);
     }
-
-    /* Cryoprotection bonus */
 
     .cell.bonus {
       width: 54px;
       height: 54px;
 
-      border:
-        2px solid
-        rgba(255,255,255,.85);
+      border: 2px solid rgba(255,255,255,.85);
 
       background:
         radial-gradient(
@@ -420,19 +309,17 @@
         );
 
       box-shadow:
-        0 0 22px
-        rgba(125,211,252,.75);
+        0 0 22px rgba(125,211,252,.75);
 
       font-size: 24px;
     }
 
     /* =========================
-       KÖPÜK EFEKTİ
+       KÖPÜK
     ========================= */
 
     .bubble {
       position: absolute;
-
       bottom: 6px;
 
       width: 10px;
@@ -455,12 +342,8 @@
     }
 
     @keyframes rise {
-
       0% {
-        transform:
-          translateY(0)
-          scale(.8);
-
+        transform: translateY(0) scale(.8);
         opacity: .9;
       }
 
@@ -469,27 +352,22 @@
       }
 
       100% {
-        transform:
-          translateY(-180px)
-          scale(1.2);
-
+        transform: translateY(-180px) scale(1.2);
         opacity: 0;
       }
     }
 
     /* =========================
-       SON 5 SANİYE
+       OYUN İÇİ MESAJLAR
     ========================= */
 
     .countdown-pop {
       position: absolute;
-
       inset: 0;
 
       z-index: 9;
 
       display: none;
-
       align-items: center;
       justify-content: center;
 
@@ -499,15 +377,10 @@
       font-weight: 900;
 
       text-shadow:
-        0 8px 30px
-        rgba(0,0,0,.45);
+        0 8px 30px rgba(0,0,0,.45);
 
       pointer-events: none;
     }
-
-    /* =========================
-       COMBO MESAJI
-    ========================= */
 
     .combo-pop {
       position: absolute;
@@ -519,8 +392,7 @@
 
       opacity: 0;
 
-      transform:
-        translateX(-50%);
+      transform: translateX(-50%);
 
       color: white;
 
@@ -528,8 +400,7 @@
       font-weight: 900;
 
       text-shadow:
-        0 4px 14px
-        rgba(0,0,0,.35);
+        0 4px 14px rgba(0,0,0,.35);
 
       transition:
         opacity .15s,
@@ -546,42 +417,33 @@
         scale(1.08);
     }
 
-    /* =========================
-       BONUS / CEZA MESAJI
-    ========================= */
-
     .event-pop {
       position: absolute;
 
       top: 118px;
       left: 50%;
 
-      z-index: 8;
+      z-index: 30;
 
       opacity: 0;
 
-      transform:
-        translateX(-50%);
+      transform: translateX(-50%);
 
-      padding:
-        8px 14px;
+      padding: 8px 14px;
 
       border:
-        1px solid
-        rgba(255,255,255,.25);
+        1px solid rgba(255,255,255,.25);
 
       border-radius: 999px;
 
-      background:
-        rgba(5,30,50,.78);
+      background: rgba(5,30,50,.90);
 
       font-size: 15px;
       font-weight: 800;
 
       white-space: nowrap;
 
-      transition:
-        opacity .15s;
+      transition: opacity .15s;
 
       pointer-events: none;
     }
@@ -591,12 +453,11 @@
     }
 
     /* =========================
-       GİRİŞ EKRANI
+       OVERLAY
     ========================= */
 
     .overlay {
       position: absolute;
-
       inset: 0;
 
       z-index: 10;
@@ -610,11 +471,9 @@
 
       overflow-y: auto;
 
-      background:
-        rgba(12,49,76,.72);
+      background: rgba(12,49,76,.72);
 
-      backdrop-filter:
-        blur(4px);
+      backdrop-filter: blur(4px);
 
       text-align: center;
     }
@@ -627,8 +486,7 @@
     }
 
     .title {
-      margin:
-        0 0 6px;
+      margin: 0 0 6px;
 
       background:
         linear-gradient(
@@ -647,13 +505,11 @@
       letter-spacing: .5px;
 
       text-shadow:
-        0 0 26px
-        rgba(186,230,253,.55);
+        0 0 26px rgba(186,230,253,.55);
     }
 
     .subtitle {
-      margin:
-        0 0 14px;
+      margin: 0 0 14px;
 
       color: #ecfeff;
 
@@ -667,33 +523,27 @@
     .howto,
     .preform,
     .leaderboard {
-      background:
-        rgba(13,53,82,.88);
+      background: rgba(13,53,82,.88);
 
       border:
-        1px solid
-        rgba(186,230,253,.35);
+        1px solid rgba(186,230,253,.35);
 
       box-shadow:
-        0 10px 28px
-        rgba(0,0,0,.18);
+        0 10px 28px rgba(0,0,0,.18);
     }
 
     .howto {
       max-width: 560px;
 
-      margin:
-        12px auto 4px;
+      margin: 12px auto 4px;
 
-      padding:
-        10px 14px;
+      padding: 10px 14px;
 
       border-radius: 12px;
 
       color: #ecfeff;
 
       font-size: 14px;
-
       line-height: 1.45;
     }
 
@@ -703,8 +553,7 @@
       grid-template-columns:
         1fr 1fr;
 
-      gap:
-        7px 10px;
+      gap: 7px 10px;
 
       margin-top: 8px;
 
@@ -712,8 +561,7 @@
     }
 
     .howto-item {
-      padding:
-        7px 9px;
+      padding: 7px 9px;
 
       border-radius: 9px;
 
@@ -728,15 +576,12 @@
     .btn {
       margin-top: 16px;
 
-      padding:
-        12px 22px;
+      padding: 12px 22px;
 
       border: none;
-
       border-radius: 999px;
 
-      background:
-        var(--brand);
+      background: var(--brand);
 
       color: white;
 
@@ -747,13 +592,11 @@
       letter-spacing: .3px;
 
       box-shadow:
-        0 10px 20px
-        rgba(14,165,233,.25);
+        0 10px 20px rgba(14,165,233,.25);
     }
 
     .btn:hover {
-      background:
-        var(--brand-dark);
+      background: var(--brand-dark);
     }
 
     .btn.secondary {
@@ -761,8 +604,7 @@
     }
 
     .btn.ghost {
-      background:
-        rgba(255,255,255,.10);
+      background: rgba(255,255,255,.10);
     }
 
     /* =========================
@@ -814,7 +656,7 @@
     }
 
     /* =========================
-       ÖDÜL MESAJI
+       ÖDÜL
     ========================= */
 
     #prizeInfo {
@@ -822,8 +664,7 @@
 
       margin-top: 14px;
 
-      padding:
-        10px 16px;
+      padding: 10px 16px;
 
       border:
         1px solid
@@ -841,14 +682,13 @@
     }
 
     /* =========================
-       GİRİŞTEKİ HÜCRELER
+       YÜZEN HÜCRELER
     ========================= */
 
     .intro-cell {
       position: absolute;
 
       display: grid;
-
       place-items: center;
 
       width: 64px;
@@ -864,8 +704,7 @@
         );
 
       box-shadow:
-        0 0 12px
-        rgba(14,165,233,.55);
+        0 0 12px rgba(14,165,233,.55);
 
       font-size: 26px;
     }
@@ -886,46 +725,31 @@
 
     .float1 {
       animation:
-        float
-        3.2s
-        ease-in-out
-        infinite;
+        float 3.2s ease-in-out infinite;
     }
 
     .float2 {
       animation:
-        float
-        3.6s
-        ease-in-out
-        infinite
-        .4s;
+        float 3.6s ease-in-out infinite .4s;
     }
 
     .float3 {
       animation:
-        float
-        3s
-        ease-in-out
-        infinite
-        .8s;
+        float 3s ease-in-out infinite .8s;
     }
 
     @keyframes float {
-
-      0%,
-      100% {
-        transform:
-          translateY(0);
+      0%, 100% {
+        transform: translateY(0);
       }
 
       50% {
-        transform:
-          translateY(-12px);
+        transform: translateY(-12px);
       }
     }
 
     /* =========================
-       KATILIMCI FORMU
+       FORM
     ========================= */
 
     .preform {
@@ -934,8 +758,7 @@
       width: 100%;
       max-width: 560px;
 
-      margin:
-        14px auto 0;
+      margin: 14px auto 0;
 
       padding: 12px;
 
@@ -945,8 +768,7 @@
     }
 
     .preform h3 {
-      margin:
-        0 0 8px;
+      margin: 0 0 8px;
 
       color: #cfeafe;
 
@@ -958,8 +780,7 @@
     .preform label {
       display: block;
 
-      margin:
-        8px 0;
+      margin: 8px 0;
 
       font-size: 14px;
     }
@@ -971,12 +792,9 @@
 
       margin-top: 5px;
 
-      padding:
-        10px 12px;
+      padding: 10px 12px;
 
-      border:
-        1px solid #335;
-
+      border: 1px solid #335;
       border-radius: 10px;
 
       background: #0f1b33;
@@ -1006,9 +824,6 @@
       text-align: center;
     }
 
-    /* Form açıldığında
-       giriş ekranındakileri gizle */
-
     .overlay.formMode .title,
     .overlay.formMode .subtitle,
     .overlay.formMode #howToBox,
@@ -1037,12 +852,10 @@
     }
 
     .lb-btn {
-      padding:
-        10px 12px;
+      padding: 10px 12px;
 
       border:
-        1px solid
-        rgba(255,255,255,.25);
+        1px solid rgba(255,255,255,.25);
 
       border-radius: 999px;
 
@@ -1066,8 +879,7 @@
 
       display: none;
 
-      width:
-        min(92vw, 420px);
+      width: min(92vw, 420px);
 
       max-height: 70vh;
 
@@ -1079,8 +891,7 @@
     }
 
     .leaderboard h3 {
-      margin:
-        0 0 8px;
+      margin: 0 0 8px;
 
       color: #cfeafe;
 
@@ -1097,12 +908,10 @@
 
     .leaderboard th,
     .leaderboard td {
-      padding:
-        6px 8px;
+      padding: 6px 8px;
 
       border-bottom:
-        1px solid
-        rgba(255,255,255,.1);
+        1px solid rgba(255,255,255,.1);
 
       text-align: left;
     }
@@ -1116,8 +925,6 @@
       font-weight: 800;
     }
 
-    /* Gizli admin araçları */
-
     .leaderboard .admin {
       display: none;
 
@@ -1127,12 +934,10 @@
     }
 
     .leaderboard .admin button {
-      padding:
-        8px 10px;
+      padding: 8px 10px;
 
       border:
-        1px solid
-        rgba(255,255,255,.2);
+        1px solid rgba(255,255,255,.2);
 
       border-radius: 8px;
 
@@ -1152,16 +957,14 @@
 
       .stage {
         width: 100vw;
-
-        min-height: 100dvh;
         height: 100dvh;
+        min-height: 100dvh;
       }
 
       .overlay {
         align-items: flex-start;
 
-        padding:
-          18px 10px;
+        padding: 18px 10px;
       }
 
       .overlay .inner {
@@ -1172,14 +975,10 @@
 
       .title {
         font-size: 34px;
-
-        line-height: 1.05;
       }
 
       .subtitle {
         font-size: 14px;
-
-        line-height: 1.4;
       }
 
       .howto-grid {
@@ -1190,13 +989,10 @@
         flex-direction: column;
 
         gap: 12px;
-
-        margin-top: 16px;
       }
 
       .logos img {
         max-width: 78vw;
-
         max-height: 58px;
       }
 
@@ -1227,17 +1023,9 @@
 
         bottom: 18px;
 
-        transform:
-          scale(.48);
+        transform: scale(.48);
 
         opacity: .45;
-      }
-
-      .hud {
-        top: 8px;
-        left: 8px;
-
-        font-size: 14px;
       }
 
       .lb-wrap {
@@ -1245,23 +1033,12 @@
         right: 8px;
       }
 
-      .lb-btn {
-        padding:
-          7px 9px;
-
-        font-size: 15px;
-      }
-
       .leaderboard {
         top: 54px;
-
         left: 10px;
         right: 10px;
 
         width: auto;
-
-        max-width:
-          calc(100vw - 20px);
 
         max-height: 55vh;
       }
@@ -1272,969 +1049,1808 @@
 
       .combo-pop {
         top: 62px;
-
         font-size: 22px;
       }
 
       .event-pop {
         top: 102px;
-
         font-size: 13px;
       }
     }
+
   </style>
 </head>
 
 <body>
 
-  <div
-    class="stage"
-    id="stage"
-  >
+<div class="stage" id="stage">
 
-    <!-- =====================
-         SKOR / SÜRE
-    ====================== -->
-
-    <div class="hud">
-
-      <div>
-        ⏱️
-        <span id="time">20</span>s
-      </div>
-
-      <div>
-        ⭐
-        <span id="score">0</span>
-      </div>
-
+  <div class="hud">
+    <div>
+      ⏱️ <span id="time">20</span>s
     </div>
 
-    <!-- Oyun içi mesajlar -->
+    <div>
+      ⭐ <span id="score">0</span>
+    </div>
+  </div>
+
+  <div id="countdownPop" class="countdown-pop"></div>
+  <div id="comboPop" class="combo-pop"></div>
+  <div id="eventPop" class="event-pop"></div>
+
+  <!-- SKOR TABLOSU -->
+
+  <div class="lb-wrap">
+    <button
+      id="lbBtn"
+      class="lb-btn"
+      title="Skor Tablosu"
+    >
+      🏆
+    </button>
+  </div>
+
+  <div
+    id="lbPanel"
+    class="leaderboard"
+    aria-live="polite"
+  >
+
+    <h3>🏆 Skor Tablosu</h3>
+
+    <table id="lbTable">
+
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>İsim</th>
+          <th>Skor</th>
+        </tr>
+      </thead>
+
+      <tbody></tbody>
+
+    </table>
 
     <div
-      id="countdownPop"
-      class="countdown-pop"
-    ></div>
+      class="admin"
+      id="lbAdmin"
+    >
 
-    <div
-      id="comboPop"
-      class="combo-pop"
-    ></div>
+      <button id="lbDownload">
+        CSV indir
+      </button>
 
-    <div
-      id="eventPop"
-      class="event-pop"
-    ></div>
-
-    <!-- =====================
-         SKOR TABLOSU
-    ====================== -->
-
-    <div class="lb-wrap">
-
-      <button
-        id="lbBtn"
-        class="lb-btn"
-        title="Skor Tablosu"
-      >
-        🏆
+      <button id="lbClear">
+        Yerel kayıtları temizle
       </button>
 
     </div>
 
+  </div>
+
+  <!-- BAMBANKER -->
+
+  <div
+    class="bottle"
+    id="bottle"
+  >
+
+    <div class="cap"></div>
+    <div class="neck"></div>
+    <div class="body"></div>
+
+    <div class="label">
+      Bambanker
+      <small>Nippon Genetics</small>
+    </div>
+
     <div
-      id="lbPanel"
-      class="leaderboard"
-      aria-live="polite"
-    >
+      class="fill"
+      id="fill"
+    ></div>
 
-      <h3>
-        🏆 Skor Tablosu
-      </h3>
+    <div
+      class="hit"
+      id="bottleHit"
+    ></div>
 
-      <table id="lbTable">
+  </div>
 
-        <thead>
+  <!-- GİRİŞ / BİTİŞ OVERLAY -->
 
-          <tr>
-            <th>#</th>
-            <th>İsim</th>
-            <th>Skor</th>
-          </tr>
+  <div
+    class="overlay"
+    id="overlay"
+  >
 
-        </thead>
-
-        <tbody></tbody>
-
-      </table>
-
-      <!--
-        Skor tablosu ikonuna
-        2 saniye basılı tutulunca görünür.
-      -->
+    <div class="inner">
 
       <div
-        class="admin"
-        id="lbAdmin"
+        class="intro-cell float1"
+        style="top:8%;left:6%"
+      >
+        🙂
+      </div>
+
+      <div
+        class="intro-cell sm float2"
+        style="top:22%;right:10%"
+      >
+        🙂
+      </div>
+
+      <div
+        class="intro-cell lg float3"
+        style="bottom:14%;left:12%"
+      >
+        🙂
+      </div>
+
+      <h1 class="title">
+        🧊 Cell Freezer
+      </h1>
+
+      <p class="subtitle">
+        Sağlıklı hücreleri Bambanker'a taşı,
+        <b>kontaminantlardan kaç!</b>
+      </p>
+
+      <div
+        class="howto"
+        id="howToBox"
       >
 
-        <button id="lbDownload">
-          CSV indir
-        </button>
+        <b>Nasıl oynanır?</b>
 
-        <button id="lbClear">
-          Yerel tabloyu temizle
-        </button>
+        <div class="howto-grid">
+
+          <div class="howto-item">
+            🔵 Sağlıklı hücre
+            <b>+10</b>
+          </div>
+
+          <div class="howto-item">
+            🟣 Mycoplasma
+            <b>-15</b>
+          </div>
+
+          <div class="howto-item">
+            ▬ Bakteri
+            <b>-20</b>
+          </div>
+
+          <div class="howto-item">
+            ❄️ Cryoprotection bonus
+            <b>+30</b>
+          </div>
+
+        </div>
+
+        <div style="margin-top:8px">
+          Şişeyi sağa-sola hareket ettir.
+          Arka arkaya sağlıklı hücre yakalayarak
+          <b>combo bonusu</b> kazan.
+        </div>
 
       </div>
 
-    </div>
+      <button
+        class="btn"
+        id="start"
+      >
+        Oyunu Başlat
+      </button>
 
-    <!-- =====================
-         BAMBANKER
-    ====================== -->
+      <!-- KATILIMCI FORMU -->
 
-    <div
-      class="bottle"
-      id="bottle"
-    >
+      <div
+        class="preform"
+        id="preForm"
+      >
 
-      <div class="cap"></div>
+        <h3>Katılımcı Bilgileri</h3>
 
-      <div class="neck"></div>
+        <label>
+          İsim Soyisim
 
-      <div class="body"></div>
+          <input
+            id="pfName"
+            placeholder="Ad Soyad"
+            required
+          >
+        </label>
 
-      <div class="label">
-        Bambanker
+        <label>
+          E-posta
 
-        <small>
-          Nippon Genetics
-        </small>
+          <input
+            id="pfEmail"
+            placeholder="ornek@eposta.com"
+            type="email"
+            required
+          >
+        </label>
+
+        <label>
+          Şirket / Okul
+
+          <input
+            id="pfCompany"
+            placeholder="Şirket / Okul"
+            required
+          >
+        </label>
+
+        <div class="actions">
+
+          <button
+            id="pfCancel"
+            type="button"
+          >
+            İptal
+          </button>
+
+          <button
+            id="pfGo"
+            type="button"
+            class="btn"
+          >
+            Devam Et
+          </button>
+
+        </div>
+
+        <div class="muted">
+          Bilgiler skor kaydı için kullanılır.
+        </div>
+
       </div>
 
-      <div
-        class="fill"
-        id="fill"
-      ></div>
+      <!-- LOGOLAR -->
 
       <div
-        class="hit"
-        id="bottleHit"
-        aria-hidden="true"
-      ></div>
+        class="logos"
+        id="logos"
+      >
 
-    </div>
-
-    <!-- =====================
-         GİRİŞ EKRANI
-    ====================== -->
-
-    <div
-      class="overlay"
-      id="overlay"
-    >
-
-      <div class="inner">
-
-        <!-- Girişteki yüzen hücreler -->
-
-        <div
-          class="intro-cell float1"
-          style="top:8%;left:6%"
-        >
-          🙂
-        </div>
-
-        <div
-          class="intro-cell sm float2"
-          style="top:22%;right:10%"
-        >
-          🙂
-        </div>
-
-        <div
-          class="intro-cell lg float3"
-          style="bottom:14%;left:12%"
-        >
-          🙂
-        </div>
-
-        <!-- Başlık -->
-
-        <h1 class="title">
-          🧊 Cell Freezer
-        </h1>
-
-        <p class="subtitle">
-          Sağlıklı hücreleri Bambanker'a taşı,
-          <b>kontaminantlardan kaç!</b>
-        </p>
-
-        <!-- Nasıl oynanır -->
-
-        <div
-          class="howto"
-          id="howToBox"
+        <img
+          src="novagentek_logo.png"
+          alt="Novagentek Logo"
         >
 
-          <b>
-            Nasıl oynanır?
-          </b>
-
-          <div class="howto-grid">
-
-            <div class="howto-item">
-              🔵 Sağlıklı hücre
-              <b>+10</b>
-            </div>
-
-            <div class="howto-item">
-              🟣 Mycoplasma
-              <b>-15</b>
-            </div>
-
-            <div class="howto-item">
-              ▬ Bakteri
-              <b>-20</b>
-            </div>
-
-            <div class="howto-item">
-              ❄️ Cryoprotection bonus
-              <b>+30</b>
-            </div>
-
-          </div>
-
-          <div style="margin-top:8px">
-
-            Şişeyi sağa-sola hareket ettir.
-
-            Arka arkaya sağlıklı hücre
-            yakalayarak
-
-            <b>
-              combo bonusu
-            </b>
-
-            kazan.
-
-          </div>
-
-        </div>
-
-        <!-- Oyunu başlat -->
-
-        <button
-          class="btn"
-          id="start"
-        >
-          Oyunu Başlat
-        </button>
-
-        <!-- =====================
-             KATILIMCI FORMU
-        ====================== -->
-
-        <div
-          class="preform"
-          id="preForm"
+        <img
+          src="nippon_logo.png"
+          alt="Nippon Genetics Logo"
         >
 
-          <h3>
-            Katılımcı Bilgileri
-          </h3>
+      </div>
 
-          <label>
+      <!-- ÖDÜL -->
 
-            İsim Soyisim
-
-            <input
-              id="pfName"
-              placeholder="Ad Soyad"
-              required
-            >
-
-          </label>
-
-          <label>
-
-            E-posta
-
-            <input
-              id="pfEmail"
-              placeholder="ornek@eposta.com"
-              type="email"
-              required
-            >
-
-          </label>
-
-          <label>
-
-            Şirket / Okul
-
-            <input
-              id="pfCompany"
-              placeholder="Şirket / Okul"
-              required
-            >
-
-          </label>
-
-          <div class="actions">
-
-            <button
-              id="pfCancel"
-              type="button"
-            >
-              İptal
-            </button>
-
-            <button
-              id="pfGo"
-              type="button"
-              class="btn"
-            >
-              Devam Et
-            </button>
-
-          </div>
-
-          <div class="muted">
-            Bilgiler skor kaydı için kullanılır.
-          </div>
-
-        </div>
-
-        <!-- =====================
-             LOGOLAR
-        ====================== -->
-
-        <div
-          class="logos"
-          id="logos"
-        >
-
-          <img
-            src="novagentek_logo.png"
-            alt="Novagentek Logo"
-          >
-
-          <img
-            src="nippon_logo.png"
-            alt="Nippon Genetics Logo"
-          >
-
-        </div>
-
-        <!-- =====================
-             ÖDÜL
-        ====================== -->
-
-        <div id="prizeInfo">
-
-          🏆 Sempozyum sonunda en yüksek puanı alan 1 kişiye sürpriz ödül!
-
-        </div>
-
+      <div id="prizeInfo">
+        🏆 Sempozyum sonunda en yüksek puanı alan 1 kişiye sürpriz ödül!
       </div>
 
     </div>
 
   </div>
 
-  <!-- =========================
-       ANA OYUN JAVASCRIPT
-  ========================== -->
+</div>
 
-  <script>
+<!-- =========================================================
+     FIREBASE + OYUN
+========================================================= -->
 
-    /* =========================
-       AYARLAR
-    ========================= */
+<script type="module">
 
-    const GAME_TIME = 20;
+  /* =========================================================
+     FIREBASE IMPORT
+  ========================================================= */
 
-    const FALL_SPEED = 4;
+  import {
+    initializeApp
+  }
+  from
+  "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 
-    const FALL_TICK_MS = 20;
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    query,
+    orderBy,
+    limit,
+    serverTimestamp
+  }
+  from
+  "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    const SCORE_GOOD = 10;
 
-    const PENALTY_MYCO = -15;
+  /* =========================================================
+     FIREBASE CONFIG
+  ========================================================= */
 
-    const PENALTY_ROD = -20;
+  const firebaseConfig = {
+
+    apiKey:
+      "AIzaSyDWTza-MBwQ7ruzmWNFFdurX0qYUjFSXmM",
+
+    authDomain:
+      "cell-freezer-de0c3.firebaseapp.com",
+
+    projectId:
+      "cell-freezer-de0c3",
+
+    storageBucket:
+      "cell-freezer-de0c3.firebasestorage.app",
+
+    messagingSenderId:
+      "608677842749",
+
+    appId:
+      "1:608677842749:web:2a3c244bc0181e9077ff54"
+
+  };
 
 
-    /* =========================
-       ELEMENTLER
-    ========================= */
+  let db = null;
+  let firebaseReady = false;
 
-    const stage =
-      document.getElementById(
-        "stage"
+
+  try {
+
+    const app =
+      initializeApp(
+        firebaseConfig
       );
 
-    const bottle =
-      document.getElementById(
-        "bottle"
+    db =
+      getFirestore(
+        app
       );
 
-    const bottleHit =
-      document.getElementById(
-        "bottleHit"
+    firebaseReady =
+      true;
+
+    console.log(
+      "Firebase hazır."
+    );
+
+  }
+  catch (error) {
+
+    console.error(
+      "Firebase başlatma hatası:",
+      error
+    );
+  }
+
+
+  /* =========================================================
+     AYARLAR
+  ========================================================= */
+
+  const GAME_TIME = 20;
+
+  const FALL_SPEED = 4;
+
+  const FALL_TICK_MS = 20;
+
+  const SCORE_GOOD = 10;
+
+  const PENALTY_MYCO = -15;
+
+  const PENALTY_ROD = -20;
+
+
+  /* =========================================================
+     ELEMENTLER
+  ========================================================= */
+
+  const stage =
+    document.getElementById("stage");
+
+  const bottle =
+    document.getElementById("bottle");
+
+  const bottleHit =
+    document.getElementById("bottleHit");
+
+  const overlay =
+    document.getElementById("overlay");
+
+  const scoreEl =
+    document.getElementById("score");
+
+  const timeEl =
+    document.getElementById("time");
+
+  const fill =
+    document.getElementById("fill");
+
+  const startBtn =
+    document.getElementById("start");
+
+  const preForm =
+    document.getElementById("preForm");
+
+  const pfName =
+    document.getElementById("pfName");
+
+  const pfEmail =
+    document.getElementById("pfEmail");
+
+  const pfCompany =
+    document.getElementById("pfCompany");
+
+  const pfGo =
+    document.getElementById("pfGo");
+
+  const pfCancel =
+    document.getElementById("pfCancel");
+
+  const lbPanel =
+    document.getElementById("lbPanel");
+
+  const lbBtn =
+    document.getElementById("lbBtn");
+
+
+  /* =========================================================
+     OYUN DEĞİŞKENLERİ
+  ========================================================= */
+
+  let score = 0;
+
+  let time =
+    GAME_TIME;
+
+  let combo = 0;
+
+  let timer = null;
+
+  let spawnTimer = null;
+
+  let bottleDragging = false;
+
+  let gameRunning = false;
+
+  let scoreSavedThisRound = false;
+
+  let currentPlayer = {
+    name: "",
+    email: "",
+    company: ""
+  };
+
+  let audioCtx = null;
+
+
+  /* =========================================================
+     HTML ESCAPE
+  ========================================================= */
+
+  function escapeHtml(value) {
+
+    return String(value)
+
+      .replaceAll("&", "&amp;")
+
+      .replaceAll("<", "&lt;")
+
+      .replaceAll(">", "&gt;")
+
+      .replaceAll('"', "&quot;")
+
+      .replaceAll("'", "&#039;");
+  }
+
+
+  /* =========================================================
+     LOGO FALLBACK
+  ========================================================= */
+
+  document
+    .querySelectorAll(".logos img")
+    .forEach(img => {
+
+      img.addEventListener(
+        "error",
+        () => {
+
+          const box =
+            document.createElement(
+              "div"
+            );
+
+          box.className =
+            "logo-fallback";
+
+          box.textContent =
+            img.alt || "Logo";
+
+          img.replaceWith(
+            box
+          );
+        },
+        { once: true }
+      );
+    });
+
+
+  /* =========================================================
+     SES
+  ========================================================= */
+
+  function initAudio() {
+
+    try {
+
+      if (!audioCtx) {
+
+        audioCtx =
+          new (
+            window.AudioContext
+            ||
+            window.webkitAudioContext
+          )();
+      }
+    }
+    catch (error) {
+
+      console.log(
+        "Ses başlatılamadı."
+      );
+    }
+  }
+
+
+  function playTone(
+    frequency,
+    duration
+  ) {
+
+    try {
+
+      if (!audioCtx) return;
+
+      const oscillator =
+        audioCtx.createOscillator();
+
+      const gain =
+        audioCtx.createGain();
+
+      oscillator.type =
+        "triangle";
+
+      oscillator
+        .frequency
+        .setValueAtTime(
+          frequency,
+          audioCtx.currentTime
+        );
+
+      gain
+        .gain
+        .setValueAtTime(
+          .14,
+          audioCtx.currentTime
+        );
+
+      gain
+        .gain
+        .exponentialRampToValueAtTime(
+          .0001,
+          audioCtx.currentTime
+          +
+          duration
+        );
+
+      oscillator
+        .connect(gain)
+        .connect(
+          audioCtx.destination
+        );
+
+      oscillator.start();
+
+      oscillator.stop(
+        audioCtx.currentTime
+        +
+        duration
+      );
+    }
+    catch (error) {}
+  }
+
+
+  /* =========================================================
+     ŞİŞE HAREKETİ
+  ========================================================= */
+
+  function moveBottleTo(
+    clientX
+  ) {
+
+    const stageRect =
+      stage.getBoundingClientRect();
+
+    const bottleWidth =
+      bottle.offsetWidth;
+
+    let left =
+      clientX
+      -
+      stageRect.left
+      -
+      bottleWidth / 2;
+
+    left =
+      Math.max(
+        0,
+        Math.min(
+          left,
+          stage.clientWidth
+          -
+          bottleWidth
+        )
       );
 
-    const overlay =
-      document.getElementById(
-        "overlay"
+    bottle.style.left =
+      left + "px";
+
+    bottle.style.right =
+      "auto";
+  }
+
+
+  stage.addEventListener(
+    "pointerdown",
+    event => {
+
+      if (!gameRunning) return;
+
+      bottleDragging =
+        true;
+
+      moveBottleTo(
+        event.clientX
+      );
+    }
+  );
+
+
+  stage.addEventListener(
+    "pointermove",
+    event => {
+
+      if (!bottleDragging) return;
+
+      event.preventDefault();
+
+      moveBottleTo(
+        event.clientX
+      );
+    }
+  );
+
+
+  stage.addEventListener(
+    "pointerup",
+    () => {
+
+      bottleDragging =
+        false;
+    }
+  );
+
+
+  stage.addEventListener(
+    "pointercancel",
+    () => {
+
+      bottleDragging =
+        false;
+    }
+  );
+
+
+  /* =========================================================
+     GİRİŞ EKRANINI GERİ GETİR
+  ========================================================= */
+
+  function restoreIntroScreen() {
+
+    overlay.classList.remove(
+      "formMode"
+    );
+
+    overlay
+      .querySelector(".title")
+      .textContent =
+      "🧊 Cell Freezer";
+
+    overlay
+      .querySelector(".subtitle")
+      .innerHTML =
+      `Sağlıklı hücreleri Bambanker'a taşı, <b>kontaminantlardan kaç!</b>`;
+
+    document
+      .getElementById("howToBox")
+      .style.display =
+      "";
+
+    document
+      .getElementById("logos")
+      .style.display =
+      "";
+
+    document
+      .getElementById("prizeInfo")
+      .style.display =
+      "";
+
+    document
+      .querySelectorAll(".intro-cell")
+      .forEach(element => {
+
+        element.style.display =
+          "grid";
+      });
+
+    startBtn.style.display =
+      "";
+
+    startBtn.textContent =
+      "Oyunu Başlat";
+  }
+
+
+  /* =========================================================
+     OYUN BAŞLAT
+  ========================================================= */
+
+  function startGame() {
+
+    clearInterval(timer);
+
+    clearTimeout(spawnTimer);
+
+    document
+      .querySelectorAll(".cell")
+      .forEach(
+        cell => cell.remove()
       );
 
-    const scoreEl =
-      document.getElementById(
-        "score"
-      );
+    gameRunning =
+      true;
 
-    const timeEl =
-      document.getElementById(
-        "time"
-      );
+    bottleDragging =
+      false;
 
-    const fill =
-      document.getElementById(
-        "fill"
-      );
+    scoreSavedThisRound =
+      false;
 
-    const startBtn =
-      document.getElementById(
-        "start"
-      );
+    score =
+      0;
 
-    const preForm =
-      document.getElementById(
-        "preForm"
-      );
+    combo =
+      0;
 
-    const pfName =
-      document.getElementById(
-        "pfName"
-      );
-
-    const pfEmail =
-      document.getElementById(
-        "pfEmail"
-      );
-
-    const pfCompany =
-      document.getElementById(
-        "pfCompany"
-      );
-
-    const pfGo =
-      document.getElementById(
-        "pfGo"
-      );
-
-    const pfCancel =
-      document.getElementById(
-        "pfCancel"
-      );
-
-
-    /* =========================
-       OYUN DEĞİŞKENLERİ
-    ========================= */
-
-    let score = 0;
-
-    let time =
+    time =
       GAME_TIME;
 
-    let combo = 0;
+    scoreEl.textContent =
+      score;
 
-    let timer = null;
+    timeEl.textContent =
+      time;
 
-    let spawnTimer = null;
+    fill.style.height =
+      "0%";
 
-    let bottleDragging = false;
+    lbPanel.style.display =
+      "none";
 
-    let scoreSavedThisRound = false;
+    overlay.style.display =
+      "none";
 
-    let gameHasStarted = false;
+    bottle.style.left =
+      Math.max(
+        0,
+        (
+          stage.clientWidth
+          -
+          bottle.offsetWidth
+        )
+        / 2
+      )
+      +
+      "px";
 
-    let currentPlayer = {
+    bottle.style.right =
+      "auto";
+
+
+    timer =
+      setInterval(
+        () => {
+
+          time--;
+
+          timeEl.textContent =
+            time;
+
+          if (
+            time <= 5
+            &&
+            time > 0
+          ) {
+
+            showCountdown(
+              time
+            );
+          }
+
+          if (
+            time <= 0
+          ) {
+
+            endGame();
+          }
+
+        },
+        1000
+      );
+
+
+    scheduleNextSpawn();
+
+    spawnCell();
+
+    spawnCell();
+  }
+
+
+  /* =========================================================
+     OYUN BİTİŞ
+  ========================================================= */
+
+  async function endGame() {
+
+    if (!gameRunning) return;
+
+    gameRunning =
+      false;
+
+    bottleDragging =
+      false;
+
+    clearInterval(timer);
+
+    clearTimeout(spawnTimer);
+
+
+    document
+      .querySelectorAll(".cell")
+      .forEach(
+        cell => cell.remove()
+      );
+
+
+    overlay.style.display =
+      "flex";
+
+    overlay.classList.remove(
+      "formMode"
+    );
+
+
+    document
+      .getElementById("howToBox")
+      .style.display =
+      "none";
+
+    document
+      .getElementById("logos")
+      .style.display =
+      "none";
+
+    document
+      .getElementById("prizeInfo")
+      .style.display =
+      "none";
+
+    document
+      .querySelectorAll(".intro-cell")
+      .forEach(
+        element => {
+
+          element.style.display =
+            "none";
+        }
+      );
+
+
+    preForm.style.display =
+      "none";
+
+
+    overlay
+      .querySelector(".title")
+      .textContent =
+      "Oyun Bitti";
+
+
+    overlay
+      .querySelector(".subtitle")
+      .innerHTML =
+      `
+
+        Skorun:
+        <b>${score}</b>
+
+        <br>
+
+        <span style="
+          font-size:14px;
+          color:#cfeafe;
+        ">
+
+          Oyuncu:
+          <b>
+            ${escapeHtml(currentPlayer.name)}
+          </b>
+
+        </span>
+
+        <br>
+
+        <div
+          id="saveStatus"
+          style="
+            margin-top:12px;
+            font-size:14px;
+            font-weight:700;
+            color:#bae6fd;
+          "
+        >
+          Skor kaydediliyor...
+        </div>
+
+        <button
+          id="showLb"
+          class="btn secondary"
+        >
+          🏆 Skor Tablosunu Aç
+        </button>
+
+        <button
+          id="newPlayer"
+          class="btn ghost"
+          style="margin-left:8px"
+        >
+          Yeni Katılımcı
+        </button>
+
+      `;
+
+
+    startBtn.textContent =
+      "Tekrar Oyna";
+
+    startBtn.style.display =
+      "";
+
+
+    document
+      .getElementById("showLb")
+      .onclick =
+      () => toggleLeaderboard(true);
+
+
+    document
+      .getElementById("newPlayer")
+      .onclick =
+      resetForNewPlayer;
+
+
+    const saveStatus =
+      document.getElementById(
+        "saveStatus"
+      );
+
+
+    const result =
+      await saveCurrentScore();
+
+
+    if (
+      result.success
+    ) {
+
+      saveStatus.innerHTML =
+        "✅ Skor kaydedildi";
+
+      saveStatus.style.color =
+        "#86efac";
+    }
+
+    else {
+
+      saveStatus.innerHTML =
+        "❌ Skor kaydedilemedi";
+
+      saveStatus.style.color =
+        "#fca5a5";
+
+
+      console.error(
+        "Firebase kayıt hatası:",
+        result.error
+      );
+
+
+      setTimeout(
+        () => {
+
+          alert(
+            "Skor Firebase'e kaydedilemedi.\n\n"
+            +
+            result.error
+          );
+
+        },
+        100
+      );
+    }
+  }
+
+
+  /* =========================================================
+     YENİ KATILIMCI
+  ========================================================= */
+
+  function resetForNewPlayer() {
+
+    currentPlayer = {
       name: "",
       email: "",
       company: ""
     };
 
-    let audioCtx = null;
+    pfName.value =
+      "";
+
+    pfEmail.value =
+      "";
+
+    pfCompany.value =
+      "";
+
+    restoreIntroScreen();
+
+    overlay.style.display =
+      "flex";
+
+    overlay.classList.add(
+      "formMode"
+    );
+
+    preForm.style.display =
+      "block";
+
+    pfName.focus();
+  }
 
 
-    /* =========================
-       LOGO FALLBACK
-    ========================= */
+  /* =========================================================
+     SPAWN
+  ========================================================= */
 
-    document
-      .querySelectorAll(
-        ".logos img"
-      )
-      .forEach(
-        img => {
+  function scheduleNextSpawn() {
 
-          img.addEventListener(
-            "error",
-            () => {
+    if (!gameRunning) return;
 
-              const box =
-                document.createElement(
-                  "div"
-                );
 
-              box.className =
-                "logo-fallback";
+    const elapsed =
+      GAME_TIME
+      -
+      time;
 
-              box.textContent =
-                img.alt ||
-                "Logo";
 
-              img.replaceWith(
-                box
-              );
+    const minDelay =
+      elapsed >= 14
+      ? 330
+      :
+      elapsed >= 7
+      ? 390
+      :
+      450;
 
-            },
-            {
-              once: true
-            }
-          );
 
-        }
+    const extraDelay =
+      elapsed >= 14
+      ? 470
+      :
+      elapsed >= 7
+      ? 560
+      :
+      650;
+
+
+    const randomDelay =
+      minDelay
+      +
+      Math.random()
+      *
+      extraDelay;
+
+
+    spawnTimer =
+      setTimeout(
+        () => {
+
+          if (
+            !gameRunning
+            ||
+            time <= 0
+          ) {
+            return;
+          }
+
+          spawnCell();
+
+          scheduleNextSpawn();
+
+        },
+        randomDelay
       );
+  }
 
 
-    /* =========================
-       ŞİŞE HAREKETİ
-    ========================= */
+  function spawnCell() {
 
-    function moveBottleTo(
-      clientX
+    if (!gameRunning) return;
+
+
+    const random =
+      Math.random();
+
+
+    let type =
+      "good";
+
+
+    if (
+      random > .965
     ) {
 
-      const stageRect =
-        stage.getBoundingClientRect();
+      type =
+        "bonus";
 
-      const bottleWidth =
-        bottle.offsetWidth;
+    }
+    else if (
+      random > .86
+    ) {
 
-      let left =
-        clientX
-        - stageRect.left
-        - bottleWidth / 2;
+      type =
+        "rod";
 
-      left =
-        Math.max(
-          0,
-          Math.min(
-            left,
-            stage.clientWidth
-            - bottleWidth
-          )
-        );
+    }
+    else if (
+      random > .72
+    ) {
 
-      bottle.style.left =
-        left + "px";
-
-      bottle.style.right =
-        "auto";
+      type =
+        "myco";
     }
 
 
-    stage.addEventListener(
-      "pointerdown",
-      event => {
+    const cell =
+      document.createElement(
+        "div"
+      );
 
-        if (
-          !gameHasStarted ||
-          overlay.style.display
-          !== "none"
-        ) {
-          return;
+
+    cell.dataset.type =
+      type;
+
+
+    if (
+      type === "good"
+    ) {
+
+      cell.className =
+        "cell good";
+    }
+
+
+    if (
+      type === "myco"
+    ) {
+
+      cell.className =
+        "cell bad myco";
+    }
+
+
+    if (
+      type === "rod"
+    ) {
+
+      cell.className =
+        "cell bad rod";
+    }
+
+
+    if (
+      type === "bonus"
+    ) {
+
+      cell.className =
+        "cell bonus";
+
+      cell.textContent =
+        "❄️";
+    }
+
+
+    cell.style.left =
+      Math.random()
+      *
+      Math.max(
+        10,
+        stage.clientWidth
+        -
+        90
+      )
+      +
+      "px";
+
+
+    cell.style.top =
+      "-60px";
+
+
+    stage.appendChild(
+      cell
+    );
+
+
+    const elapsed =
+      GAME_TIME
+      -
+      time;
+
+
+    const difficultyBoost =
+      elapsed >= 14
+      ? 3
+      :
+      elapsed >= 7
+      ? 1.5
+      :
+      0;
+
+
+    const speed =
+      FALL_SPEED
+      +
+      Math.random()
+      *
+      2.2
+      +
+      difficultyBoost;
+
+
+    const fall =
+      setInterval(
+        () => {
+
+          if (
+            !gameRunning
+            ||
+            !cell.isConnected
+          ) {
+
+            clearInterval(
+              fall
+            );
+
+            cell.remove();
+
+            return;
+          }
+
+
+          cell.style.top =
+            (
+              cell.offsetTop
+              +
+              speed
+            )
+            +
+            "px";
+
+
+          if (
+            checkDrop(cell)
+          ) {
+
+            clearInterval(
+              fall
+            );
+
+            return;
+          }
+
+
+          if (
+            cell.offsetTop
+            >
+            stage.clientHeight
+          ) {
+
+            cell.remove();
+
+            clearInterval(
+              fall
+            );
+          }
+
+        },
+        FALL_TICK_MS
+      );
+  }
+
+
+  /* =========================================================
+     ÇARPIŞMA
+  ========================================================= */
+
+  function checkDrop(cell) {
+
+    const hitRect =
+      bottleHit
+        .getBoundingClientRect();
+
+
+    const rect =
+      cell
+        .getBoundingClientRect();
+
+
+    const overlap =
+      !(
+        rect.right < hitRect.left
+        ||
+        rect.left > hitRect.right
+        ||
+        rect.bottom < hitRect.top
+        ||
+        rect.top > hitRect.bottom
+      );
+
+
+    if (!overlap) {
+
+      return false;
+    }
+
+
+    const type =
+      cell.dataset.type;
+
+
+    if (
+      type === "good"
+    ) {
+
+      combo++;
+
+      let gained =
+        SCORE_GOOD;
+
+
+      if (
+        combo >= 5
+      ) {
+
+        gained +=
+          10;
+      }
+      else if (
+        combo >= 3
+      ) {
+
+        gained +=
+          5;
+      }
+
+
+      score +=
+        gained;
+
+
+      uiGood();
+
+
+      if (
+        combo >= 3
+      ) {
+
+        showCombo(
+          combo,
+          gained
+        );
+      }
+    }
+
+
+    else if (
+      type === "bonus"
+    ) {
+
+      score +=
+        30;
+
+
+      showEvent(
+        "❄️ Cryoprotection Bonus +30"
+      );
+
+
+      uiGood();
+    }
+
+
+    else if (
+      type === "myco"
+    ) {
+
+      combo =
+        0;
+
+
+      score +=
+        PENALTY_MYCO;
+
+
+      showEvent(
+        "🟣 Mycoplasma! -15"
+      );
+
+
+      uiBad();
+    }
+
+
+    else if (
+      type === "rod"
+    ) {
+
+      combo =
+        0;
+
+
+      score +=
+        PENALTY_ROD;
+
+
+      showEvent(
+        "▬ Bakteriyel kontaminasyon! -20"
+      );
+
+
+      uiBad();
+    }
+
+
+    score =
+      Math.max(
+        0,
+        score
+      );
+
+
+    scoreEl.textContent =
+      score;
+
+
+    updateFill();
+
+
+    cell.remove();
+
+
+    return true;
+  }
+
+
+  /* =========================================================
+     UI
+  ========================================================= */
+
+  function updateFill() {
+
+    const percent =
+      Math.max(
+        0,
+        Math.min(
+          100,
+          score
+        )
+      );
+
+    fill.style.height =
+      percent + "%";
+  }
+
+
+  function showCountdown(number) {
+
+    const element =
+      document.getElementById(
+        "countdownPop"
+      );
+
+    element.textContent =
+      number;
+
+    element.style.display =
+      "flex";
+
+    element.animate(
+
+      [
+        {
+          transform: "scale(.7)",
+          opacity: .2
+        },
+
+        {
+          transform: "scale(1.15)",
+          opacity: 1
+        },
+
+        {
+          transform: "scale(1)",
+          opacity: 0
         }
+      ],
 
-        bottleDragging =
-          true;
-
-        stage.setPointerCapture?.(
-          event.pointerId
-        );
-
-        moveBottleTo(
-          event.clientX
-        );
+      {
+        duration: 850,
+        easing: "ease-out"
       }
     );
 
 
-    stage.addEventListener(
-      "pointermove",
-      event => {
-
-        if (
-          !bottleDragging
-        ) {
-          return;
-        }
-
-        event.preventDefault();
-
-        moveBottleTo(
-          event.clientX
-        );
-      }
-    );
-
-
-    stage.addEventListener(
-      "pointerup",
-      event => {
-
-        bottleDragging =
-          false;
-
-        stage.releasePointerCapture?.(
-          event.pointerId
-        );
-      }
-    );
-
-
-    stage.addEventListener(
-      "pointercancel",
+    setTimeout(
       () => {
 
-        bottleDragging =
-          false;
-      }
+        element.style.display =
+          "none";
+      },
+      820
+    );
+  }
+
+
+  function showCombo(
+    count,
+    gained
+  ) {
+
+    const element =
+      document.getElementById(
+        "comboPop"
+      );
+
+    element.textContent =
+      `COMBO x${count}  +${gained}`;
+
+    element.classList.add(
+      "show"
+    );
+
+    clearTimeout(
+      element._timer
+    );
+
+    element._timer =
+      setTimeout(
+        () => {
+
+          element.classList.remove(
+            "show"
+          );
+
+        },
+        650
+      );
+  }
+
+
+  function showEvent(text) {
+
+    const element =
+      document.getElementById(
+        "eventPop"
+      );
+
+    element.textContent =
+      text;
+
+    element.classList.add(
+      "show"
+    );
+
+    clearTimeout(
+      element._timer
+    );
+
+    element._timer =
+      setTimeout(
+        () => {
+
+          element.classList.remove(
+            "show"
+          );
+
+        },
+        1000
+      );
+  }
+
+
+  function uiGood() {
+
+    fill.classList.remove(
+      "pulse"
+    );
+
+    void fill.offsetWidth;
+
+    fill.classList.add(
+      "pulse"
+    );
+
+    burstBubbles();
+
+    playTone(
+      700,
+      .15
+    );
+  }
+
+
+  function uiBad() {
+
+    bottle.classList.add(
+      "shake"
+    );
+
+    setTimeout(
+      () => {
+
+        bottle.classList.remove(
+          "shake"
+        );
+
+      },
+      250
     );
 
 
-    /* =========================
-       OYUN BAŞLAT
-    ========================= */
+    fill.classList.remove(
+      "bad"
+    );
 
-    function startGame() {
+    void fill.offsetWidth;
 
-      clearInterval(
-        timer
+    fill.classList.add(
+      "bad"
+    );
+
+
+    playTone(
+      140,
+      .18
+    );
+  }
+
+
+  function burstBubbles() {
+
+    const number =
+      Math.floor(
+        6
+        +
+        Math.random()
+        *
+        5
       );
 
-      clearTimeout(
-        spawnTimer
-      );
 
-      document
-        .querySelectorAll(
-          ".cell"
-        )
-        .forEach(
-          cell => cell.remove()
+    for (
+      let i = 0;
+      i < number;
+      i++
+    ) {
+
+      const bubble =
+        document.createElement(
+          "div"
         );
 
 
-      gameHasStarted =
-        true;
-
-      scoreSavedThisRound =
-        false;
-
-      score = 0;
-
-      combo = 0;
-
-      time =
-        GAME_TIME;
+      bubble.className =
+        "bubble";
 
 
-      scoreEl.textContent =
-        score;
-
-      timeEl.textContent =
-        time;
-
-      fill.style.height =
-        "0%";
-
-
-      document
-        .getElementById(
-          "lbPanel"
+      bubble.style.left =
+        (
+          30
+          +
+          Math.random()
+          *
+          120
         )
-        .style.display =
-        "none";
+        +
+        "px";
 
 
-      overlay.style.display =
-        "none";
+      bubble.style.animation =
+        `rise ${
+          800
+          +
+          Math.random()
+          *
+          700
+        }ms ease-out forwards`;
 
 
-      bottle.style.left =
-        Math.max(
-          0,
-          (
-            stage.clientWidth
-            - bottle.offsetWidth
-          ) / 2
-        )
-        + "px";
-
-      bottle.style.right =
-        "auto";
+      bottle.appendChild(
+        bubble
+      );
 
 
-      timer =
-        setInterval(
-          () => {
+      setTimeout(
+        () => {
 
-            time--;
+          bubble.remove();
 
-            timeEl.textContent =
-              time;
-
-
-            if (
-              time <= 5 &&
-              time > 0
-            ) {
-
-              showCountdown(
-                time
-              );
-            }
-
-
-            if (
-              time <= 0
-            ) {
-
-              endGame();
-            }
-
-          },
-          1000
-        );
-
-
-      scheduleNextSpawn();
-
-      spawnCell();
-
-      spawnCell();
+        },
+        1600
+      );
     }
+  }
 
 
-    /* =========================
-       OYUN BİTİŞİ
-    ========================= */
+  /* =========================================================
+     BAŞLAT BUTONU
+  ========================================================= */
 
-    function endGame() {
+  startBtn.onclick =
+    () => {
 
-      gameHasStarted =
-        false;
+      if (
+        currentPlayer.name
+        &&
+        currentPlayer.email
+        &&
+        currentPlayer.company
+      ) {
 
-      bottleDragging =
-        false;
+        startGame();
 
-
-      clearInterval(
-        timer
-      );
-
-      clearTimeout(
-        spawnTimer
-      );
-
-
-      document
-        .querySelectorAll(
-          ".cell"
-        )
-        .forEach(
-          cell =>
-            cell.remove()
-        );
-
-
-      overlay.style.display =
-        "flex";
-
-      overlay.classList.remove(
-        "formMode"
-      );
-
-
-      document
-        .getElementById(
-          "howToBox"
-        )
-        .style.display =
-        "none";
-
-
-      document
-        .getElementById(
-          "logos"
-        )
-        .style.display =
-        "none";
-
-
-      document
-        .getElementById(
-          "prizeInfo"
-        )
-        .style.display =
-        "none";
-
-
-      document
-        .querySelectorAll(
-          ".intro-cell"
-        )
-        .forEach(
-          element => {
-
-            element.style.display =
-              "none";
-          }
-        );
-
-
-      preForm.style.display =
-        "none";
-
-
-      overlay
-        .querySelector(
-          ".title"
-        )
-        .textContent =
-        "Oyun Bitti";
-
-
-      overlay
-        .querySelector(
-          ".subtitle"
-        )
-        .innerHTML =
-        `
-
-          Skorun:
-          <b>${score}</b>
-
-          <br>
-
-          <span
-            style="
-              font-size:14px;
-              color:#cfeafe
-            "
-          >
-
-            Oyuncu:
-
-            <b>
-              ${
-                escapeHtml(
-                  currentPlayer.name
-                  || "-"
-                )
-              }
-            </b>
-
-          </span>
-
-          <br>
-
-          <button
-            id="showLb"
-            class="btn secondary"
-          >
-            🏆 Skor Tablosunu Aç
-          </button>
-
-          <button
-            id="newPlayer"
-            class="btn ghost"
-            style="margin-left:8px"
-          >
-            Yeni Katılımcı
-          </button>
-
-        `;
-
-
-      startBtn.textContent =
-        "Tekrar Oyna";
-
-      startBtn.style.display =
-        "";
-
-
-      document
-        .getElementById(
-          "showLb"
-        )
-        .onclick =
-        () =>
-          toggleLb(
-            true
-          );
-
-
-      document
-        .getElementById(
-          "newPlayer"
-        )
-        .onclick =
-        resetForNewPlayer;
-
-
-      /* Skoru otomatik kaydet */
-
-      saveCurrentScore();
-    }
-
-
-    /* =========================
-       YENİ KATILIMCI
-    ========================= */
-
-    function resetForNewPlayer() {
-
-      currentPlayer = {
-        name: "",
-        email: "",
-        company: ""
-      };
-
-
-      pfName.value =
-        "";
-
-      pfEmail.value =
-        "";
-
-      pfCompany.value =
-        "";
-
-
-      restoreIntroScreen();
-
-
-      overlay.style.display =
-        "flex";
+        return;
+      }
 
 
       overlay.classList.add(
@@ -2247,1996 +2863,147 @@
 
 
       pfName.focus();
-    }
+    };
 
 
-    /* =========================
-       GİRİŞ EKRANINI GERİ GETİR
-    ========================= */
+  /* =========================================================
+     FORM
+  ========================================================= */
 
-    function restoreIntroScreen() {
+  pfCancel.onclick =
+    () => {
+
+      preForm.style.display =
+        "none";
+
+
+      overlay.classList.remove(
+        "formMode"
+      );
+    };
+
+
+  pfGo.onclick =
+    () => {
+
+      const name =
+        pfName.value.trim();
+
+
+      const email =
+        pfEmail.value.trim();
+
+
+      const company =
+        pfCompany.value.trim();
+
+
+      [
+        pfName,
+        pfEmail,
+        pfCompany
+      ]
+      .forEach(element => {
+
+        element.style.borderColor =
+          "#335";
+      });
+
+
+      if (!name) {
+
+        pfName.style.borderColor =
+          "#ef4444";
+
+        pfName.focus();
+
+        return;
+      }
+
+
+      if (
+        !email
+        ||
+        !pfEmail.checkValidity()
+      ) {
+
+        pfEmail.style.borderColor =
+          "#ef4444";
+
+        pfEmail.focus();
+
+        return;
+      }
+
+
+      if (!company) {
+
+        pfCompany.style.borderColor =
+          "#ef4444";
+
+        pfCompany.focus();
+
+        return;
+      }
+
+
+      currentPlayer = {
+        name,
+        email,
+        company
+      };
+
+
+      initAudio();
+
+
+      preForm.style.display =
+        "none";
+
 
       overlay.classList.remove(
         "formMode"
       );
 
 
-      overlay
-        .querySelector(
-          ".title"
-        )
-        .textContent =
-        "🧊 Cell Freezer";
-
-
-      overlay
-        .querySelector(
-          ".subtitle"
-        )
-        .innerHTML =
-        `Sağlıklı hücreleri Bambanker'a taşı, <b>kontaminantlardan kaç!</b>`;
-
-
-      document
-        .getElementById(
-          "howToBox"
-        )
-        .style.display =
-        "";
-
-
-      document
-        .getElementById(
-          "logos"
-        )
-        .style.display =
-        "";
-
-
-      document
-        .getElementById(
-          "prizeInfo"
-        )
-        .style.display =
-        "";
-
-
-      document
-        .querySelectorAll(
-          ".intro-cell"
-        )
-        .forEach(
-          element => {
-
-            element.style.display =
-              "grid";
-          }
-        );
-
-
-      startBtn.textContent =
-        "Oyunu Başlat";
-
-
-      startBtn.style.display =
-        "";
-    }
-
-
-    /* =========================
-       OBJELERİN DÜŞME SIKLIĞI
-    ========================= */
-
-    function scheduleNextSpawn() {
-
-      const elapsed =
-        GAME_TIME
-        - time;
-
-
-      /*
-        Oyun ilerledikçe
-        objeler daha sık geliyor.
-      */
-
-      const baseMin =
-        elapsed >= 14
-        ? 330
-        : (
-            elapsed >= 7
-            ? 390
-            : 450
-          );
-
-
-      const baseExtra =
-        elapsed >= 14
-        ? 470
-        : (
-            elapsed >= 7
-            ? 560
-            : 650
-          );
-
-
-      const randomDelay =
-        baseMin
-        + Math.random()
-        * baseExtra;
-
-
-      spawnTimer =
-        setTimeout(
-          () => {
-
-            if (
-              !gameHasStarted ||
-              time <= 0
-            ) {
-              return;
-            }
-
-
-            spawnCell();
-
-            scheduleNextSpawn();
-
-          },
-          randomDelay
-        );
-    }
-
-
-    /* =========================
-       HÜCRE OLUŞTUR
-    ========================= */
-
-    function spawnCell() {
-
-      if (
-        !gameHasStarted
-      ) {
-        return;
-      }
-
-
-      const random =
-        Math.random();
-
-
-      let type =
-        "good";
-
-
-      /*
-        Yaklaşık dağılım:
-
-        Sağlıklı hücre %72
-        Mycoplasma %14
-        Bakteri %10.5
-        Bonus %3.5
-      */
-
-      if (
-        random > 0.965
-      ) {
-
-        type =
-          "bonus";
-
-      }
-
-      else if (
-        random > 0.86
-      ) {
-
-        type =
-          "rod";
-
-      }
-
-      else if (
-        random > 0.72
-      ) {
-
-        type =
-          "myco";
-
-      }
-
-
-      const cell =
-        document.createElement(
-          "div"
-        );
-
-
-      cell.dataset.type =
-        type;
-
-
-      if (
-        type === "good"
-      ) {
-
-        cell.className =
-          "cell good";
-      }
-
-
-      if (
-        type === "myco"
-      ) {
-
-        cell.className =
-          "cell bad myco";
-      }
-
-
-      if (
-        type === "rod"
-      ) {
-
-        cell.className =
-          "cell bad rod";
-      }
-
-
-      if (
-        type === "bonus"
-      ) {
-
-        cell.className =
-          "cell bonus";
-
-        cell.textContent =
-          "❄️";
-      }
-
-
-      cell.style.left =
-        Math.random()
-        *
-        Math.max(
-          10,
-          stage.clientWidth
-          - 90
-        )
-        + "px";
-
-
-      cell.style.top =
-        "-60px";
-
-
-      stage.appendChild(
-        cell
-      );
-
-
-      /* =========================
-         ARTAN ZORLUK
-      ========================= */
-
-      const elapsed =
-        GAME_TIME
-        - time;
-
-
-      const difficultyBoost =
-        elapsed >= 14
-        ? 3
-        : (
-            elapsed >= 7
-            ? 1.5
-            : 0
-          );
-
-
-      const speed =
-        FALL_SPEED
-        + Math.random()
-        * 2.2
-        + difficultyBoost;
-
-
-      const fall =
-        setInterval(
-          () => {
-
-            if (
-              !gameHasStarted ||
-              !cell.isConnected
-            ) {
-
-              clearInterval(
-                fall
-              );
-
-              cell.remove();
-
-              return;
-            }
-
-
-            cell.style.top =
-              (
-                cell.offsetTop
-                + speed
-              )
-              + "px";
-
-
-            if (
-              checkDrop(
-                cell
-              )
-            ) {
-
-              clearInterval(
-                fall
-              );
-
-              return;
-            }
-
-
-            if (
-              cell.offsetTop
-              >
-              stage.clientHeight
-            ) {
-
-              cell.remove();
-
-              clearInterval(
-                fall
-              );
-            }
-
-          },
-          FALL_TICK_MS
-        );
-    }
-
-
-    /* =========================
-       ÇARPIŞMA KONTROLÜ
-    ========================= */
-
-    function checkDrop(
-      cell
-    ) {
-
-      const hitRect =
-        bottleHit
-          .getBoundingClientRect();
-
-
-      const cellRect =
-        cell
-          .getBoundingClientRect();
-
-
-      const overlap =
-        !(
-          cellRect.right
-          <
-          hitRect.left
-          ||
-
-          cellRect.left
-          >
-          hitRect.right
-          ||
-
-          cellRect.bottom
-          <
-          hitRect.top
-          ||
-
-          cellRect.top
-          >
-          hitRect.bottom
-        );
-
-
-      if (
-        !overlap
-      ) {
-        return false;
-      }
-
-
-      const type =
-        cell.dataset.type;
-
-
-      /* =====================
-         SAĞLIKLI HÜCRE
-      ====================== */
-
-      if (
-        type === "good"
-      ) {
-
-        combo++;
-
-
-        let gained =
-          SCORE_GOOD;
-
-
-        /*
-          3 combo:
-          10 + 5 = 15
-
-          5 ve üzeri:
-          10 + 10 = 20
-        */
-
-        if (
-          combo >= 5
-        ) {
-
-          gained += 10;
-
-        }
-
-        else if (
-          combo >= 3
-        ) {
-
-          gained += 5;
-
-        }
-
-
-        score +=
-          gained;
-
-
-        uiGood();
-
-
-        if (
-          combo >= 3
-        ) {
-
-          showCombo(
-            combo,
-            gained
-          );
-        }
-      }
-
-
-      /* =====================
-         BONUS
-      ====================== */
-
-      if (
-        type === "bonus"
-      ) {
-
-        score += 30;
-
-
-        showEvent(
-          "❄️ Cryoprotection Bonus +30"
-        );
-
-
-        uiGood();
-      }
-
-
-      /* =====================
-         MYCOPLASMA
-      ====================== */
-
-      if (
-        type === "myco"
-      ) {
-
-        combo = 0;
-
-
-        score +=
-          PENALTY_MYCO;
-
-
-        showEvent(
-          "🟣 Mycoplasma! -15"
-        );
-
-
-        uiBad();
-      }
-
-
-      /* =====================
-         BAKTERİ
-      ====================== */
-
-      if (
-        type === "rod"
-      ) {
-
-        combo = 0;
-
-
-        score +=
-          PENALTY_ROD;
-
-
-        showEvent(
-          "▬ Bakteriyel kontaminasyon! -20"
-        );
-
-
-        uiBad();
-      }
-
-
-      /*
-        Skor hiçbir zaman
-        negatif olmasın.
-      */
-
-      score =
-        Math.max(
-          0,
-          score
-        );
-
-
-      scoreEl.textContent =
-        score;
-
-
-      updateFill();
-
-
-      cell.remove();
-
-
-      return true;
-    }
-
-
-    /* =========================
-       ŞİŞE DOLUMU
-    ========================= */
-
-    function updateFill() {
-
-      const percent =
-        Math.max(
-          0,
-          Math.min(
-            100,
-            score
-          )
-        );
-
-
-      fill.style.height =
-        percent + "%";
-    }
-
-
-    /* =========================
-       SON 5 SANİYE
-    ========================= */
-
-    function showCountdown(
-      number
-    ) {
-
-      const element =
-        document.getElementById(
-          "countdownPop"
-        );
-
-
-      element.textContent =
-        number;
-
-
-      element.style.display =
-        "flex";
-
-
-      element.animate(
-
-        [
-
-          {
-            transform:
-              "scale(.7)",
-
-            opacity: .2
-          },
-
-          {
-            transform:
-              "scale(1.15)",
-
-            opacity: 1
-          },
-
-          {
-            transform:
-              "scale(1)",
-
-            opacity: 0
-          }
-
-        ],
-
-        {
-          duration: 850,
-
-          easing:
-            "ease-out"
-        }
-
-      );
-
-
-      setTimeout(
-        () => {
-
-          element.style.display =
-            "none";
-
-        },
-        820
-      );
-    }
-
-
-    /* =========================
-       COMBO MESAJI
-    ========================= */
-
-    function showCombo(
-      count,
-      gained
-    ) {
-
-      const element =
-        document.getElementById(
-          "comboPop"
-        );
-
-
-      element.textContent =
-        `COMBO x${count}  +${gained}`;
-
-
-      element.classList.add(
-        "show"
-      );
-
-
-      clearTimeout(
-        element._timer
-      );
-
-
-      element._timer =
-        setTimeout(
-          () => {
-
-            element.classList.remove(
-              "show"
-            );
-
-          },
-          650
-        );
-    }
-
-
-    /* =========================
-       BONUS / CEZA MESAJI
-    ========================= */
-
-    function showEvent(
-      text
-    ) {
-
-      const element =
-        document.getElementById(
-          "eventPop"
-        );
-
-
-      element.textContent =
-        text;
-
-
-      element.classList.add(
-        "show"
-      );
-
-
-      clearTimeout(
-        element._timer
-      );
-
-
-      element._timer =
-        setTimeout(
-          () => {
-
-            element.classList.remove(
-              "show"
-            );
-
-          },
-          850
-        );
-    }
-
-
-    /* =========================
-       İYİ YAKALAMA EFEKTİ
-    ========================= */
-
-    function uiGood() {
-
-      fill.classList.remove(
-        "pulse"
-      );
-
-
-      void fill.offsetWidth;
-
-
-      fill.classList.add(
-        "pulse"
-      );
-
-
-      burstBubbles();
-
-
-      playTone(
-        700,
-        .15
-      );
-    }
-
-
-    /* =========================
-       KÖTÜ YAKALAMA EFEKTİ
-    ========================= */
-
-    function uiBad() {
-
-      bottle.classList.add(
-        "shake"
-      );
-
-
-      setTimeout(
-        () => {
-
-          bottle.classList.remove(
-            "shake"
-          );
-
-        },
-        250
-      );
-
-
-      fill.classList.remove(
-        "bad"
-      );
-
-
-      void fill.offsetWidth;
-
-
-      fill.classList.add(
-        "bad"
-      );
-
-
-      playTone(
-        140,
-        .18
-      );
-    }
-
-
-    /* =========================
-       KÖPÜK EFEKTİ
-    ========================= */
-
-    function burstBubbles() {
-
-      const number =
-        Math.floor(
-          6
-          +
-          Math.random()
-          * 5
-        );
-
-
-      for (
-        let i = 0;
-        i < number;
-        i++
-      ) {
-
-        const bubble =
-          document.createElement(
-            "div"
-          );
-
-
-        bubble.className =
-          "bubble";
-
-
-        bubble.style.left =
-          (
-            30
-            +
-            Math.random()
-            * 120
-          )
-          + "px";
-
-
-        bubble.style.animation =
-          `rise ${
-            800
-            +
-            Math.random()
-            * 700
-          }ms ease-out forwards`;
-
-
-        bottle.appendChild(
-          bubble
-        );
-
-
-        setTimeout(
-          () => {
-
-            bubble.remove();
-
-          },
-          1600
-        );
-      }
-    }
-
-
-    /* =========================
-       SES
-    ========================= */
-
-    function initAudio() {
-
-      try {
-
-        if (
-          !audioCtx
-        ) {
-
-          audioCtx =
-            new (
-              window.AudioContext
-              ||
-              window.webkitAudioContext
-            )();
-        }
-
-      }
-
-      catch (
-        error
-      ) {
-
-        console.log(
-          "Ses başlatılamadı."
-        );
-      }
-    }
-
-
-    function playTone(
-      frequency,
-      duration
-    ) {
-
-      try {
-
-        if (
-          !audioCtx
-        ) {
-          return;
-        }
-
-
-        const oscillator =
-          audioCtx
-            .createOscillator();
-
-
-        const gain =
-          audioCtx
-            .createGain();
-
-
-        oscillator.type =
-          "triangle";
-
-
-        oscillator
-          .frequency
-          .setValueAtTime(
-            frequency,
-            audioCtx.currentTime
-          );
-
-
-        gain
-          .gain
-          .setValueAtTime(
-            .14,
-            audioCtx.currentTime
-          );
-
-
-        gain
-          .gain
-          .exponentialRampToValueAtTime(
-            .0001,
-            audioCtx.currentTime
-            +
-            duration
-          );
-
-
-        oscillator
-          .connect(
-            gain
-          )
-          .connect(
-            audioCtx.destination
-          );
-
-
-        oscillator.start();
-
-
-        oscillator.stop(
-          audioCtx.currentTime
-          +
-          duration
-        );
-
-      }
-
-      catch (
-        error
-      ) {
-
-        console.log(
-          "Ses oynatılamadı."
-        );
-      }
-    }
-
-
-    /* =========================
-       OYUNU BAŞLAT BUTONU
-    ========================= */
-
-    startBtn.onclick =
-      () => {
-
-        /*
-          Oyuncu bilgileri
-          zaten varsa aynı kişi
-          tekrar oynayabilir.
-        */
-
-        if (
-          currentPlayer.name
-          &&
-          currentPlayer.email
-          &&
-          currentPlayer.company
-        ) {
-
-          startGame();
-
-          return;
-        }
-
-
-        /*
-          İlk oyun:
-          katılımcı formunu aç.
-        */
-
-        overlay.classList.add(
-          "formMode"
-        );
-
-
-        preForm.style.display =
-          "block";
-
-
-        pfName.focus();
-      };
-
-
-    /* =========================
-       FORM İPTAL
-    ========================= */
-
-    pfCancel.onclick =
-      () => {
-
-        preForm.style.display =
-          "none";
-
-
-        overlay.classList.remove(
-          "formMode"
-        );
-      };
-
-
-    /* =========================
-       FORM DEVAM ET
-    ========================= */
-
-    pfGo.onclick =
-      () => {
-
-        const name =
-          pfName.value.trim();
-
-
-        const email =
-          pfEmail.value.trim();
-
-
-        const company =
-          pfCompany.value.trim();
-
-
-        [
-          pfName,
-          pfEmail,
-          pfCompany
-        ]
-        .forEach(
-          element => {
-
-            element.style.borderColor =
-              "#335";
-          }
-        );
-
-
-        /* İsim */
-
-        if (
-          !name
-        ) {
-
-          pfName.style.borderColor =
-            "#ef4444";
-
-          pfName.focus();
-
-          return;
-        }
-
-
-        /* E-posta */
-
-        if (
-          !email
-          ||
-          !pfEmail.checkValidity()
-        ) {
-
-          pfEmail.style.borderColor =
-            "#ef4444";
-
-          pfEmail.focus();
-
-          return;
-        }
-
-
-        /* Şirket / okul */
-
-        if (
-          !company
-        ) {
-
-          pfCompany.style.borderColor =
-            "#ef4444";
-
-          pfCompany.focus();
-
-          return;
-        }
-
-
-        currentPlayer = {
-          name,
-          email,
-          company
-        };
-
-
-        initAudio();
-
-
-        preForm.style.display =
-          "none";
-
-
-        overlay.classList.remove(
-          "formMode"
-        );
-
-
-        startGame();
-      };
-
-
-    /* =========================
-       YEREL SKOR KAYDI
-    ========================= */
-
-    const LB_KEY =
-      "cf_leaderboard_v1";
-
-
-    function loadLocalLB() {
-
-      try {
-
-        return JSON.parse(
-          localStorage.getItem(
-            LB_KEY
-          )
-          ||
-          "[]"
-        );
-
-      }
-
-      catch (
-        error
-      ) {
-
-        return [];
-      }
-    }
-
-
-    function saveLocalLB(
-      array
-    ) {
-
-      localStorage.setItem(
-        LB_KEY,
-        JSON.stringify(
-          array
-        )
-      );
-    }
-
-
-    /* =========================
-       SKOR TABLOSUNU GÖSTER
-    ========================= */
-
-    async function renderLB() {
-
-      const tbody =
-        document.querySelector(
-          "#lbTable tbody"
-        );
-
-
-      tbody.innerHTML =
-        `
-          <tr>
-            <td colspan="3">
-              Yükleniyor...
-            </td>
-          </tr>
-        `;
-
-
-      try {
-
-        if (
-          typeof
-          window.loadScoresFromFirebase
-          !==
-          "function"
-        ) {
-
-          throw new Error(
-            "Firebase henüz hazır değil"
-          );
-        }
-
-
-        const raw =
-          await
-          window
-            .loadScoresFromFirebase();
-
-
-        /*
-          Aynı e-posta adresiyle
-          oynayan kişinin yalnızca
-          en yüksek skoru alınır.
-        */
-
-        const bestByPlayer =
-          new Map();
-
-
-        raw.forEach(
-          result => {
-
-            const key =
-              (
-                result.email
-                ||
-                result.name
-                ||
-                ""
-              )
-              .trim()
-              .toLowerCase();
-
-
-            if (
-              !key
-            ) {
-              return;
-            }
-
-
-            const previous =
-              bestByPlayer.get(
-                key
-              );
-
-
-            if (
-              !previous
-              ||
-              Number(
-                result.score
-                ||
-                0
-              )
-              >
-              Number(
-                previous.score
-                ||
-                0
-              )
-            ) {
-
-              bestByPlayer.set(
-                key,
-                result
-              );
-            }
-          }
-        );
-
-
-        /*
-          İlk 10 katılımcı
-        */
-
-        const data =
-          Array
-            .from(
-              bestByPlayer.values()
-            )
-            .sort(
-              (
-                a,
-                b
-              ) =>
-                Number(
-                  b.score
-                  ||
-                  0
-                )
-                -
-                Number(
-                  a.score
-                  ||
-                  0
-                )
-            )
-            .slice(
-              0,
-              10
-            );
-
-
-        tbody.innerHTML =
-          data
-            .map(
-              (
-                result,
-                index
-              ) => {
-
-                const className =
-                  index < 3
-                  ?
-                  ` class="lb-rank-${index + 1}"`
-                  :
-                  "";
-
-
-                let rank =
-                  index + 1;
-
-
-                if (
-                  index === 0
-                ) {
-                  rank = "🥇";
-                }
-
-
-                if (
-                  index === 1
-                ) {
-                  rank = "🥈";
-                }
-
-
-                if (
-                  index === 2
-                ) {
-                  rank = "🥉";
-                }
-
-
-                return `
-
-                  <tr${className}>
-
-                    <td>
-                      ${rank}
-                    </td>
-
-                    <td>
-                      ${
-                        escapeHtml(
-                          result.name
-                          ||
-                          "-"
-                        )
-                      }
-                    </td>
-
-                    <td>
-                      ${
-                        Number(
-                          result.score
-                          ||
-                          0
-                        )
-                      }
-                    </td>
-
-                  </tr>
-
-                `;
-              }
-            )
-            .join("")
-          ||
-          `
-
-            <tr>
-              <td colspan="3">
-                Henüz skor yok
-              </td>
-            </tr>
-
-          `;
-
-      }
-
-      catch (
-        error
-      ) {
-
-        console.error(
-          error
-        );
-
-
-        tbody.innerHTML =
-          `
-
-            <tr>
-
-              <td colspan="3">
-                Skorlar yüklenemedi
-              </td>
-
-            </tr>
-
-          `;
-      }
-    }
-
-
-    /* =========================
-       SKORU OTOMATİK KAYDET
-    ========================= */
-
-    async function saveCurrentScore() {
-
-      /*
-        Aynı oyun iki kere
-        kaydedilmesin.
-      */
-
-      if (
-        scoreSavedThisRound
-      ) {
-        return;
-      }
-
-
-      try {
-
-        if (
-          typeof
-          window.saveScoreToFirebase
-          !==
-          "function"
-        ) {
-
-          throw new Error(
-            "Firebase henüz hazır değil"
-          );
-        }
-
-
-        await
-        window
-          .saveScoreToFirebase(
-
-            currentPlayer.name,
-
-            currentPlayer.email,
-
-            currentPlayer.company,
-
-            score
-
-          );
-
-
-        /*
-          Ayrıca bu cihazda
-          yerel kayıt tut.
-        */
-
-        const array =
-          loadLocalLB();
-
-
-        array.push(
-          {
-
-            name:
-              currentPlayer.name,
-
-            email:
-              currentPlayer.email,
-
-            company:
-              currentPlayer.company,
-
-            score:
-              score,
-
-            ts:
-              Date.now()
-
-          }
-        );
-
-
-        saveLocalLB(
-          array
-        );
-
-
-        scoreSavedThisRound =
-          true;
-
-      }
-
-      catch (
-        error
-      ) {
-
-        console.error(
-          "Skor kaydedilemedi:",
-          error
-        );
-      }
-    }
-
-
-    /* =========================
-       SKOR TABLOSU AÇ / KAPAT
-    ========================= */
-
-    async function toggleLb(
-      forceOpen = false
-    ) {
-
-      const panel =
-        document.getElementById(
-          "lbPanel"
-        );
-
-
-      if (
-        forceOpen
-      ) {
-
-        panel.style.display =
-          "block";
-
-
-        await renderLB();
-
-
-        return;
-      }
-
-
-      panel.style.display =
-        panel.style.display
-        ===
-        "block"
-        ?
-        "none"
-        :
-        "block";
-
-
-      if (
-        panel.style.display
-        ===
-        "block"
-      ) {
-
-        await renderLB();
-      }
-    }
-
-
-    /* =========================
-       SKOR TABLOSU BUTONU
-    ========================= */
-
-    const lbBtn =
-      document.getElementById(
-        "lbBtn"
-      );
-
-
-    let pressTimer =
-      null;
-
-
-    let pressStartedAt =
-      0;
-
-
-    lbBtn.addEventListener(
-      "click",
-      () => {
-
-        /*
-          Uzun basma sonrasında
-          normal click tetiklenmesin.
-        */
-
-        if (
-          Date.now()
-          -
-          pressStartedAt
-          <
-          1600
-        ) {
-
-          return;
-        }
-
-
-        toggleLb();
-      }
-    );
-
-
-    /* =========================
-       GİZLİ ADMIN
-       2 SANİYE BASILI TUT
-    ========================= */
-
-    lbBtn.addEventListener(
-      "pointerdown",
-      () => {
-
-        pressStartedAt =
-          Date.now();
-
-
-        pressTimer =
-          setTimeout(
-            () => {
-
-              document
-                .getElementById(
-                  "lbAdmin"
-                )
-                .style.display =
-                "flex";
-
-            },
-            2000
-          );
-      }
-    );
-
-
-    [
-      "pointerup",
-      "pointercancel",
-      "pointerleave"
-    ]
-    .forEach(
-      eventName => {
-
-        lbBtn.addEventListener(
-          eventName,
-          () => {
-
-            clearTimeout(
-              pressTimer
-            );
-          }
-        );
-      }
-    );
-
-
-    /* =========================
-       CSV İNDİR
-    ========================= */
-
-    document
-      .getElementById(
-        "lbDownload"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          const rows =
-            [
-
-              [
-                "Sıra",
-                "İsim",
-                "E-posta",
-                "Şirket / Okul",
-                "Skor",
-                "Tarih"
-              ]
-
-            ];
-
-
-          const data =
-            loadLocalLB()
-              .sort(
-                (
-                  a,
-                  b
-                ) =>
-                  b.score
-                  -
-                  a.score
-              );
-
-
-          data.forEach(
-            (
-              result,
-              index
-            ) => {
-
-              rows.push(
-                [
-
-                  String(
-                    index + 1
-                  ),
-
-                  result.name
-                  ||
-                  "",
-
-                  result.email
-                  ||
-                  "",
-
-                  result.company
-                  ||
-                  "",
-
-                  String(
-                    result.score
-                    ||
-                    0
-                  ),
-
-                  new Date(
-                    result.ts
-                  )
-                  .toISOString()
-
-                ]
-              );
-            }
-          );
-
-
-          const csv =
-            rows
-              .map(
-                row =>
-
-                  row
-                    .map(
-                      value =>
-                        '"'
-                        +
-                        String(
-                          value
-                        )
-                        .replaceAll(
-                          '"',
-                          '""'
-                        )
-                        +
-                        '"'
-                    )
-                    .join(",")
-
-              )
-              .join("\n");
-
-
-          const link =
-            document.createElement(
-              "a"
-            );
-
-
-          link.href =
-            "data:text/csv;charset=utf-8,"
-            +
-            encodeURIComponent(
-              csv
-            );
-
-
-          link.download =
-            "cell_freezer_scores.csv";
-
-
-          link.click();
-        }
-      );
-
-
-    /* =========================
-       YEREL KAYDI TEMİZLE
-    ========================= */
-
-    document
-      .getElementById(
-        "lbClear"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          if (
-            confirm(
-              "Bu cihazdaki yerel skor kayıtlarını temizlemek istiyor musun?"
-            )
-          ) {
-
-            saveLocalLB(
-              []
-            );
-          }
-        }
-      );
-
-
-    /* =========================
-       HTML GÜVENLİĞİ
-    ========================= */
-
-    function escapeHtml(
-      value
-    ) {
-
-      return String(
-        value
-      )
-
-        .replaceAll(
-          "&",
-          "&amp;"
-        )
-
-        .replaceAll(
-          "<",
-          "&lt;"
-        )
-
-        .replaceAll(
-          ">",
-          "&gt;"
-        )
-
-        .replaceAll(
-          '"',
-          "&quot;"
-        )
-
-        .replaceAll(
-          "'",
-          "&#039;"
-        );
-    }
-
-  </script>
-
-
-  <!-- =========================
-       FIREBASE
-  ========================== -->
-
-  <script type="module">
-
-    import {
-      initializeApp
-    }
-    from
-    "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-
-
-    import {
-
-      getFirestore,
-
-      collection,
-
-      addDoc,
-
-      getDocs,
-
-      query,
-
-      orderBy,
-
-      limit,
-
-      serverTimestamp
-
-    }
-    from
-    "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-
-    /* =========================
-       FIREBASE AYARLARI
-    ========================= */
-
-    const firebaseConfig = {
-
-      apiKey:
-        "AIzaSyDWTza-MBwQ7ruzmWNFFdurX0qYUjFSXmM",
-
-      authDomain:
-        "cell-freezer-de0c3.firebaseapp.com",
-
-      projectId:
-        "cell-freezer-de0c3",
-
-      storageBucket:
-        "cell-freezer-de0c3.firebasestorage.app",
-
-      messagingSenderId:
-        "608677842749",
-
-      appId:
-        "1:608677842749:web:2a3c244bc0181e9077ff54"
-
+      startGame();
     };
 
 
-    const app =
-      initializeApp(
-        firebaseConfig
-      );
+  /* =========================================================
+     FIREBASE SKOR KAYDI
+  ========================================================= */
+
+  async function saveCurrentScore() {
+
+    if (
+      scoreSavedThisRound
+    ) {
+
+      return {
+        success: true
+      };
+    }
 
 
-    const db =
-      getFirestore(
-        app
-      );
+    if (
+      !firebaseReady
+      ||
+      !db
+    ) {
+
+      return {
+        success: false,
+        error:
+          "Firebase bağlantısı başlatılamadı."
+      };
+    }
 
 
-    /* =========================
-       FIREBASE'E SKOR KAYDET
-    ========================= */
+    try {
 
-    window.saveScoreToFirebase =
-      async function(
-
-        playerName,
-
-        playerEmail,
-
-        playerCompany,
-
-        score
-
-      ) {
-
-        await addDoc(
+      const saveOperation =
+        addDoc(
 
           collection(
             db,
@@ -4246,72 +3013,725 @@
           {
 
             name:
-              playerName,
+              currentPlayer.name.trim(),
 
             email:
-              playerEmail,
+              currentPlayer.email
+                .trim()
+                .toLowerCase(),
 
             company:
-              playerCompany,
+              currentPlayer.company.trim(),
 
             score:
-              Number(
-                score
-              )
-              ||
-              0,
+              Number(score),
 
             createdAt:
               serverTimestamp()
 
           }
-
         );
+
+
+      /*
+        Firebase cevap vermezse
+        10 saniye sonra timeout.
+      */
+
+      const timeout =
+        new Promise(
+          (
+            _,
+            reject
+          ) => {
+
+            setTimeout(
+              () => {
+
+                reject(
+                  new Error(
+                    "Firebase bağlantısı zaman aşımına uğradı."
+                  )
+                );
+
+              },
+              10000
+            );
+          }
+        );
+
+
+      const documentRef =
+        await Promise.race(
+          [
+            saveOperation,
+            timeout
+          ]
+        );
+
+
+      console.log(
+        "Skor kaydedildi:",
+        documentRef.id
+      );
+
+
+      scoreSavedThisRound =
+        true;
+
+
+      /*
+        Yerel yedek de tut.
+      */
+
+      saveLocalBackup();
+
+
+      return {
+        success: true
       };
 
+    }
+    catch (error) {
 
-    /* =========================
-       FIREBASE SKORLARINI GETİR
-    ========================= */
+      /*
+        Firebase başarısız olsa bile
+        cihaz üzerinde yedekle.
+      */
 
-    window.loadScoresFromFirebase =
-      async function() {
+      saveLocalBackup();
 
-        const scoresQuery =
-          query(
 
-            collection(
-              db,
-              "scores"
-            ),
+      return {
 
-            orderBy(
-              "score",
-              "desc"
-            ),
+        success: false,
 
-            limit(
-              200
-            )
+        error:
+          error?.message
+          ||
+          String(error)
 
+      };
+    }
+  }
+
+
+  /* =========================================================
+     YEREL YEDEK
+  ========================================================= */
+
+  const LOCAL_KEY =
+    "cell_freezer_local_scores";
+
+
+  function loadLocalBackup() {
+
+    try {
+
+      return JSON.parse(
+        localStorage.getItem(
+          LOCAL_KEY
+        )
+        ||
+        "[]"
+      );
+    }
+    catch {
+
+      return [];
+    }
+  }
+
+
+  function saveLocalBackup() {
+
+    const array =
+      loadLocalBackup();
+
+
+    array.push(
+      {
+
+        name:
+          currentPlayer.name,
+
+        email:
+          currentPlayer.email,
+
+        company:
+          currentPlayer.company,
+
+        score:
+          score,
+
+        time:
+          new Date()
+            .toISOString()
+
+      }
+    );
+
+
+    localStorage.setItem(
+      LOCAL_KEY,
+      JSON.stringify(array)
+    );
+  }
+
+
+  /* =========================================================
+     FIREBASE SKOR TABLOSU
+  ========================================================= */
+
+  async function loadScoresFromFirebase() {
+
+    if (
+      !firebaseReady
+      ||
+      !db
+    ) {
+
+      throw new Error(
+        "Firebase bağlantısı hazır değil."
+      );
+    }
+
+
+    const scoresQuery =
+      query(
+
+        collection(
+          db,
+          "scores"
+        ),
+
+        orderBy(
+          "score",
+          "desc"
+        ),
+
+        limit(
+          200
+        )
+
+      );
+
+
+    const loadOperation =
+      getDocs(
+        scoresQuery
+      );
+
+
+    const timeout =
+      new Promise(
+        (
+          _,
+          reject
+        ) => {
+
+          setTimeout(
+            () => {
+
+              reject(
+                new Error(
+                  "Skor tablosu yüklenirken zaman aşımı oluştu."
+                )
+              );
+
+            },
+            10000
+          );
+        }
+      );
+
+
+    const snapshot =
+      await Promise.race(
+        [
+          loadOperation,
+          timeout
+        ]
+      );
+
+
+    return snapshot.docs.map(
+      document =>
+        document.data()
+    );
+  }
+
+
+  async function renderLeaderboard() {
+
+    const tbody =
+      document.querySelector(
+        "#lbTable tbody"
+      );
+
+
+    tbody.innerHTML =
+      `
+        <tr>
+          <td colspan="3">
+            Yükleniyor...
+          </td>
+        </tr>
+      `;
+
+
+    try {
+
+      const raw =
+        await
+        loadScoresFromFirebase();
+
+
+      /*
+        Aynı e-mail adresi:
+        yalnızca en yüksek skor.
+      */
+
+      const bestByPlayer =
+        new Map();
+
+
+      raw.forEach(result => {
+
+        const key =
+          (
+            result.email
+            ||
+            result.name
+            ||
+            ""
+          )
+          .trim()
+          .toLowerCase();
+
+
+        if (!key) return;
+
+
+        const previous =
+          bestByPlayer.get(
+            key
           );
 
 
-        const snapshot =
-          await getDocs(
-            scoresQuery
+        if (
+          !previous
+          ||
+          Number(
+            result.score
+            ||
+            0
+          )
+          >
+          Number(
+            previous.score
+            ||
+            0
+          )
+        ) {
+
+          bestByPlayer.set(
+            key,
+            result
+          );
+        }
+      });
+
+
+      const data =
+        Array
+          .from(
+            bestByPlayer.values()
+          )
+          .sort(
+            (a, b) =>
+              Number(
+                b.score
+                ||
+                0
+              )
+              -
+              Number(
+                a.score
+                ||
+                0
+              )
+          )
+          .slice(
+            0,
+            10
           );
 
 
-        return snapshot
-          .docs
+      if (
+        data.length === 0
+      ) {
+
+        tbody.innerHTML =
+          `
+            <tr>
+              <td colspan="3">
+                Henüz skor yok
+              </td>
+            </tr>
+          `;
+
+        return;
+      }
+
+
+      tbody.innerHTML =
+        data
           .map(
-            document =>
-              document.data()
-          );
-      };
+            (
+              result,
+              index
+            ) => {
 
-  </script>
+              let rank =
+                index + 1;
+
+
+              if (
+                index === 0
+              ) {
+
+                rank =
+                  "🥇";
+              }
+
+
+              if (
+                index === 1
+              ) {
+
+                rank =
+                  "🥈";
+              }
+
+
+              if (
+                index === 2
+              ) {
+
+                rank =
+                  "🥉";
+              }
+
+
+              const className =
+                index < 3
+                ?
+                ` class="lb-rank-${index + 1}"`
+                :
+                "";
+
+
+              return `
+
+                <tr${className}>
+
+                  <td>
+                    ${rank}
+                  </td>
+
+                  <td>
+                    ${
+                      escapeHtml(
+                        result.name
+                        ||
+                        "-"
+                      )
+                    }
+                  </td>
+
+                  <td>
+                    ${
+                      Number(
+                        result.score
+                        ||
+                        0
+                      )
+                    }
+                  </td>
+
+                </tr>
+
+              `;
+            }
+          )
+          .join("");
+
+    }
+    catch (error) {
+
+      console.error(
+        "Skor tablosu hatası:",
+        error
+      );
+
+
+      tbody.innerHTML =
+        `
+          <tr>
+
+            <td
+              colspan="3"
+              style="
+                color:#fca5a5;
+              "
+            >
+              Skorlar yüklenemedi
+            </td>
+
+          </tr>
+        `;
+    }
+  }
+
+
+  async function toggleLeaderboard(
+    forceOpen = false
+  ) {
+
+    if (forceOpen) {
+
+      lbPanel.style.display =
+        "block";
+
+
+      await
+      renderLeaderboard();
+
+
+      return;
+    }
+
+
+    lbPanel.style.display =
+      lbPanel.style.display
+      ===
+      "block"
+      ?
+      "none"
+      :
+      "block";
+
+
+    if (
+      lbPanel.style.display
+      ===
+      "block"
+    ) {
+
+      await
+      renderLeaderboard();
+    }
+  }
+
+
+  /* =========================================================
+     SKOR TABLOSU BUTONU
+  ========================================================= */
+
+  let longPressTimer =
+    null;
+
+  let longPressTriggered =
+    false;
+
+
+  lbBtn.addEventListener(
+    "pointerdown",
+    () => {
+
+      longPressTriggered =
+        false;
+
+
+      longPressTimer =
+        setTimeout(
+          () => {
+
+            longPressTriggered =
+              true;
+
+
+            document
+              .getElementById("lbAdmin")
+              .style.display =
+              "flex";
+
+          },
+          2000
+        );
+    }
+  );
+
+
+  [
+    "pointerup",
+    "pointercancel",
+    "pointerleave"
+  ]
+  .forEach(eventName => {
+
+    lbBtn.addEventListener(
+      eventName,
+      () => {
+
+        clearTimeout(
+          longPressTimer
+        );
+      }
+    );
+  });
+
+
+  lbBtn.addEventListener(
+    "click",
+    () => {
+
+      if (
+        longPressTriggered
+      ) {
+
+        longPressTriggered =
+          false;
+
+        return;
+      }
+
+
+      toggleLeaderboard();
+    }
+  );
+
+
+  /* =========================================================
+     CSV
+  ========================================================= */
+
+  document
+    .getElementById("lbDownload")
+    .addEventListener(
+      "click",
+      () => {
+
+        const localScores =
+          loadLocalBackup();
+
+
+        const rows =
+          [
+            [
+              "Sıra",
+              "İsim",
+              "E-posta",
+              "Şirket / Okul",
+              "Skor",
+              "Tarih"
+            ]
+          ];
+
+
+        localScores
+          .sort(
+            (a, b) =>
+              Number(b.score)
+              -
+              Number(a.score)
+          )
+          .forEach(
+            (
+              result,
+              index
+            ) => {
+
+              rows.push(
+                [
+                  index + 1,
+                  result.name || "",
+                  result.email || "",
+                  result.company || "",
+                  result.score || 0,
+                  result.time || ""
+                ]
+              );
+            }
+          );
+
+
+        const csv =
+          rows
+            .map(
+              row =>
+                row
+                  .map(
+                    value =>
+                      '"'
+                      +
+                      String(value)
+                        .replaceAll(
+                          '"',
+                          '""'
+                        )
+                      +
+                      '"'
+                  )
+                  .join(",")
+            )
+            .join("\n");
+
+
+        const link =
+          document.createElement(
+            "a"
+          );
+
+
+        link.href =
+          "data:text/csv;charset=utf-8,"
+          +
+          encodeURIComponent(
+            csv
+          );
+
+
+        link.download =
+          "cell_freezer_scores.csv";
+
+
+        link.click();
+      }
+    );
+
+
+  document
+    .getElementById("lbClear")
+    .addEventListener(
+      "click",
+      () => {
+
+        if (
+          confirm(
+            "Bu cihazdaki yerel yedek skorları temizlemek istiyor musun?"
+          )
+        ) {
+
+          localStorage.removeItem(
+            LOCAL_KEY
+          );
+        }
+      }
+    );
+
+</script>
 
 </body>
 </html>
