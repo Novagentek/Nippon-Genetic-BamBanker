@@ -15,6 +15,7 @@
 .overlay.formMode .subtitle,
 .overlay.formMode #howToBox,
 .overlay.formMode #logos,
+.overlay.formMode #prizeInfo,
 .overlay.formMode #start {
   display: none !important;
 }
@@ -501,13 +502,25 @@ body {
           </div>
           <div class="muted">Bilgiler skor kaydı için kullanılır.</div>
         </div>
-        <div class="logos" id="logos">
+<div class="logos" id="logos">
   <img src="novagentek_logo.png" alt="Novagentek Logo">
   <img src="nippon_logo.png" alt="Nippon Genetics Logo">
 </div>
 
-        <!-- Ödül bilgisi sadece girişte -->
-        </div>
+<div id="prizeInfo" style="
+  margin-top: 14px;
+  padding: 10px 16px;
+  display: inline-block;
+  background: rgba(250, 204, 21, 0.12);
+  border: 1px solid rgba(250, 204, 21, 0.45);
+  border-radius: 12px;
+  color: #fef3c7;
+  font-size: 15px;
+  font-weight: 700;
+">
+  🏆 Sempozyum sonunda en yüksek puanı alan 1 kişiye sürpriz ödül!
+</div>
+<!-- Ödül bilgisi sadece girişte -->
     </div>
   </div>
 
@@ -613,21 +626,52 @@ bottle.style.right = 'auto';
       for(let i=0;i<2;i++) spawnCell();
     }
 
-    function endGame(){
-     clearInterval(timer);
-clearTimeout(spawnTimer);
-      document.querySelectorAll('.cell').forEach(c=>c.remove());
-      overlay.style.display='flex';
-      overlay.querySelector('.title').textContent = 'Oyun Bitti';
-      const postHtml = `Skorun: <b>${score}</b><br>
-        <span style="font-size:14px;color:#cfeafe">Oyuncu: <b>${currentPlayer.name || '-'}</b></span>
-        <button id="saveScore" class="btn">Skoru Kaydet</button>
-        <button id="showLb" class="btn" style="margin-left:8px;background:#164e63">Tabloyu Aç</button>`;
-      overlay.querySelector('.subtitle').innerHTML = postHtml;
-      setTimeout(()=>{ const sBtn=document.getElementById('saveScore'); const shBtn=document.getElementById('showLb'); if(sBtn) sBtn.onclick=saveCurrentScore; if(shBtn) shBtn.onclick=()=>{ toggleLb(true); }; },0);
-      startBtn.textContent = 'Tekrar Oyna';
-      saveCurrentScore(true);
-    }
+function endGame(){
+  clearInterval(timer);
+  clearTimeout(spawnTimer);
+
+  document.querySelectorAll('.cell').forEach(c => c.remove());
+
+  overlay.style.display = 'flex';
+  overlay.classList.remove('formMode');
+  overlay.classList.add('endMode');
+
+  // Giriş ekranına ait elemanları gizle
+  document.getElementById('howToBox').style.display = 'none';
+  document.getElementById('logos').style.display = 'none';
+  document.getElementById('prizeInfo').style.display = 'none';
+
+  document.querySelectorAll('.intro-cell').forEach(el => {
+    el.style.display = 'none';
+  });
+
+  overlay.querySelector('.title').textContent = 'Oyun Bitti';
+
+  const postHtml = `
+    Skorun: <b>${score}</b><br>
+    <span style="font-size:14px;color:#cfeafe">
+      Oyuncu: <b>${currentPlayer.name || '-'}</b>
+    </span>
+    <button id="saveScore" class="btn">Skoru Kaydet</button>
+    <button id="showLb" class="btn" style="margin-left:8px;background:#164e63">
+      Tabloyu Aç
+    </button>
+  `;
+
+  overlay.querySelector('.subtitle').innerHTML = postHtml;
+
+  setTimeout(() => {
+    const sBtn = document.getElementById('saveScore');
+    const shBtn = document.getElementById('showLb');
+
+    if (sBtn) sBtn.onclick = saveCurrentScore;
+    if (shBtn) shBtn.onclick = () => toggleLb(true);
+  }, 0);
+
+  startBtn.textContent = 'Tekrar Oyna';
+
+  saveCurrentScore(true);
+}
 
     function spawnCell(){
   const r = Math.random();
@@ -810,7 +854,26 @@ clearTimeout(spawnTimer);
     const pfGo = document.getElementById('pfGo');
     const pfCancel = document.getElementById('pfCancel');
 
-  startBtn.onclick = ()=>{
+ startBtn.onclick = () => {
+
+  // Daha önce oyuncu bilgisi girildiyse direkt tekrar oyna
+  if (currentPlayer.name && currentPlayer.email && currentPlayer.company) {
+
+    overlay.classList.remove('endMode');
+
+    document.getElementById('howToBox').style.display = '';
+    document.getElementById('logos').style.display = '';
+    document.getElementById('prizeInfo').style.display = '';
+
+    document.querySelectorAll('.intro-cell').forEach(el => {
+      el.style.display = '';
+    });
+
+    startGame();
+    return;
+  }
+
+  // İlk oyun ise katılımcı formunu aç
   overlay.classList.add('formMode');
   preForm.style.display = 'block';
   pfName.focus();
