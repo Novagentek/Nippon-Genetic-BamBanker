@@ -39,12 +39,14 @@
     button { -webkit-tap-highlight-color:transparent; }
 
     .stage {
-      position:relative;
+      position:fixed;
+      inset:0;
       width:100%;
-      height:650px;
+      height:100vh;
+      height:100dvh;
       overflow:hidden;
       touch-action:none;
-      border:1px solid rgba(74,213,241,.5);
+      border:0;
       background:
         radial-gradient(circle at 16% 18%,rgba(78,224,244,.13),transparent 28%),
         radial-gradient(circle at 84% 74%,rgba(75,222,192,.08),transparent 30%),
@@ -409,8 +411,8 @@
     }
 
     .cell.bonus {
-      width:62px;
-      height:78px;
+      width:78px;
+      height:98px;
       background:url("bambanker.png") center/contain no-repeat;
       filter:drop-shadow(0 0 7px rgba(255,233,138,.92)) drop-shadow(0 0 17px rgba(255,194,67,.78));
       animation:bonusPulse .9s ease-in-out infinite alternate;
@@ -569,11 +571,11 @@
 
     .intro-main {
       display:grid;
-      grid-template-columns:minmax(0,1fr) 245px minmax(0,1fr);
+      grid-template-columns:minmax(0,1fr) 325px minmax(0,1fr);
       align-items:center;
-      gap:14px;
-      max-width:820px;
-      margin:8px auto 5px;
+      gap:16px;
+      max-width:960px;
+      margin:6px auto 3px;
     }
 
     .intro-side { display:flex; flex-direction:column; gap:8px; }
@@ -595,7 +597,7 @@
 
     .hero-zone {
       position:relative;
-      height:270px;
+      height:350px;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -606,8 +608,8 @@
       position:absolute;
       left:50%;
       top:47%;
-      width:260px;
-      height:260px;
+      width:335px;
+      height:335px;
       transform:translate(-50%,-50%);
       border-radius:50%;
       background:radial-gradient(circle,rgba(92,231,255,.2),rgba(57,210,246,.09) 42%,rgba(57,210,246,.02) 64%,transparent 73%);
@@ -621,8 +623,8 @@
       position:absolute;
       left:50%;
       bottom:7px;
-      width:220px;
-      height:34px;
+      width:285px;
+      height:40px;
       transform:translateX(-50%);
       border:2px solid rgba(102,231,255,.5);
       border-radius:50%;
@@ -634,8 +636,8 @@
       position:absolute;
       left:50%;
       top:50%;
-      width:270px;
-      height:48px;
+      width:350px;
+      height:58px;
       transform:translate(-50%,-50%);
       border:1px solid rgba(105,232,255,.21);
       border-radius:50%;
@@ -644,8 +646,8 @@
     .hero-product {
       position:relative;
       z-index:2;
-      width:225px;
-      height:255px;
+      width:315px;
+      height:335px;
       object-fit:contain;
       filter:drop-shadow(0 14px 20px rgba(0,0,0,.34));
       animation:heroFloat 2.8s ease-in-out infinite;
@@ -909,14 +911,14 @@
     }
 
     @media (max-width:700px) {
-      .stage { height:100dvh; min-height:620px; border:0; }
+      .stage { height:100vh; height:100dvh; border:0; }
       .overlay { align-items:flex-start; padding:12px 7px; }
       .title { font-size:43px; }
-      .intro-main { grid-template-columns:1fr 145px 1fr; gap:7px; }
-      .hero-zone { height:190px; }
-      .hero-product { width:145px; height:180px; }
-      .hero-ring { width:145px; height:24px; }
-      .hero-zone::before { width:180px; height:180px; }
+      .intro-main { grid-template-columns:1fr 170px 1fr; gap:7px; }
+      .hero-zone { height:220px; }
+      .hero-product { width:172px; height:212px; }
+      .hero-ring { width:172px; height:26px; }
+      .hero-zone::before { width:215px; height:215px; }
       .intro-card { padding:7px 6px; }
       .intro-card strong { font-size:11px; }
       .intro-card span { font-size:8px; }
@@ -944,11 +946,11 @@
     @media (max-width:480px) {
       .title { font-size:36px; }
       .intro-tagline { font-size:10px; }
-      .intro-main { grid-template-columns:1fr 108px 1fr; }
-      .hero-zone { height:150px; }
-      .hero-product { width:108px; height:142px; }
-      .hero-ring { width:112px; height:20px; }
-      .hero-zone::before { width:145px; height:145px; }
+      .intro-main { grid-template-columns:1fr 126px 1fr; }
+      .hero-zone { height:174px; }
+      .hero-product { width:128px; height:165px; }
+      .hero-ring { width:132px; height:21px; }
+      .hero-zone::before { width:166px; height:166px; }
       .intro-card span { display:none; }
       .intro-card strong { font-size:9px; }
       .intro-copy { font-size:11px; }
@@ -1482,8 +1484,8 @@
     function scheduleNextSpawn() {
       if (!gameRunning) return;
       const elapsed = GAME_TIME - time;
-      const minDelay = elapsed >= 14 ? 320 : elapsed >= 7 ? 390 : 460;
-      const maxDelay = elapsed >= 14 ? 500 : elapsed >= 7 ? 600 : 700;
+      const minDelay = elapsed >= 14 ? 240 : elapsed >= 7 ? 320 : 420;
+      const maxDelay = elapsed >= 14 ? 360 : elapsed >= 7 ? 470 : 600;
       const delay = minDelay + Math.random() * (maxDelay - minDelay);
 
       spawnTimerId = setTimeout(() => {
@@ -1507,7 +1509,7 @@
       let y = -90;
       let rotation = Math.random() * 35 - 17;
       const elapsed = GAME_TIME - time;
-      const speed = 3.0 + elapsed * 0.085 + Math.random() * 0.75;
+      const speed = 4.1 + elapsed * 0.16 + Math.random() * 0.85;
       const rotationSpeed = (Math.random() - 0.5) * 2.1;
 
       function fall() {
