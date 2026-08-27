@@ -376,7 +376,37 @@ body {
     background: rgba(12, 49, 76, 0.76) !important;
   }
 }
-  </style>
+  
+/* === GELİŞTİRİLMİŞ OYUN EKLERİ === */
+.countdown-pop{
+  position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+  font-size:96px;font-weight:900;color:#fff;z-index:9;pointer-events:none;
+  text-shadow:0 8px 30px rgba(0,0,0,.45);
+}
+.combo-pop{
+  position:absolute;top:72px;left:50%;transform:translateX(-50%);z-index:8;
+  font-weight:900;font-size:26px;color:#fff;opacity:0;pointer-events:none;
+  text-shadow:0 4px 14px rgba(0,0,0,.35);transition:opacity .15s, transform .15s;
+}
+.combo-pop.show{opacity:1;transform:translateX(-50%) scale(1.08)}
+.event-pop{
+  position:absolute;top:118px;left:50%;transform:translateX(-50%);z-index:8;
+  padding:8px 14px;border-radius:999px;background:rgba(5,30,50,.78);
+  border:1px solid rgba(255,255,255,.25);font-weight:800;font-size:15px;
+  opacity:0;pointer-events:none;transition:opacity .15s;white-space:nowrap;
+}
+.event-pop.show{opacity:1}
+.cell.bonus{
+  background:radial-gradient(circle at 35% 30%,#fff,#bae6fd 38%,#38bdf8 70%,#0369a1);
+  border:2px solid rgba(255,255,255,.85);box-shadow:0 0 22px rgba(125,211,252,.75);
+  font-size:24px;
+}
+.lb-rank-1 td{font-weight:900}.lb-rank-2 td{font-weight:800}.lb-rank-3 td{font-weight:800}
+.howto-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px 10px;margin-top:8px;text-align:left}
+.howto-item{padding:7px 9px;border-radius:9px;background:rgba(255,255,255,.06)}
+@media (max-width:600px){.countdown-pop{font-size:68px}.combo-pop{top:62px;font-size:22px}.event-pop{top:102px;font-size:13px}.howto-grid{grid-template-columns:1fr}}
+
+</style>
 </head>
 <body>
   <div class="stage" id="stage">
@@ -394,6 +424,10 @@ body {
       <div>⏱️ <span id="time">20</span>s</div>
       <div>⭐ <span id="score">0</span></div>
     </div>
+
+    <div id="countdownPop" class="countdown-pop"></div>
+    <div id="comboPop" class="combo-pop"></div>
+    <div id="eventPop" class="event-pop"></div>
 
     <!-- Skor Tablosu (buton + panel) -->
     <div class="lb-wrap"><button id="lbBtn" class="lb-btn" title="Skor Tablosu">🏆</button></div>
@@ -438,11 +472,14 @@ body {
         <h1 class="title">🧊 Cell Freezer</h1>
         <p class="subtitle">Sağlıklı hücreleri Bambanker'a taşı, <b>kontaminantlardan kaç!</b></p>
   <div class="howto" id="howToBox">
-  <b>Nasıl oynanır?</b><br>
-  Bambanker şişesini sağa-sola hareket ettirerek sağlıklı mavi hücreleri yakala: <b>+10 puan</b><br>
-  Mor kontaminantlardan kaç: <b>-15 puan</b><br>
-  Gri bakterilerden kaç: <b>-20 puan</b><br>
-  Süre bitince skorunu kaydet.
+  <b>Nasıl oynanır?</b>
+  <div class="howto-grid">
+    <div class="howto-item">🔵 Sağlıklı hücre <b>+10</b></div>
+    <div class="howto-item">🟣 Mycoplasma <b>-15</b></div>
+    <div class="howto-item">▬ Bakteri <b>-20</b></div>
+    <div class="howto-item">❄️ Cryoprotection bonus <b>+30</b></div>
+  </div>
+  <div style="margin-top:8px">Şişeyi sağa-sola hareket ettir. Arka arkaya sağlıklı hücre yakalayarak <b>combo bonusu</b> kazan.</div>
 </div>
         <button class="btn" id="start">Oyunu Başlat</button>
         <div class="preform" id="preForm">
@@ -470,9 +507,7 @@ body {
 </div>
 
         <!-- Ödül bilgisi sadece girişte -->
-        <div style="margin-top:14px; font-size:15px; font-weight:700; color:#fef3c7;">
-  🏆 Sempozyum sonunda en yüksek puanı alan 1 kişiye sürpriz ödül!
-</div>
+        </div>
     </div>
   </div>
 
@@ -496,7 +531,9 @@ body {
     const startBtn = document.getElementById('start');
 
     let score = 0, time = GAME_TIME, timer, spawnTimer;
-    let currentPlayer = { name: '', email: '' };
+    let currentPlayer = { name: '', email: '', company: '' };
+    let combo = 0;
+    let scoreSavedThisRound = false;
     let audioCtx = null;
 let bottleDragging = false;
 
@@ -561,12 +598,17 @@ function scheduleNextSpawn() {
 }
     function startGame(){
       overlay.style.display='none'; // oyun sırasında ödül paneli yok
-      score = 0; time = GAME_TIME;
+      score = 0; time = GAME_TIME; combo = 0; scoreSavedThisRound = false;
       scoreEl.textContent = score; timeEl.textContent = time;
       fill.style.height='0%';
       bottle.style.left = Math.max(0, (stage.clientWidth - bottle.offsetWidth) / 2) + 'px';
 bottle.style.right = 'auto';
-      timer = setInterval(()=>{ time--; timeEl.textContent = time; if(time<=0) endGame(); },1000);
+      timer = setInterval(()=>{
+        time--;
+        timeEl.textContent = time;
+        if(time <= 5 && time > 0) showCountdown(time);
+        if(time<=0) endGame();
+      },1000);
      scheduleNextSpawn();
       for(let i=0;i<2;i++) spawnCell();
     }
@@ -584,17 +626,19 @@ clearTimeout(spawnTimer);
       overlay.querySelector('.subtitle').innerHTML = postHtml;
       setTimeout(()=>{ const sBtn=document.getElementById('saveScore'); const shBtn=document.getElementById('showLb'); if(sBtn) sBtn.onclick=saveCurrentScore; if(shBtn) shBtn.onclick=()=>{ toggleLb(true); }; },0);
       startBtn.textContent = 'Tekrar Oyna';
+      saveCurrentScore(true);
     }
 
     function spawnCell(){
   const r = Math.random();
   let type = 'good';
 
-  if (r > 0.86) type = 'rod';
+  if (r > 0.965) type = 'bonus';
+  else if (r > 0.86) type = 'rod';
   else if (r > 0.72) type = 'myco';
 
   const cell = document.createElement('div');
-  cell.className = 'cell ' + (type === 'good' ? 'good' : ('bad ' + (type === 'myco' ? 'myco' : 'rod')));
+  cell.className = 'cell ' + (type === 'good' ? 'good' : (type === 'bonus' ? 'bonus' : ('bad ' + (type === 'myco' ? 'myco' : 'rod'))));
   cell.dataset.type = type;
 
   if (type === 'myco') {
@@ -607,12 +651,20 @@ clearTimeout(spawnTimer);
     cell.style.height = '22px';
   }
 
+  if (type === 'bonus') {
+    cell.style.width = '54px';
+    cell.style.height = '54px';
+    cell.textContent = '❄️';
+  }
+
   cell.style.left = Math.random() * (stage.clientWidth - 90) + 'px';
   cell.style.top = '-60px';
 
   stage.appendChild(cell);
 
-  const speed = FALL_SPEED + Math.random() * 2.4 + Math.min(score / 120, 2);
+  const elapsed = GAME_TIME - time;
+  const difficultyBoost = elapsed >= 14 ? 3.0 : (elapsed >= 7 ? 1.5 : 0);
+  const speed = FALL_SPEED + Math.random() * 2.2 + difficultyBoost;
 
   const fall = setInterval(() => {
     if (!cell.parentElement) {
@@ -649,13 +701,26 @@ clearTimeout(spawnTimer);
   const type = cell.dataset.type;
 
   if (type === 'good') {
-    score += SCORE_GOOD;
+    combo += 1;
+    let gained = SCORE_GOOD;
+    if (combo >= 5) gained += 10;
+    else if (combo >= 3) gained += 5;
+    score += gained;
+    uiGood();
+    if (combo >= 3) showCombo(combo, gained);
+  } else if (type === 'bonus') {
+    score += 30;
+    showEvent('❄️ Cryoprotection Bonus +30');
     uiGood();
   } else if (type === 'myco') {
+    combo = 0;
     score += PENALTY_MYCO;
+    showEvent('🟣 Mycoplasma! -15');
     uiBad();
   } else {
+    combo = 0;
     score += PENALTY_ROD;
+    showEvent('▬ Bakteriyel kontaminasyon! -20');
     uiBad();
   }
 
@@ -666,6 +731,31 @@ clearTimeout(spawnTimer);
   cell.remove();
   return true;
 }
+
+
+    function showCountdown(n){
+      const el = document.getElementById('countdownPop');
+      el.textContent = n;
+      el.style.display = 'flex';
+      el.animate([{transform:'scale(.7)',opacity:.2},{transform:'scale(1.15)',opacity:1},{transform:'scale(1)',opacity:0}],{duration:850,easing:'ease-out'});
+      setTimeout(()=>{ el.style.display='none'; },820);
+    }
+
+    function showCombo(count, gained){
+      const el = document.getElementById('comboPop');
+      el.textContent = `COMBO x${count}  +${gained}`;
+      el.classList.add('show');
+      clearTimeout(el._t);
+      el._t = setTimeout(()=>el.classList.remove('show'),650);
+    }
+
+    function showEvent(text){
+      const el = document.getElementById('eventPop');
+      el.textContent = text;
+      el.classList.add('show');
+      clearTimeout(el._t);
+      el._t = setTimeout(()=>el.classList.remove('show'),850);
+    }
 
     function updateFill(){
       const pct = Math.max(0, Math.min(100, score));
@@ -774,33 +864,36 @@ function loadLB(){ try{ return JSON.parse(localStorage.getItem(LB_KEY)||'[]'); }
 function saveLB(arr){ localStorage.setItem(LB_KEY, JSON.stringify(arr)); }
 async function renderLB(){
   const tbody = document.querySelector('#lbTable tbody');
-
-  tbody.innerHTML = `
-    <tr>
-      <td colspan="3">Yükleniyor...</td>
-    </tr>
-  `;
+  tbody.innerHTML = `<tr><td colspan="3">Yükleniyor...</td></tr>`;
 
   try {
-    const data = await window.loadScoresFromFirebase();
+    const raw = await window.loadScoresFromFirebase();
+    const bestByPlayer = new Map();
 
-    tbody.innerHTML = data.map((r, i) => `
-      <tr>
-        <td>${i + 1}</td>
-        <td>${r.name || '-'}</td>
-        <td>${r.score || 0}</td>
-      </tr>
-    `).join('');
+    raw.forEach(r => {
+      const key = (r.email || r.name || '').trim().toLowerCase();
+      if (!key) return;
+      const prev = bestByPlayer.get(key);
+      if (!prev || Number(r.score || 0) > Number(prev.score || 0)) bestByPlayer.set(key, r);
+    });
+
+    const data = Array.from(bestByPlayer.values())
+      .sort((a,b)=>Number(b.score||0)-Number(a.score||0))
+      .slice(0,10);
+
+    tbody.innerHTML = data.map((r, i) => {
+      const cls = i < 3 ? ` class="lb-rank-${i+1}"` : '';
+      const rank = i === 0 ? '🥇' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : (i+1)));
+      return `<tr${cls}><td>${rank}</td><td>${r.name || '-'}</td><td>${r.score || 0}</td></tr>`;
+    }).join('') || `<tr><td colspan="3">Henüz skor yok</td></tr>`;
   } catch (error) {
     console.error(error);
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="3">Skorlar yüklenemedi</td>
-      </tr>
-    `;
+    tbody.innerHTML = `<tr><td colspan="3">Skorlar yüklenemedi</td></tr>`;
   }
 }
-async function saveCurrentScore(){
+
+async function saveCurrentScore(autoMode = false){
+  if (scoreSavedThisRound) return;
   const saveBtn = document.getElementById("saveScore");
 
   try {
@@ -827,14 +920,15 @@ async function saveCurrentScore(){
     });
 
     saveLB(arr);
+    scoreSavedThisRound = true;
     renderLB();
-    toggleLb(true);
+    if (!autoMode) toggleLb(true);
 
     if (saveBtn) {
       saveBtn.textContent = "Kaydedildi";
     }
 
-    alert("Score saved to Firebase!");
+    if (!autoMode) alert("Skor kaydedildi!");
   } catch (error) {
     console.error(error);
 
@@ -843,7 +937,7 @@ async function saveCurrentScore(){
       saveBtn.textContent = "Skoru Kaydet";
     }
 
-    alert("Firebase error: " + error.message);
+    if (!autoMode) alert("Firebase hatası: " + error.message);
   }
 }
 async function toggleLb(forceOpen){
@@ -943,7 +1037,7 @@ window.loadScoresFromFirebase = async function() {
   const q = query(
     collection(db, "scores"),
     orderBy("score", "desc"),
-    limit(20)
+    limit(200)
   );
 
   const snapshot = await getDocs(q);
