@@ -1232,7 +1232,45 @@
     let currentPlayer = { name:"", email:"", company:"" };
     let lastLeaderboardData = [];
 
+    /* Her oyunda obje dağılımı yeniden oluşturulur.
+       Sağlıklı hücreler her zaman çoğunlukta kalır. */
+    let roundMix = {
+      good: 0.68,
+      myco: 0.13,
+      rod: 0.11,
+      bonus: 0.08
+    };
+
+    let nonGoodStreak = 0;
+
     const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+    function randomBetween(min, max) {
+      return min + Math.random() * (max - min);
+    }
+
+    function createRoundMix() {
+      /* Ham ağırlıklar her tur değişir. Normalize edilerek toplam 1 yapılır. */
+      const raw = {
+        good: randomBetween(64, 74),
+        myco: randomBetween(9, 16),
+        rod: randomBetween(7, 14),
+        bonus: randomBetween(5, 10)
+      };
+
+      const total =
+        raw.good +
+        raw.myco +
+        raw.rod +
+        raw.bonus;
+
+      return {
+        good: raw.good / total,
+        myco: raw.myco / total,
+        rod: raw.rod / total,
+        bonus: raw.bonus / total
+      };
+    }
 
     function escapeHtml(value) {
       return String(value)
@@ -1474,11 +1512,38 @@
     }
 
     function chooseCellType() {
+      /* Üç kez üst üste sağlıklı hücre dışı obje geldiyse,
+         oyunun gereksiz yere cezalandırıcı olmaması için bir healthy cell garanti edilir. */
+      if (nonGoodStreak >= 3) {
+        nonGoodStreak = 0;
+        return "good";
+      }
+
       const r = Math.random();
-      if (r < 0.56) return "good";
-      if (r < 0.74) return "myco";
-      if (r < 0.92) return "rod";
-      return "bonus";
+
+      let type;
+
+      if (r < roundMix.good) {
+        type = "good";
+      }
+      else if (r < roundMix.good + roundMix.myco) {
+        type = "myco";
+      }
+      else if (r < roundMix.good + roundMix.myco + roundMix.rod) {
+        type = "rod";
+      }
+      else {
+        type = "bonus";
+      }
+
+      if (type === "good") {
+        nonGoodStreak = 0;
+      }
+      else {
+        nonGoodStreak += 1;
+      }
+
+      return type;
     }
 
     function scheduleNextSpawn() {
@@ -1612,6 +1677,11 @@
       time = GAME_TIME;
       gameRunning = true;
       dragging = false;
+
+      /* Her yeni oyunda hücre / kontaminant / Bambanker dağılımı değişir. */
+      roundMix = createRoundMix();
+      nonGoodStreak = 0;
+
       currentRoundId = createRoundId();
 
       timeEl.textContent = String(time);
