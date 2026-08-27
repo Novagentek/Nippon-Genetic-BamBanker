@@ -8,9 +8,19 @@
 
   <style>
     :root {
-      --brand: #0ea5e9;
-      --brand-dark: #0369a1;
-      --text: #eef6ff;
+      --bg-dark: #061a28;
+      --bg-mid: #0a3148;
+      --cyan: #37d9f5;
+      --cyan-light: #a6f4ff;
+      --cyan-dark: #0798c4;
+
+      --green: #79f2ad;
+      --red: #ff7182;
+      --purple: #c084fc;
+      --yellow: #ffd76e;
+
+      --text: #eefcff;
+      --muted: #9bc7d5;
     }
 
     * {
@@ -25,944 +35,236 @@
     }
 
     body {
-      font-family: Inter, system-ui, "Segoe UI", Roboto, Arial, sans-serif;
-      background: linear-gradient(
-        135deg,
-        #f4fbff 0%,
-        #dff5ff 45%,
-        #ffffff 100%
-      );
-      color: var(--text);
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      background: #eaf8fc;
     }
 
-    /* =========================
-       OYUN ALANI
-    ========================= */
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* =========================================================
+       GAME STAGE
+    ========================================================= */
 
     .stage {
       position: relative;
-      width: 100%;
-      height: 600px;
-      overflow: hidden;
 
-      border: 2px solid #38bdf8;
+      width: 100%;
+      height: 650px;
+
+      overflow: hidden;
 
       background:
         radial-gradient(
-          circle at 15% 15%,
-          rgba(125,211,252,.42),
-          transparent 28%
+          circle at 20% 20%,
+          rgba(61, 219, 245, 0.13),
+          transparent 29%
         ),
         radial-gradient(
-          circle at 85% 85%,
-          rgba(45,212,191,.28),
-          transparent 32%
+          circle at 82% 72%,
+          rgba(83, 239, 192, 0.08),
+          transparent 26%
         ),
         linear-gradient(
           180deg,
-          #1e5b7a 0%,
-          #164463 45%,
-          #0f2f4a 100%
+          #0b3b57 0%,
+          #092b43 48%,
+          #061a2b 100%
         );
 
+      border: 1px solid rgba(64, 210, 242, 0.45);
+
       box-shadow:
-        0 18px 42px rgba(14,165,233,.25),
-        inset 0 0 45px rgba(255,255,255,.08);
+        0 20px 50px rgba(6, 46, 70, 0.22),
+        inset 0 0 70px rgba(66, 220, 249, 0.04);
 
       touch-action: none;
     }
 
-    /* =========================
+    /* microscopic ambient background */
+
+    .stage::before,
+    .stage::after {
+      content: "";
+
+      position: absolute;
+
+      width: 360px;
+      height: 360px;
+
+      border-radius: 50%;
+
+      border: 2px solid rgba(126, 235, 255, 0.055);
+
+      box-shadow:
+        inset 0 0 40px rgba(94, 223, 255, 0.05),
+        0 0 40px rgba(94, 223, 255, 0.025);
+
+      pointer-events: none;
+    }
+
+    .stage::before {
+      left: -160px;
+      top: 110px;
+    }
+
+    .stage::after {
+      right: -190px;
+      bottom: 40px;
+    }
+
+    /* =========================================================
        HUD
-    ========================= */
+    ========================================================= */
 
     .hud {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 6;
 
-      display: flex;
-      gap: 10px;
-
-      padding: 7px 11px;
-
-      border: 1px solid rgba(186,230,253,.35);
-      border-radius: 10px;
-
-      background: rgba(13,53,82,.82);
-
-      box-shadow: 0 10px 28px rgba(0,0,0,.18);
-    }
-
-    /* =========================
-       BAMBANKER
-    ========================= */
-
-    .bottle {
-      position: absolute;
-      left: 50%;
-      bottom: 22px;
-
-      width: 220px;
-      height: 360px;
-
-      z-index: 2;
-
-      background-image: url("bambanker_bottle.png.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center bottom;
-
-      transform: scale(.72);
-      transform-origin: bottom center;
-
-      opacity: .78;
-    }
-
-    .bottle .cap {
-      position: absolute;
-
-      left: 48px;
-      right: 48px;
-      bottom: 257px;
-
-      height: 28px;
-
-      border: 2px solid rgba(29,78,216,.8);
-      border-radius: 6px 6px 0 0;
-
-      background: linear-gradient(
-        180deg,
-        #2563eb,
-        #1d4ed8
-      );
-    }
-
-    .bottle .neck {
-      position: absolute;
-
-      left: 55px;
-      right: 55px;
-      bottom: 215px;
-
-      height: 46px;
-
-      border: 2px solid rgba(173,216,230,.5);
-      border-radius: 10px 10px 6px 6px;
-
-      background: linear-gradient(
-        180deg,
-        rgba(255,255,255,.12),
-        rgba(255,255,255,.06)
-      );
-    }
-
-    .bottle .body {
-      position: absolute;
-
-      left: 20px;
-      right: 20px;
-      bottom: 0;
-
-      height: 220px;
-
-      border: 2px solid rgba(173,216,230,.5);
-      border-radius: 14px 14px 22px 22px;
-
-      background: linear-gradient(
-        180deg,
-        rgba(255,255,255,.08),
-        rgba(255,255,255,.03)
-      );
-
-      backdrop-filter: blur(2px);
-    }
-
-    .bottle .label {
-      position: absolute;
-
-      left: 30px;
-      right: 30px;
-      bottom: 70px;
-
-      height: 84px;
-
-      display: grid;
-      place-items: center;
-
-      border: 1px solid #93c5fd;
-      border-radius: 10px;
-
-      background: linear-gradient(
-        180deg,
-        #e0f2fe,
-        #bae6fd
-      );
-
-      color: #0b1320;
-      font-weight: 800;
-      text-align: center;
-    }
-
-    .bottle .label small {
-      display: block;
-      color: #0369a1;
-      font-weight: 700;
-    }
-
-    .bottle .fill {
-      position: absolute;
-
-      left: 26px;
-      right: 26px;
-      bottom: 6px;
-
-      height: 0%;
-
-      border-radius: 12px;
-
-      background: linear-gradient(
-        180deg,
-        #38bdf8,
-        #22d3ee
-      );
-
-      box-shadow:
-        0 10px 30px rgba(14,165,233,.3) inset;
-
-      transition:
-        height .25s,
-        filter .25s;
-    }
-
-    .bottle .hit {
-      position: absolute;
-
-      left: 26px;
-      right: 26px;
-      top: 40px;
-      bottom: 6px;
-    }
-
-    .bottle .fill.pulse {
-      animation: pulse .35s ease;
-    }
-
-    .bottle .fill.bad {
-      animation: badpulse .45s ease;
-    }
-
-    .shake {
-      animation: shake .25s ease;
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        filter: brightness(1);
-      }
-
-      50% {
-        filter: brightness(1.5);
-      }
-    }
-
-    @keyframes badpulse {
-      0%, 100% {
-        filter: hue-rotate(0);
-      }
-
-      50% {
-        filter:
-          hue-rotate(-60deg)
-          brightness(1.3);
-      }
-    }
-
-    @keyframes shake {
-      0%, 100% {
-        transform: translateX(0);
-      }
-
-      25% {
-        transform: translateX(-6px);
-      }
-
-      75% {
-        transform: translateX(6px);
-      }
-    }
-
-    /* =========================
-       DÜŞEN OBJELER
-    ========================= */
-
-    .cell {
-      position: absolute;
-
-      width: 50px;
-      height: 50px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 50%;
-
-      user-select: none;
-      pointer-events: none;
-    }
-
-    .cell.good {
-      background:
-        radial-gradient(
-          circle at 30% 30%,
-          #fff,
-          #0ea5e9
-        );
-
-      box-shadow:
-        0 6px 16px rgba(14,165,233,.3);
-    }
-
-    .cell.bad.myco {
-      width: 56px;
-      height: 56px;
-
-      background:
-        radial-gradient(
-          circle at 35% 35%,
-          #fff,
-          #a855f7,
-          #7c3aed
-        );
-
-      box-shadow:
-        0 6px 16px rgba(168,85,247,.35);
-    }
-
-    .cell.bad.rod {
-      width: 68px;
-      height: 22px;
-
-      border-radius: 14px;
-
-      background:
-        linear-gradient(
-          90deg,
-          #94a3b8,
-          #64748b
-        );
-
-      box-shadow:
-        0 6px 16px rgba(100,116,139,.35);
-    }
-
-    .cell.bonus {
-      width: 54px;
-      height: 54px;
-
-      border: 2px solid rgba(255,255,255,.85);
-
-      background:
-        radial-gradient(
-          circle at 35% 30%,
-          #fff,
-          #bae6fd 38%,
-          #38bdf8 70%,
-          #0369a1
-        );
-
-      box-shadow:
-        0 0 22px rgba(125,211,252,.75);
-
-      font-size: 24px;
-    }
-
-    /* =========================
-       KÖPÜK
-    ========================= */
-
-    .bubble {
-      position: absolute;
-
-      bottom: 6px;
-
-      width: 10px;
-      height: 10px;
-
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          circle at 40% 35%,
-          #fff,
-          rgba(255,255,255,.7) 40%,
-          rgba(255,255,255,.2) 60%,
-          transparent 70%
-        );
-
-      opacity: .85;
-
-      pointer-events: none;
-    }
-
-    @keyframes rise {
-      0% {
-        transform: translateY(0) scale(.8);
-        opacity: .9;
-      }
-
-      80% {
-        opacity: .8;
-      }
-
-      100% {
-        transform: translateY(-180px) scale(1.2);
-        opacity: 0;
-      }
-    }
-
-    /* =========================
-       GERİ SAYIM
-    ========================= */
-
-    .countdown-pop {
-      position: absolute;
-
-      inset: 0;
-
-      z-index: 9;
-
-      display: none;
-
-      align-items: center;
-      justify-content: center;
-
-      color: white;
-
-      font-size: 96px;
-      font-weight: 900;
-
-      text-shadow:
-        0 8px 30px rgba(0,0,0,.45);
-
-      pointer-events: none;
-    }
-
-    /* =========================
-       COMBO
-    ========================= */
-
-    .combo-pop {
-      position: absolute;
-
-      top: 72px;
-      left: 50%;
-
-      z-index: 8;
-
-      opacity: 0;
-
-      transform: translateX(-50%);
-
-      color: white;
-
-      font-size: 26px;
-      font-weight: 900;
-
-      text-shadow:
-        0 4px 14px rgba(0,0,0,.35);
-
-      transition:
-        opacity .15s,
-        transform .15s;
-
-      pointer-events: none;
-    }
-
-    .combo-pop.show {
-      opacity: 1;
-
-      transform:
-        translateX(-50%)
-        scale(1.08);
-    }
-
-    /* =========================
-       EVENT MESAJI
-    ========================= */
-
-    .event-pop {
-      position: absolute;
-
-      top: 118px;
+      top: 14px;
       left: 50%;
 
       z-index: 30;
 
-      opacity: 0;
+      display: flex;
+      align-items: stretch;
 
       transform: translateX(-50%);
 
-      padding: 8px 14px;
+      border: 1px solid rgba(154, 235, 250, 0.22);
+      border-radius: 16px;
 
-      border: 1px solid rgba(255,255,255,.25);
-      border-radius: 999px;
+      overflow: hidden;
 
-      background: rgba(5,30,50,.92);
+      background: rgba(3, 27, 43, 0.84);
 
-      font-size: 15px;
-      font-weight: 800;
+      backdrop-filter: blur(12px);
 
-      white-space: nowrap;
-
-      transition: opacity .15s;
-
-      pointer-events: none;
+      box-shadow:
+        0 12px 32px rgba(0, 0, 0, 0.22);
     }
 
-    .event-pop.show {
-      opacity: 1;
-    }
+    .hud-block {
+      min-width: 125px;
 
-    /* =========================
-       OVERLAY
-    ========================= */
-
-    .overlay {
-      position: absolute;
-
-      inset: 0;
-
-      z-index: 10;
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      padding: 20px;
-
-      overflow-y: auto;
-
-      background: rgba(12,49,76,.72);
-
-      backdrop-filter: blur(4px);
+      padding: 9px 18px;
 
       text-align: center;
     }
 
-    .overlay .inner {
-      position: relative;
-
-      width: 92%;
-      max-width: 760px;
+    .hud-block + .hud-block {
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .title {
-      margin: 0 0 6px;
+    .hud-label {
+      display: block;
 
-      background: linear-gradient(
-        90deg,
-        #7dd3fc,
-        #99f6e4
-      );
+      margin-bottom: 1px;
 
-      -webkit-background-clip: text;
-      background-clip: text;
+      color: #91c6d6;
 
-      color: transparent;
+      font-size: 10px;
+      font-weight: 800;
 
-      font-size: 44px;
+      letter-spacing: 0.12em;
 
-      text-shadow:
-        0 0 26px rgba(186,230,253,.55);
+      text-transform: uppercase;
     }
 
-    .subtitle {
-      margin: 0 0 14px;
+    .hud-value {
+      color: #fff;
 
-      color: #ecfeff;
-
-      opacity: .95;
+      font-size: 25px;
+      font-weight: 900;
     }
 
-    /* =========================
-       NASIL OYNANIR
-    ========================= */
+    #timeBlock.danger .hud-value {
+      color: #ff8897;
 
-    .howto,
-    .preform,
-    .leaderboard {
-      background: rgba(13,53,82,.88);
-
-      border: 1px solid rgba(186,230,253,.35);
-
-      box-shadow:
-        0 10px 28px rgba(0,0,0,.18);
+      animation: timerPulse 0.6s ease infinite;
     }
 
-    .howto {
-      max-width: 560px;
-
-      margin: 12px auto 4px;
-
-      padding: 10px 14px;
-
-      border-radius: 12px;
-
-      color: #ecfeff;
-
-      font-size: 14px;
-
-      line-height: 1.45;
+    @keyframes timerPulse {
+      50% {
+        transform: scale(1.08);
+      }
     }
 
-    .howto-grid {
-      display: grid;
+    /* =========================================================
+       LEADERBOARD
+    ========================================================= */
 
-      grid-template-columns:
-        1fr 1fr;
+    .leaderboard-button-wrap {
+      position: absolute;
 
-      gap: 7px 10px;
+      top: 14px;
+      right: 14px;
 
-      margin-top: 8px;
-
-      text-align: left;
+      z-index: 41;
     }
 
-    .howto-item {
-      padding: 7px 9px;
+    .leaderboard-button {
+      width: 46px;
+      height: 46px;
 
-      border-radius: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 50%;
 
-      background: rgba(255,255,255,.06);
-    }
-
-    /* =========================
-       BUTONLAR
-    ========================= */
-
-    .btn {
-      margin-top: 16px;
-
-      padding: 12px 22px;
-
-      border: none;
-      border-radius: 999px;
-
-      background: var(--brand);
+      background: rgba(4, 32, 49, 0.82);
 
       color: white;
 
       cursor: pointer;
 
-      font-weight: 800;
-
-      box-shadow:
-        0 10px 20px rgba(14,165,233,.25);
-    }
-
-    .btn:hover {
-      background: var(--brand-dark);
-    }
-
-    .btn.secondary {
-      background: #164e63;
-    }
-
-    .btn.ghost {
-      background: rgba(255,255,255,.10);
-    }
-
-    /* =========================
-       LOGOLAR
-    ========================= */
-
-    .logos {
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      gap: 24px;
-
-      margin-top: 18px;
-    }
-
-    .logos img {
-      max-height: 56px;
-      max-width: 260px;
-
-      object-fit: contain;
-
-      filter:
-        drop-shadow(
-          0 0 5px
-          rgba(255,255,255,.3)
-        );
-    }
-
-    .logo-fallback {
-      display: inline-flex;
-
-      align-items: center;
-      justify-content: center;
-
-      width: 200px;
-      height: 56px;
-
-      border:
-        1px dashed rgba(255,255,255,.4);
-
-      border-radius: 10px;
-
-      color: #e2e8f0;
-
-      font-weight: 700;
-    }
-
-    /* =========================
-       ÖDÜL
-    ========================= */
-
-    #prizeInfo {
-      display: inline-block;
-
-      margin-top: 14px;
-
-      padding: 10px 16px;
-
-      border:
-        1px solid rgba(250,204,21,.45);
-
-      border-radius: 12px;
-
-      background:
-        rgba(250,204,21,.12);
-
-      color: #fef3c7;
-
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    /* =========================
-       YÜZEN HÜCRELER
-    ========================= */
-
-    .intro-cell {
-      position: absolute;
-
-      display: grid;
-      place-items: center;
-
-      width: 64px;
-      height: 64px;
-
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          circle at 30% 30%,
-          #fff,
-          #0ea5e9
-        );
-
-      box-shadow:
-        0 0 12px rgba(14,165,233,.55);
-
-      font-size: 26px;
-    }
-
-    .intro-cell.sm {
-      width: 48px;
-      height: 48px;
-
       font-size: 20px;
-    }
-
-    .intro-cell.lg {
-      width: 80px;
-      height: 80px;
-
-      font-size: 30px;
-    }
-
-    .float1 {
-      animation:
-        float 3.2s ease-in-out infinite;
-    }
-
-    .float2 {
-      animation:
-        float 3.6s ease-in-out infinite .4s;
-    }
-
-    .float3 {
-      animation:
-        float 3s ease-in-out infinite .8s;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-12px);
-      }
-    }
-
-    /* =========================
-       FORM
-    ========================= */
-
-    .preform {
-      display: none;
-
-      width: 100%;
-      max-width: 560px;
-
-      margin: 14px auto 0;
-
-      padding: 12px;
-
-      border-radius: 12px;
-
-      text-align: left;
-    }
-
-    .preform h3 {
-      margin: 0 0 8px;
-
-      color: #cfeafe;
-
-      font-size: 18px;
-
-      text-align: center;
-    }
-
-    .preform label {
-      display: block;
-
-      margin: 8px 0;
-
-      font-size: 14px;
-    }
-
-    .preform input {
-      display: block;
-
-      width: 100%;
-
-      margin-top: 5px;
-
-      padding: 10px 12px;
-
-      border: 1px solid #335;
-      border-radius: 10px;
-
-      background: #0f1b33;
-
-      color: #e2e8f0;
-    }
-
-    .preform .actions {
-      display: flex;
-
-      justify-content: flex-end;
-
-      gap: 10px;
-
-      margin-top: 10px;
-
-      flex-wrap: wrap;
-    }
-
-    .preform .muted {
-      margin-top: 6px;
-
-      color: #94a3b8;
-
-      font-size: 12px;
-
-      text-align: center;
-    }
-
-    .overlay.formMode .title,
-    .overlay.formMode .subtitle,
-    .overlay.formMode #howToBox,
-    .overlay.formMode #logos,
-    .overlay.formMode #prizeInfo,
-    .overlay.formMode #start,
-    .overlay.formMode .intro-cell {
-      display: none !important;
-    }
-
-    .overlay.formMode .preform {
-      display: block;
-    }
-
-    /* =========================
-       LEADERBOARD
-    ========================= */
-
-    .lb-wrap {
-      position: absolute;
-
-      top: 58px;
-      right: 10px;
-
-      z-index: 21;
-    }
-
-    .lb-btn {
-      padding: 10px 12px;
-
-      border:
-        1px solid rgba(255,255,255,.25);
-
-      border-radius: 999px;
-
-      background:
-        rgba(255,255,255,.10);
-
-      color: #e2e8f0;
-
-      cursor: pointer;
-
-      font-size: 18px;
     }
 
     .leaderboard {
       position: absolute;
 
-      top: 54px;
-      right: 10px;
+      top: 70px;
+      right: 14px;
 
-      z-index: 20;
+      z-index: 40;
 
       display: none;
 
-      width: min(92vw,420px);
+      width: min(420px, 92vw);
+      max-height: 70%;
 
-      max-height: 70vh;
+      overflow-y: auto;
 
-      overflow: auto;
+      padding: 16px;
 
-      padding: 12px;
+      border: 1px solid rgba(143, 229, 247, 0.25);
+      border-radius: 16px;
 
-      border-radius: 12px;
+      background: rgba(3, 28, 44, 0.95);
+
+      backdrop-filter: blur(12px);
+
+      color: white;
+
+      box-shadow:
+        0 18px 42px rgba(0, 0, 0, 0.35);
     }
 
     .leaderboard h3 {
-      margin: 0 0 8px;
+      margin: 0 0 12px;
 
-      color: #cfeafe;
-
-      font-size: 16px;
+      font-size: 18px;
     }
 
     .leaderboard table {
@@ -975,148 +277,1451 @@
 
     .leaderboard th,
     .leaderboard td {
-      padding: 6px 8px;
+      padding: 8px;
 
       border-bottom:
-        1px solid rgba(255,255,255,.1);
+        1px solid rgba(255, 255, 255, 0.08);
 
       text-align: left;
     }
 
-    .lb-rank-1 td {
-      font-weight: 900;
-    }
-
-    .lb-rank-2 td,
-    .lb-rank-3 td {
-      font-weight: 800;
+    .leaderboard th:last-child,
+    .leaderboard td:last-child {
+      text-align: right;
     }
 
     .leaderboard-note {
-      margin-top: 8px;
+      margin-top: 10px;
 
-      color: #94a3b8;
+      color: #91bcc9;
 
       font-size: 11px;
     }
 
-    .admin {
+    /* =========================================================
+       CRYOTUBE CATCHER
+    ========================================================= */
+
+    .catcher {
+      position: absolute;
+
+      left: 50%;
+      bottom: 5px;
+
+      z-index: 10;
+
+      width: 118px;
+      height: 285px;
+
+      transform:
+        translateX(-50%);
+
+      transition:
+        filter 0.15s ease;
+
+      filter:
+        drop-shadow(
+          0 15px 20px
+          rgba(0, 0, 0, 0.35)
+        )
+        drop-shadow(
+          0 0 12px
+          rgba(72, 221, 247, 0.18)
+        );
+    }
+
+    .catcher::before {
+      content: "";
+
+      position: absolute;
+
+      left: 50%;
+      bottom: -4px;
+
+      width: 115px;
+      height: 22px;
+
+      transform: translateX(-50%);
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          ellipse,
+          rgba(67, 224, 255, 0.38),
+          rgba(67, 224, 255, 0.12) 45%,
+          transparent 72%
+        );
+
+      filter: blur(4px);
+
+      pointer-events: none;
+    }
+
+    .catcher img {
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: contain;
+
+      pointer-events: none;
+
+      user-select: none;
+    }
+
+    .catcher-hit {
+      position: absolute;
+
+      left: 15px;
+      right: 15px;
+
+      top: 18px;
+      bottom: 5px;
+    }
+
+    .catcher.good-hit {
+      filter:
+        drop-shadow(
+          0 15px 20px
+          rgba(0, 0, 0, 0.3)
+        )
+        drop-shadow(
+          0 0 28px
+          rgba(80, 235, 255, 0.95)
+        );
+    }
+
+    .catcher.bad-hit {
+      animation:
+        catcherShake 0.28s ease;
+    }
+
+    @keyframes catcherShake {
+      0%,
+      100% {
+        margin-left: 0;
+      }
+
+      25% {
+        margin-left: -8px;
+      }
+
+      75% {
+        margin-left: 8px;
+      }
+    }
+
+    /* =========================================================
+       FALLING OBJECTS
+    ========================================================= */
+
+    .cell {
+      position: absolute;
+
+      z-index: 9;
+
+      pointer-events: none;
+
+      user-select: none;
+    }
+
+    /* healthy cell */
+
+    .cell.good {
+      width: 48px;
+      height: 48px;
+
+      border: 2px solid rgba(175, 247, 255, 0.8);
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle at 50% 52%,
+          #4932a8 0 18%,
+          #7563dc 19% 28%,
+          transparent 29%
+        ),
+        radial-gradient(
+          circle at 37% 32%,
+          rgba(255, 255, 255, 0.95),
+          rgba(106, 235, 255, 0.95) 14%,
+          rgba(34, 175, 232, 0.92) 42%,
+          rgba(10, 102, 175, 0.95) 68%,
+          #053869 100%
+        );
+
+      box-shadow:
+        inset 0 0 14px rgba(255, 255, 255, 0.34),
+        0 0 17px rgba(67, 222, 255, 0.55);
+    }
+
+    .cell.good::before,
+    .cell.good::after {
+      content: "";
+
+      position: absolute;
+
+      border-radius: 50%;
+
+      background: rgba(210, 250, 255, 0.65);
+    }
+
+    .cell.good::before {
+      width: 5px;
+      height: 5px;
+
+      left: 9px;
+      top: 20px;
+    }
+
+    .cell.good::after {
+      width: 4px;
+      height: 4px;
+
+      right: 9px;
+      top: 12px;
+    }
+
+    /* mycoplasma */
+
+    .cell.myco {
+      width: 54px;
+      height: 54px;
+
+      filter:
+        drop-shadow(
+          0 0 9px
+          rgba(200, 110, 255, 0.42)
+        );
+    }
+
+    .cell.myco::before {
+      content: "";
+
+      position: absolute;
+
+      inset: 9px;
+
+      border-radius: 50%;
+
+      background: #8b43cf;
+
+      box-shadow:
+        -13px -7px 0 -1px #b465ed,
+        10px -11px 0 -2px #8644cf,
+        14px 4px 0 0 #a34de2,
+        7px 15px 0 -2px #7a37bd,
+        -10px 14px 0 -1px #ae5ce8,
+        -16px 4px 0 -3px #8843cd,
+        0 -17px 0 -4px #ca78fa;
+    }
+
+    .cell.myco::after {
+      content: "";
+
+      position: absolute;
+
+      inset: 18px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle at 35% 30%,
+          #f1d6ff,
+          #7831ba 75%
+        );
+    }
+
+    /* bacteria */
+
+    .cell.rod {
+      width: 66px;
+      height: 25px;
+
+      border: 2px solid rgba(214, 231, 235, 0.55);
+      border-radius: 20px;
+
+      background:
+        repeating-linear-gradient(
+          100deg,
+          #516875 0 5px,
+          #708794 5px 9px
+        );
+
+      box-shadow:
+        inset 0 0 7px rgba(255, 255, 255, 0.2),
+        0 0 10px rgba(181, 205, 215, 0.2);
+
+      transform: rotate(20deg);
+    }
+
+    /* Bambanker bonus */
+
+    .cell.bonus {
+      width: 61px;
+      height: 78px;
+
+      background:
+        url("bambanker.png")
+        center /
+        contain
+        no-repeat;
+
+      filter:
+        drop-shadow(
+          0 0 6px
+          rgba(255, 232, 135, 0.9)
+        )
+        drop-shadow(
+          0 0 18px
+          rgba(255, 196, 70, 0.8)
+        );
+
+      animation:
+        bonusGlow 0.9s
+        ease-in-out
+        infinite alternate;
+    }
+
+    @keyframes bonusGlow {
+      to {
+        transform: scale(1.08);
+
+        filter:
+          drop-shadow(
+            0 0 10px
+            rgba(255, 242, 173, 1)
+          )
+          drop-shadow(
+            0 0 26px
+            rgba(255, 192, 62, 0.95)
+          );
+      }
+    }
+
+    /* =========================================================
+       FEEDBACK
+    ========================================================= */
+
+    .score-pop {
+      position: absolute;
+
+      z-index: 50;
+
+      pointer-events: none;
+
+      font-size: 27px;
+      font-weight: 1000;
+
+      text-shadow:
+        0 4px 16px
+        rgba(0, 0, 0, 0.45);
+
+      animation:
+        scoreFloat 0.8s
+        ease-out
+        forwards;
+    }
+
+    .score-pop.good {
+      color: #8df5ff;
+    }
+
+    .score-pop.bad {
+      color: #ff8390;
+    }
+
+    .score-pop.bonus {
+      color: #ffe590;
+
+      font-size: 30px;
+    }
+
+    @keyframes scoreFloat {
+      0% {
+        opacity: 0;
+
+        transform:
+          translate(-50%, 8px)
+          scale(0.8);
+      }
+
+      20% {
+        opacity: 1;
+
+        transform:
+          translate(-50%, 0)
+          scale(1.08);
+      }
+
+      100% {
+        opacity: 0;
+
+        transform:
+          translate(-50%, -55px)
+          scale(1);
+      }
+    }
+
+    .combo-pop {
+      position: absolute;
+
+      top: 83px;
+      left: 50%;
+
+      z-index: 45;
+
+      opacity: 0;
+
+      transform:
+        translateX(-50%)
+        scale(0.85);
+
+      color: #fff;
+
+      text-align: center;
+
+      pointer-events: none;
+
+      transition:
+        opacity 0.15s,
+        transform 0.15s;
+    }
+
+    .combo-pop strong {
+      display: block;
+
+      color: #82ebff;
+
+      font-size: 25px;
+      font-weight: 1000;
+    }
+
+    .combo-pop small {
+      color: #c3ecf5;
+
+      font-weight: 800;
+
+      letter-spacing: 0.12em;
+    }
+
+    .combo-pop.show {
+      opacity: 1;
+
+      transform:
+        translateX(-50%)
+        scale(1);
+    }
+
+    .event-pop {
+      position: absolute;
+
+      top: 124px;
+      left: 50%;
+
+      z-index: 46;
+
+      opacity: 0;
+
+      transform: translateX(-50%);
+
+      padding: 8px 15px;
+
+      border: 1px solid rgba(255, 255, 255, 0.17);
+      border-radius: 999px;
+
+      background: rgba(3, 30, 45, 0.9);
+
+      color: white;
+
+      font-size: 13px;
+      font-weight: 900;
+
+      pointer-events: none;
+
+      transition: opacity 0.15s;
+    }
+
+    .event-pop.show {
+      opacity: 1;
+    }
+
+    .countdown-pop {
+      position: absolute;
+
+      inset: 0;
+
+      z-index: 55;
+
       display: none;
+
+      align-items: center;
+      justify-content: center;
+
+      color: white;
+
+      font-size: 110px;
+      font-weight: 1000;
+
+      text-shadow:
+        0 0 30px
+        rgba(66, 225, 255, 0.4),
+        0 8px 26px
+        rgba(0, 0, 0, 0.4);
+
+      pointer-events: none;
+    }
+
+    .danger-flash {
+      position: absolute;
+
+      inset: 0;
+
+      z-index: 25;
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      background:
+        radial-gradient(
+          circle,
+          transparent 45%,
+          rgba(255, 46, 72, 0.29)
+        );
+
+      transition: opacity 0.1s;
+    }
+
+    .danger-flash.show {
+      opacity: 1;
+    }
+
+    /* =========================================================
+       INTRO OVERLAY
+    ========================================================= */
+
+    .overlay {
+      position: absolute;
+
+      inset: 0;
+
+      z-index: 60;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 16px;
+
+      overflow-y: auto;
+
+      background:
+        radial-gradient(
+          circle at 50% 46%,
+          rgba(60, 216, 242, 0.11),
+          transparent 29%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(6, 38, 56, 0.79),
+          rgba(3, 23, 37, 0.93)
+        );
+
+      backdrop-filter: blur(4px);
+
+      text-align: center;
+    }
+
+    .overlay-inner {
+      position: relative;
+
+      width: min(96%, 900px);
+
+      color: var(--text);
+    }
+
+    /* small brand chip */
+
+    .intro-kicker {
+      display: inline-flex;
+
+      align-items: center;
 
       gap: 8px;
 
-      margin-top: 10px;
+      margin-bottom: 4px;
 
-      flex-wrap: wrap;
-    }
-
-    .admin button {
-      padding: 8px 10px;
+      padding: 5px 11px;
 
       border:
-        1px solid rgba(255,255,255,.2);
+        1px solid
+        rgba(129, 230, 248, 0.22);
+
+      border-radius: 999px;
+
+      background:
+        rgba(5, 48, 67, 0.46);
+
+      color: #bdeefa;
+
+      font-size: 10px;
+      font-weight: 900;
+
+      letter-spacing: 0.13em;
+
+      text-transform: uppercase;
+    }
+
+    .intro-kicker::before {
+      content: "";
+
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+
+      background: #66e8ff;
+
+      box-shadow:
+        0 0 10px
+        rgba(102, 232, 255, 0.8);
+    }
+
+    .title {
+      margin: 5px 0 0;
+
+      background:
+        linear-gradient(
+          180deg,
+          #f5fdff,
+          #7ee8ff 70%,
+          #31b9e3
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
+
+      font-size: 59px;
+      font-weight: 1000;
+
+      line-height: 0.94;
+
+      letter-spacing: -0.055em;
+
+      text-shadow:
+        0 0 25px
+        rgba(75, 227, 255, 0.14);
+    }
+
+    .intro-tagline {
+      margin-top: 7px;
+
+      color: #a4dcea;
+
+      font-size: 13px;
+      font-weight: 900;
+
+      letter-spacing: 0.08em;
+    }
+
+    /* =========================================================
+       INTRO MAIN PRODUCT
+    ========================================================= */
+
+    .intro-main {
+      position: relative;
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        220px
+        minmax(0, 1fr);
+
+      align-items: center;
+
+      gap: 14px;
+
+      max-width: 790px;
+
+      margin: 8px auto 4px;
+    }
+
+    .intro-side {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 8px;
+    }
+
+    .intro-side.left {
+      text-align: right;
+    }
+
+    .intro-side.right {
+      text-align: left;
+    }
+
+    .intro-card {
+      padding: 9px 11px;
+
+      border:
+        1px solid
+        rgba(172, 236, 248, 0.12);
+
+      border-radius: 12px;
+
+      background:
+        rgba(255, 255, 255, 0.04);
+    }
+
+    .intro-card strong {
+      display: block;
+
+      color: #eafcff;
+
+      font-size: 14px;
+    }
+
+    .intro-card span {
+      display: block;
+
+      margin-top: 2px;
+
+      color: #8dbac7;
+
+      font-size: 10px;
+
+      line-height: 1.3;
+    }
+
+    .intro-card.good strong {
+      color: #8febff;
+    }
+
+    .intro-card.bad strong {
+      color: #ff91a0;
+    }
+
+    .intro-card.bonus strong {
+      color: #ffe394;
+    }
+
+    /* product presentation */
+
+    .hero-zone {
+      position: relative;
+
+      height: 220px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* cyan halo */
+
+    .hero-zone::before {
+      content: "";
+
+      position: absolute;
+
+      left: 50%;
+      top: 47%;
+
+      width: 205px;
+      height: 205px;
+
+      transform:
+        translate(-50%, -50%);
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(95, 231, 255, 0.20) 0%,
+          rgba(61, 213, 247, 0.10) 40%,
+          rgba(61, 213, 247, 0.025) 62%,
+          transparent 72%
+        );
+
+      filter: blur(4px);
+
+      animation:
+        haloPulse 2.8s
+        ease-in-out
+        infinite;
+    }
+
+    @keyframes haloPulse {
+      50% {
+        opacity: 0.68;
+
+        transform:
+          translate(-50%, -50%)
+          scale(1.06);
+      }
+    }
+
+    /* lower light ring */
+
+    .light-ring {
+      position: absolute;
+
+      left: 50%;
+      bottom: 8px;
+
+      width: 180px;
+      height: 30px;
+
+      transform:
+        translateX(-50%);
+
+      border:
+        2px solid
+        rgba(100, 231, 255, 0.55);
+
+      border-radius: 50%;
+
+      box-shadow:
+        0 0 7px
+        rgba(95, 232, 255, 0.9),
+        0 0 22px
+        rgba(54, 208, 247, 0.43),
+        inset 0 0 15px
+        rgba(80, 224, 255, 0.2);
+
+      opacity: 0.88;
+    }
+
+    .light-ring::before,
+    .light-ring::after {
+      content: "";
+
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      transform:
+        translate(-50%, -50%);
+
+      border:
+        1px solid
+        rgba(106, 231, 255, 0.33);
+
+      border-radius: 50%;
+    }
+
+    .light-ring::before {
+      width: 135px;
+      height: 18px;
+    }
+
+    .light-ring::after {
+      width: 215px;
+      height: 42px;
+
+      opacity: 0.32;
+    }
+
+    .hero-product {
+      position: relative;
+
+      z-index: 2;
+
+      width: 155px;
+      height: 205px;
+
+      object-fit: contain;
+
+      filter:
+        drop-shadow(
+          0 13px 19px
+          rgba(0, 0, 0, 0.35)
+        );
+
+      animation:
+        heroHover 2.8s
+        ease-in-out
+        infinite;
+    }
+
+    @keyframes heroHover {
+      0%,
+      100% {
+        transform: translateY(2px);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .subtitle {
+      margin:
+        3px auto
+        8px;
+
+      max-width: 650px;
+
+      color: #d4eef5;
+
+      font-size: 14px;
+    }
+
+    /* =========================================================
+       HOW TO PLAY
+    ========================================================= */
+
+    .howto {
+      max-width: 680px;
+
+      margin: 5px auto 0;
+
+      padding: 8px;
+
+      border:
+        1px solid
+        rgba(144, 227, 245, 0.16);
+
+      border-radius: 14px;
+
+      background:
+        rgba(3, 30, 46, 0.62);
+    }
+
+    .howto-title {
+      margin-bottom: 7px;
+
+      color: #c9eff7;
+
+      font-size: 11px;
+      font-weight: 900;
+
+      letter-spacing: 0.12em;
+
+      text-transform: uppercase;
+    }
+
+    .howto-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 6px;
+    }
+
+    .howto-item {
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 6px;
+
+      min-height: 45px;
+
+      padding: 5px;
+
+      border-radius: 9px;
+
+      background:
+        rgba(255, 255, 255, 0.045);
+
+      color: #dff7fc;
+
+      font-size: 11px;
+    }
+
+    .howto-item b {
+      font-size: 14px;
+    }
+
+    .howto-item.good b {
+      color: #80f0ff;
+    }
+
+    .howto-item.bad b {
+      color: #ff8b9a;
+    }
+
+    .howto-item.bonus b {
+      color: #ffe08a;
+    }
+
+    .legend-icon {
+      flex: 0 0 auto;
+
+      width: 24px;
+      height: 24px;
+    }
+
+    .legend-icon.good {
+      border:
+        1px solid
+        #9bf2ff;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          #4d2d9f 0 22%,
+          #4cc5e8 24% 70%,
+          #065a8d
+        );
+    }
+
+    .legend-icon.myco {
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle at 30% 30%,
+          #dca7ff,
+          #8342c8
+        );
+
+      box-shadow:
+        7px 3px 0 -5px #c568f2,
+        -5px 6px 0 -5px #a653df;
+    }
+
+    .legend-icon.rod {
+      width: 28px;
+      height: 12px;
 
       border-radius: 8px;
 
-      background:
-        rgba(255,255,255,.08);
+      background: #758d99;
 
-      color: #e2e8f0;
+      transform: rotate(20deg);
+    }
+
+    .legend-icon.bonus {
+      width: 23px;
+      height: 28px;
+
+      background:
+        url("bambanker.png")
+        center /
+        contain
+        no-repeat;
+    }
+
+    .instruction {
+      margin-top: 6px;
+
+      color: #8fbdca;
+
+      font-size: 10px;
+    }
+
+    /* =========================================================
+       BUTTONS
+    ========================================================= */
+
+    .btn {
+      margin-top: 11px;
+
+      padding:
+        12px 28px;
+
+      border:
+        1px solid
+        rgba(172, 244, 255, 0.28);
+
+      border-radius: 999px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #079dcc,
+          #23cad3
+        );
+
+      color: white;
+
+      cursor: pointer;
+
+      font-weight: 900;
+
+      box-shadow:
+        0 10px 25px
+        rgba(0, 184, 225, 0.27);
+
+      transition:
+        transform 0.15s,
+        filter 0.15s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+
+      filter: brightness(1.08);
+    }
+
+    .btn.secondary {
+      background: #15546d;
+    }
+
+    .btn.ghost {
+      background:
+        rgba(255, 255, 255, 0.07);
+    }
+
+    #start {
+      min-width: 210px;
+
+      font-size: 15px;
+    }
+
+    /* =========================================================
+       LOGOS + PRIZE
+    ========================================================= */
+
+    .logos {
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 25px;
+
+      margin-top: 10px;
+    }
+
+    .logos img {
+      max-height: 42px;
+      max-width: 220px;
+
+      object-fit: contain;
+    }
+
+    #prizeInfo {
+      display: inline-block;
+
+      margin-top: 8px;
+
+      padding:
+        7px 13px;
+
+      border:
+        1px solid
+        rgba(255, 213, 109, 0.25);
+
+      border-radius: 10px;
+
+      background:
+        rgba(255, 197, 70, 0.07);
+
+      color: #ffe9aa;
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    /* =========================================================
+       FORM
+    ========================================================= */
+
+    .preform {
+      display: none;
+
+      width: 100%;
+      max-width: 520px;
+
+      margin: 15px auto 0;
+
+      padding: 18px;
+
+      border:
+        1px solid
+        rgba(156, 233, 248, 0.2);
+
+      border-radius: 16px;
+
+      background:
+        rgba(3, 31, 48, 0.9);
+
+      text-align: left;
+    }
+
+    .preform h3 {
+      margin:
+        0 0
+        12px;
+
+      text-align: center;
+
+      color: white;
+    }
+
+    .preform label {
+      display: block;
+
+      margin: 11px 0;
+
+      color: #d8f1f6;
+
+      font-size: 13px;
+    }
+
+    .preform input {
+      width: 100%;
+
+      margin-top: 5px;
+
+      padding:
+        11px 12px;
+
+      border:
+        1px solid
+        rgba(150, 219, 235, 0.25);
+
+      border-radius: 10px;
+
+      outline: none;
+
+      background: #071f31;
+
+      color: white;
+
+      font-size: 16px;
+    }
+
+    .preform input:focus {
+      border-color: #41d7f1;
+    }
+
+    .preform-actions {
+      display: flex;
+
+      justify-content: flex-end;
+
+      gap: 9px;
+
+      flex-wrap: wrap;
+
+      margin-top: 12px;
+    }
+
+    .simple-button {
+      padding:
+        10px 17px;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.15);
+
+      border-radius: 999px;
+
+      background:
+        rgba(255, 255, 255, 0.07);
+
+      color: white;
 
       cursor: pointer;
     }
 
-    /* =========================
-       MOBİL
-    ========================= */
+    .form-note {
+      margin-top: 8px;
 
-    @media (max-width: 600px) {
+      color: #82aebb;
+
+      text-align: center;
+
+      font-size: 10px;
+    }
+
+    .overlay.formMode
+    .intro-content {
+      display: none;
+    }
+
+    .overlay.formMode
+    .preform {
+      display: block;
+    }
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 700px) {
 
       .stage {
-        width: 100vw;
         height: 100dvh;
-        min-height: 100dvh;
+        min-height: 620px;
       }
 
       .overlay {
         align-items: flex-start;
 
-        padding: 18px 10px;
+        padding:
+          13px 7px;
       }
 
       .title {
-        font-size: 34px;
+        font-size: 42px;
+      }
+
+      .intro-main {
+        grid-template-columns:
+          1fr
+          130px
+          1fr;
+
+        gap: 6px;
+      }
+
+      .hero-zone {
+        height: 180px;
+      }
+
+      .hero-product {
+        width: 118px;
+        height: 165px;
+      }
+
+      .light-ring {
+        width: 135px;
+      }
+
+      .intro-card {
+        padding: 7px 5px;
+      }
+
+      .intro-card strong {
+        font-size: 11px;
+      }
+
+      .intro-card span {
+        font-size: 8px;
       }
 
       .howto-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .logos {
-        flex-direction: column;
-
-        gap: 12px;
+        grid-template-columns:
+          1fr 1fr;
       }
 
       .logos img {
-        max-width: 78vw;
+        max-height: 32px;
+        max-width: 38vw;
       }
 
-      .intro-cell {
-        width: 46px;
-        height: 46px;
+      .hud {
+        left: 8px;
 
-        font-size: 20px;
+        transform: none;
       }
 
-      .intro-cell.sm {
-        width: 36px;
-        height: 36px;
+      .hud-block {
+        min-width: 75px;
+
+        padding:
+          7px 9px;
       }
 
-      .intro-cell.lg {
-        width: 58px;
-        height: 58px;
+      .hud-value {
+        font-size: 18px;
       }
 
-      .bottle {
-        transform: scale(.48);
-        opacity: .45;
+      .hud-label {
+        font-size: 8px;
       }
 
-      .lb-wrap {
+      .leaderboard-button-wrap {
+        right: 7px;
         top: 8px;
-        right: 8px;
       }
 
-      .leaderboard {
-        top: 54px;
-
-        left: 10px;
-        right: 10px;
-
-        width: auto;
-
-        max-height: 55vh;
+      .leaderboard-button {
+        width: 40px;
+        height: 40px;
       }
 
-      .countdown-pop {
-        font-size: 68px;
-      }
-
-      .combo-pop {
-        top: 62px;
-
-        font-size: 22px;
-      }
-
-      .event-pop {
-        top: 102px;
-
-        font-size: 13px;
+      .catcher {
+        width: 90px;
+        height: 220px;
       }
     }
 
+    @media (max-width: 480px) {
+
+      .title {
+        font-size: 36px;
+      }
+
+      .intro-tagline {
+        font-size: 10px;
+      }
+
+      .intro-main {
+        grid-template-columns:
+          1fr
+          104px
+          1fr;
+
+        margin-top: 5px;
+      }
+
+      .hero-zone {
+        height: 145px;
+      }
+
+      .hero-product {
+        width: 88px;
+        height: 135px;
+      }
+
+      .light-ring {
+        width: 110px;
+        height: 20px;
+      }
+
+      .intro-card span {
+        display: none;
+      }
+
+      .intro-card strong {
+        font-size: 9px;
+      }
+
+      .howto {
+        padding: 6px;
+      }
+
+      .howto-item {
+        font-size: 9px;
+      }
+
+      .instruction {
+        font-size: 9px;
+      }
+
+      .subtitle {
+        font-size: 11px;
+      }
+
+      #prizeInfo {
+        font-size: 9px;
+      }
+    }
   </style>
 </head>
 
@@ -1126,35 +1731,90 @@
 
   <!-- HUD -->
 
-  <div class="hud">
+  <div
+    class="hud"
+    id="hud"
+  >
 
-    <div>
-      ⏱️ <span id="time">20</span>s
+    <div
+      class="hud-block"
+      id="timeBlock"
+    >
+
+      <span class="hud-label">
+        Time
+      </span>
+
+      <span class="hud-value">
+        <span id="time">20</span>s
+      </span>
+
     </div>
 
-    <div>
-      ⭐ <span id="score">0</span>
+    <div class="hud-block">
+
+      <span class="hud-label">
+        Score
+      </span>
+
+      <span
+        class="hud-value"
+        id="score"
+      >
+        0
+      </span>
+
+    </div>
+
+    <div class="hud-block">
+
+      <span class="hud-label">
+        Combo
+      </span>
+
+      <span
+        class="hud-value"
+        id="comboHud"
+      >
+        ×0
+      </span>
+
     </div>
 
   </div>
 
 
-  <!-- OYUN MESAJLARI -->
+  <!-- GAME FEEDBACK -->
 
-  <div id="countdownPop" class="countdown-pop"></div>
+  <div
+    class="countdown-pop"
+    id="countdownPop"
+  ></div>
 
-  <div id="comboPop" class="combo-pop"></div>
+  <div
+    class="combo-pop"
+    id="comboPop"
+  ></div>
 
-  <div id="eventPop" class="event-pop"></div>
+  <div
+    class="event-pop"
+    id="eventPop"
+  ></div>
+
+  <div
+    class="danger-flash"
+    id="dangerFlash"
+  ></div>
 
 
   <!-- LEADERBOARD BUTTON -->
 
-  <div class="lb-wrap">
+  <div class="leaderboard-button-wrap">
 
     <button
+      class="leaderboard-button"
       id="lbBtn"
-      class="lb-btn"
+      type="button"
       title="Skor Tablosu"
     >
       🏆
@@ -1166,8 +1826,8 @@
   <!-- LEADERBOARD -->
 
   <div
-    id="lbPanel"
     class="leaderboard"
+    id="lbPanel"
   >
 
     <h3>
@@ -1191,173 +1851,290 @@
     </table>
 
     <div
-      id="leaderboardNote"
       class="leaderboard-note"
+      id="leaderboardNote"
     ></div>
-
-    <div
-      id="lbAdmin"
-      class="admin"
-    >
-
-      <button id="lbDownload">
-        CSV indir
-      </button>
-
-      <button id="retrySync">
-        Bekleyenleri Firestore'a gönder
-      </button>
-
-    </div>
 
   </div>
 
 
-  <!-- BAMBANKER -->
+  <!-- CRYOTUBE CATCHER -->
 
   <div
-    class="bottle"
-    id="bottle"
+    class="catcher"
+    id="catcher"
   >
 
-    <div class="cap"></div>
-
-    <div class="neck"></div>
-
-    <div class="body"></div>
-
-    <div class="label">
-
-      Bambanker
-
-      <small>
-        Nippon Genetics
-      </small>
-
-    </div>
+    <img
+      src="cryotube.png"
+      alt="Cryotube"
+    >
 
     <div
-      class="fill"
-      id="fill"
-    ></div>
-
-    <div
-      class="hit"
-      id="bottleHit"
+      class="catcher-hit"
+      id="catcherHit"
     ></div>
 
   </div>
 
 
-  <!-- OVERLAY -->
+  <!-- INTRO / END OVERLAY -->
 
   <div
     class="overlay"
     id="overlay"
   >
 
-    <div class="inner">
-
-      <!-- YÜZEN HÜCRELER -->
+    <div class="overlay-inner">
 
       <div
-        class="intro-cell float1"
-        style="top:8%;left:6%"
-      >
-        🙂
-      </div>
-
-      <div
-        class="intro-cell sm float2"
-        style="top:22%;right:10%"
-      >
-        🙂
-      </div>
-
-      <div
-        class="intro-cell lg float3"
-        style="bottom:14%;left:12%"
-      >
-        🙂
-      </div>
-
-
-      <!-- BAŞLIK -->
-
-      <h1 class="title">
-        🧊 Cell Freezer
-      </h1>
-
-
-      <p class="subtitle">
-
-        Sağlıklı hücreleri Bambanker'a taşı,
-
-        <b>
-          kontaminantlardan kaç!
-        </b>
-
-      </p>
-
-
-      <!-- NASIL OYNANIR -->
-
-      <div
-        class="howto"
-        id="howToBox"
+        class="intro-content"
+        id="introContent"
       >
 
-        <b>
-          Nasıl oynanır?
-        </b>
+        <div class="intro-kicker">
+          Nippon Genetics × Novagentek
+        </div>
 
-        <div class="howto-grid">
+        <h1 class="title">
+          CELL FREEZER
+        </h1>
 
-          <div class="howto-item">
-            🔵 Sağlıklı hücre <b>+10</b>
+        <div class="intro-tagline">
+          20 SANİYEDE HÜCRE KÜLTÜRÜNÜ KORU
+        </div>
+
+
+        <div class="intro-main">
+
+          <!-- LEFT -->
+
+          <div class="intro-side left">
+
+            <div class="intro-card good">
+
+              <strong>
+                Sağlıklı hücreleri yakala
+              </strong>
+
+              <span>
+                Seriyi bozma, combo'yu büyüt.
+              </span>
+
+            </div>
+
+            <div class="intro-card bad">
+
+              <strong>
+                Kontaminasyondan kaç
+              </strong>
+
+              <span>
+                Mycoplasma ve bakteri puan kaybettirir.
+              </span>
+
+            </div>
+
           </div>
 
-          <div class="howto-item">
-            🟣 Mycoplasma <b>-15</b>
+
+          <!-- CENTER BAMBANKER -->
+
+          <div class="hero-zone">
+
+            <div
+              class="light-ring"
+              aria-hidden="true"
+            ></div>
+
+            <img
+              class="hero-product"
+              src="bambanker.png"
+              alt="Nippon Bambanker"
+            >
+
           </div>
 
-          <div class="howto-item">
-            ▬ Bakteri <b>-20</b>
-          </div>
 
-          <div class="howto-item">
-            ❄️ Cryoprotection bonus <b>+30</b>
+          <!-- RIGHT -->
+
+          <div class="intro-side right">
+
+            <div class="intro-card bonus">
+
+              <strong>
+                Nippon Bambanker +30
+              </strong>
+
+              <span>
+                Bambanker'ı yakala, skorunu yükselt.
+              </span>
+
+            </div>
+
+            <div class="intro-card">
+
+              <strong>
+                En yüksek skoru yap
+              </strong>
+
+              <span>
+                Liderlik tablosunda zirveye çık.
+              </span>
+
+            </div>
+
           </div>
 
         </div>
 
-        <div style="margin-top:8px">
 
-          Şişeyi sağa-sola hareket ettir.
-          Arka arkaya sağlıklı hücre yakalayarak
+        <p class="subtitle">
 
           <b>
-            combo bonusu
+            Cryotube'u sağa-sola hareket ettir.
           </b>
 
-          kazan.
+          Sağlıklı hücreleri topla,
+          kontaminantlardan kaç.
+
+        </p>
+
+
+        <!-- HOW TO PLAY -->
+
+        <div
+          class="howto"
+          id="howToBox"
+        >
+
+          <div class="howto-title">
+            Nasıl oynanır?
+          </div>
+
+          <div class="howto-grid">
+
+            <div
+              class="howto-item good"
+            >
+
+              <span
+                class="legend-icon good"
+              ></span>
+
+              Sağlıklı hücre
+
+              <b>
+                +10
+              </b>
+
+            </div>
+
+
+            <div
+              class="howto-item bad"
+            >
+
+              <span
+                class="legend-icon myco"
+              ></span>
+
+              Mycoplasma
+
+              <b>
+                -15
+              </b>
+
+            </div>
+
+
+            <div
+              class="howto-item bad"
+            >
+
+              <span
+                class="legend-icon rod"
+              ></span>
+
+              Bakteri
+
+              <b>
+                -20
+              </b>
+
+            </div>
+
+
+            <div
+              class="howto-item bonus"
+            >
+
+              <span
+                class="legend-icon bonus"
+              ></span>
+
+              Nippon Bambanker
+
+              <b>
+                +30
+              </b>
+
+            </div>
+
+          </div>
+
+
+          <div class="instruction">
+
+            Arka arkaya sağlıklı hücre
+            yakaladıkça combo bonusu kazan.
+
+          </div>
+
+        </div>
+
+
+        <!-- START -->
+
+        <button
+          class="btn"
+          id="start"
+          type="button"
+        >
+          OYUNA BAŞLA →
+        </button>
+
+
+        <!-- LOGOS -->
+
+        <div class="logos">
+
+          <img
+            src="novagentek_logo.png"
+            alt="Novagentek"
+          >
+
+          <img
+            src="nippon_logo.png"
+            alt="Nippon Genetics"
+          >
+
+        </div>
+
+
+        <!-- PRIZE -->
+
+        <div id="prizeInfo">
+
+          🏆 Sempozyum sonunda en yüksek puanı
+          alan katılımcıya sürpriz ödül.
 
         </div>
 
       </div>
 
 
-      <!-- BAŞLAT -->
-
-      <button
-        class="btn"
-        id="start"
-      >
-        Oyunu Başlat
-      </button>
-
-
-      <!-- FORM -->
+      <!-- PARTICIPANT FORM -->
 
       <div
         class="preform"
@@ -1375,6 +2152,7 @@
 
           <input
             id="pfName"
+            type="text"
             placeholder="Ad Soyad"
             autocomplete="name"
             required
@@ -1389,8 +2167,8 @@
 
           <input
             id="pfEmail"
-            placeholder="ornek@eposta.com"
             type="email"
+            placeholder="ornek@eposta.com"
             autocomplete="email"
             required
           >
@@ -1400,31 +2178,32 @@
 
         <label>
 
-          Şirket / Okul
+          Şirket / Üniversite
 
           <input
             id="pfCompany"
-            placeholder="Şirket / Okul"
+            type="text"
+            placeholder="Şirket / Üniversite"
             required
           >
 
         </label>
 
 
-        <div class="actions">
+        <div class="preform-actions">
 
           <button
+            class="simple-button"
             id="pfCancel"
             type="button"
           >
             İptal
           </button>
 
-
           <button
+            class="btn"
             id="pfGo"
             type="button"
-            class="btn"
           >
             Devam Et
           </button>
@@ -1432,38 +2211,9 @@
         </div>
 
 
-        <div class="muted">
+        <div class="form-note">
           Bilgiler skor kaydı için kullanılır.
         </div>
-
-      </div>
-
-
-      <!-- LOGOLAR -->
-
-      <div
-        class="logos"
-        id="logos"
-      >
-
-        <img
-          src="novagentek_logo.png"
-          alt="Novagentek Logo"
-        >
-
-        <img
-          src="nippon_logo.png"
-          alt="Nippon Genetics Logo"
-        >
-
-      </div>
-
-
-      <!-- ÖDÜL -->
-
-      <div id="prizeInfo">
-
-        🏆 Sempozyum sonunda en yüksek puanı alan 1 kişiye sürpriz ödül!
 
       </div>
 
@@ -1477,7 +2227,7 @@
 <script type="module">
 
   /* =========================================================
-     FIREBASE IMPORT
+     FIREBASE
   ========================================================= */
 
   import {
@@ -1501,10 +2251,6 @@
   from
   "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-
-  /* =========================================================
-     DOĞRU FIREBASE CONFIG
-  ========================================================= */
 
   const firebaseConfig = {
 
@@ -1542,12 +2288,10 @@
 
 
   /* =========================================================
-     OYUN AYARLARI
+     GAME SETTINGS
   ========================================================= */
 
   const GAME_TIME = 20;
-
-  const FALL_SPEED = 4;
 
   const FALL_TICK_MS = 20;
 
@@ -1557,69 +2301,142 @@
 
   const PENALTY_ROD = -20;
 
+  const SCORE_BAMBANKER = 30;
+
 
   const LOCAL_QUEUE_KEY =
-    "cell_freezer_pending_scores_v1";
+    "cell_freezer_pending_scores_v2";
 
 
   /* =========================================================
-     ELEMENTLER
+     DOM
   ========================================================= */
 
   const stage =
-    document.getElementById("stage");
-
-  const bottle =
-    document.getElementById("bottle");
-
-  const bottleHit =
-    document.getElementById("bottleHit");
+    document.getElementById(
+      "stage"
+    );
 
   const overlay =
-    document.getElementById("overlay");
+    document.getElementById(
+      "overlay"
+    );
 
-  const scoreEl =
-    document.getElementById("score");
+  const introContent =
+    document.getElementById(
+      "introContent"
+    );
+
+  const catcher =
+    document.getElementById(
+      "catcher"
+    );
+
+  const catcherHit =
+    document.getElementById(
+      "catcherHit"
+    );
 
   const timeEl =
-    document.getElementById("time");
+    document.getElementById(
+      "time"
+    );
 
-  const fill =
-    document.getElementById("fill");
+  const scoreEl =
+    document.getElementById(
+      "score"
+    );
+
+  const comboHud =
+    document.getElementById(
+      "comboHud"
+    );
+
+  const timeBlock =
+    document.getElementById(
+      "timeBlock"
+    );
 
   const startBtn =
-    document.getElementById("start");
+    document.getElementById(
+      "start"
+    );
+
+  const comboPop =
+    document.getElementById(
+      "comboPop"
+    );
+
+  const eventPop =
+    document.getElementById(
+      "eventPop"
+    );
+
+  const countdownPop =
+    document.getElementById(
+      "countdownPop"
+    );
+
+  const dangerFlash =
+    document.getElementById(
+      "dangerFlash"
+    );
+
 
   const preForm =
-    document.getElementById("preForm");
+    document.getElementById(
+      "preForm"
+    );
 
   const pfName =
-    document.getElementById("pfName");
+    document.getElementById(
+      "pfName"
+    );
 
   const pfEmail =
-    document.getElementById("pfEmail");
+    document.getElementById(
+      "pfEmail"
+    );
 
   const pfCompany =
-    document.getElementById("pfCompany");
+    document.getElementById(
+      "pfCompany"
+    );
 
   const pfGo =
-    document.getElementById("pfGo");
+    document.getElementById(
+      "pfGo"
+    );
 
   const pfCancel =
-    document.getElementById("pfCancel");
+    document.getElementById(
+      "pfCancel"
+    );
 
-  const lbPanel =
-    document.getElementById("lbPanel");
 
   const lbBtn =
-    document.getElementById("lbBtn");
+    document.getElementById(
+      "lbBtn"
+    );
+
+  const lbPanel =
+    document.getElementById(
+      "lbPanel"
+    );
+
+  const lbTable =
+    document.querySelector(
+      "#lbTable tbody"
+    );
 
   const leaderboardNote =
-    document.getElementById("leaderboardNote");
+    document.getElementById(
+      "leaderboardNote"
+    );
 
 
   /* =========================================================
-     OYUN DEĞİŞKENLERİ
+     STATE
   ========================================================= */
 
   let score = 0;
@@ -1634,36 +2451,54 @@
 
   let gameRunning = false;
 
-  let bottleDragging = false;
+  let dragging = false;
 
   let currentRoundId = null;
 
   let currentPlayer = {
-    name: "",
-    email: "",
-    company: ""
-  };
 
-  let audioCtx = null;
+    name: "",
+
+    email: "",
+
+    company: ""
+
+  };
 
 
   /* =========================================================
-     YARDIMCI
+     HELPERS
   ========================================================= */
 
   function escapeHtml(value) {
 
     return String(value)
 
-      .replaceAll("&", "&amp;")
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
 
-      .replaceAll("<", "&lt;")
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
 
-      .replaceAll(">", "&gt;")
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
 
-      .replaceAll('"', "&quot;")
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
 
-      .replaceAll("'", "&#039;");
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
+
   }
 
 
@@ -1671,24 +2506,30 @@
 
     if (
       window.crypto &&
-      typeof window.crypto.randomUUID === "function"
+      typeof
+      window.crypto.randomUUID
+      === "function"
     ) {
 
-      return window.crypto.randomUUID();
+      return
+        window.crypto.randomUUID();
+
     }
 
     return (
       Date.now()
       + "-"
-      + Math.random()
+      +
+      Math.random()
         .toString(36)
         .slice(2)
     );
+
   }
 
 
   /* =========================================================
-     LOCAL QUEUE
+     LOCAL BACKUP
   ========================================================= */
 
   function loadPendingScores() {
@@ -1696,32 +2537,47 @@
     try {
 
       return JSON.parse(
+
         localStorage.getItem(
           LOCAL_QUEUE_KEY
         )
         || "[]"
+
       );
 
-    } catch {
+    }
+
+    catch {
 
       return [];
+
     }
+
   }
 
 
-  function savePendingScores(data) {
+  function savePendingScores(
+    data
+  ) {
 
     localStorage.setItem(
+
       LOCAL_QUEUE_KEY,
+
       JSON.stringify(data)
+
     );
+
   }
 
 
-  function addPendingScore(record) {
+  function addPendingScore(
+    record
+  ) {
 
     const data =
       loadPendingScores();
+
 
     const exists =
       data.some(
@@ -1729,16 +2585,26 @@
           item.id === record.id
       );
 
+
     if (!exists) {
 
-      data.push(record);
+      data.push(
+        record
+      );
+
     }
 
-    savePendingScores(data);
+
+    savePendingScores(
+      data
+    );
+
   }
 
 
-  function removePendingScore(id) {
+  function removePendingScore(
+    id
+  ) {
 
     const data =
       loadPendingScores()
@@ -1747,26 +2613,38 @@
             item.id !== id
         );
 
-    savePendingScores(data);
+
+    savePendingScores(
+      data
+    );
+
   }
 
 
   /* =========================================================
-     FIRESTORE YAZ
+     FIRESTORE WRITE
   ========================================================= */
 
-  async function saveRecordToFirestore(record) {
+  async function saveRecordToFirestore(
+    record
+  ) {
 
     const documentRef =
       doc(
+
         db,
+
         "scores",
+
         record.id
+
       );
 
 
     await setDoc(
+
       documentRef,
+
       {
 
         name:
@@ -1779,7 +2657,9 @@
           record.company,
 
         score:
-          Number(record.score),
+          Number(
+            record.score
+          ),
 
         roundId:
           record.id,
@@ -1791,13 +2671,11 @@
           serverTimestamp()
 
       }
+
     );
+
   }
 
-
-  /* =========================================================
-     PENDING SYNC
-  ========================================================= */
 
   async function syncPendingScores() {
 
@@ -1805,16 +2683,15 @@
       loadPendingScores();
 
 
-    let successCount = 0;
-
-
     for (
-      const record of pending
+      const record
+      of pending
     ) {
 
       try {
 
-        await saveRecordToFirestore(
+        await
+        saveRecordToFirestore(
           record
         );
 
@@ -1823,30 +2700,23 @@
           record.id
         );
 
+      }
 
-        successCount++;
-
-      } catch (error) {
+      catch (
+        error
+      ) {
 
         console.error(
-          "Pending sync hatası:",
+          "Pending sync error:",
           error
         );
+
       }
+
     }
 
-
-    return {
-      successCount,
-      remaining:
-        loadPendingScores().length
-    };
   }
 
-
-  /* =========================================================
-     MEVCUT OYUNU KAYDET
-  ========================================================= */
 
   async function saveCurrentScore() {
 
@@ -1856,7 +2726,8 @@
         currentRoundId,
 
       name:
-        currentPlayer.name.trim(),
+        currentPlayer.name
+          .trim(),
 
       email:
         currentPlayer.email
@@ -1864,20 +2735,18 @@
           .toLowerCase(),
 
       company:
-        currentPlayer.company.trim(),
+        currentPlayer.company
+          .trim(),
 
       score:
         Number(score),
 
       playedAt:
-        new Date().toISOString()
+        new Date()
+          .toISOString()
 
     };
 
-
-    /*
-      Önce local backup.
-    */
 
     addPendingScore(
       record
@@ -1886,7 +2755,8 @@
 
     try {
 
-      await saveRecordToFirestore(
+      await
+      saveRecordToFirestore(
         record
       );
 
@@ -1896,36 +2766,32 @@
       );
 
 
-      return {
-        success: true
-      };
+      return true;
 
-    } catch (error) {
+    }
+
+    catch (
+      error
+    ) {
 
       console.error(
-        "Firestore kayıt hatası:",
+        "Score save error:",
         error
       );
 
 
-      return {
+      return false;
 
-        success: false,
-
-        error:
-          error?.message
-          || String(error)
-
-      };
     }
+
   }
 
 
   /* =========================================================
-     FIRESTORE OKU
+     LEADERBOARD
   ========================================================= */
 
-  async function loadScoresFromFirestore() {
+  async function loadScores() {
 
     const scoresQuery =
       query(
@@ -1940,7 +2806,9 @@
           "desc"
         ),
 
-        limit(300)
+        limit(
+          300
+        )
 
       );
 
@@ -1956,55 +2824,64 @@
         item =>
           item.data()
       );
+
   }
 
 
-  /* =========================================================
-     LEADERBOARD
-  ========================================================= */
+  function buildLeaderboard(
+    raw
+  ) {
 
-  function buildLeaderboard(raw) {
-
-    const bestByEmail =
+    const bestByPlayer =
       new Map();
 
 
     raw.forEach(
       result => {
 
-        const key =
-          (
-            result.email
-            ||
-            result.name
-            ||
-            ""
-          )
+        const key = (
+
+          result.email
+          ||
+          result.name
+          ||
+          ""
+
+        )
           .trim()
           .toLowerCase();
 
 
         if (!key) {
+
           return;
+
         }
 
 
         const previous =
-          bestByEmail.get(key);
+          bestByPlayer.get(
+            key
+          );
 
 
         if (
           !previous
           ||
-          Number(result.score || 0)
+          Number(
+            result.score || 0
+          )
           >
-          Number(previous.score || 0)
+          Number(
+            previous.score || 0
+          )
         ) {
 
-          bestByEmail.set(
+          bestByPlayer.set(
             key,
             result
           );
+
         }
 
       }
@@ -2012,33 +2889,39 @@
 
 
     return Array
+
       .from(
-        bestByEmail.values()
+        bestByPlayer.values()
       )
+
       .sort(
-        (a,b) =>
-          Number(b.score || 0)
+        (a, b) =>
+          Number(
+            b.score || 0
+          )
           -
-          Number(a.score || 0)
+          Number(
+            a.score || 0
+          )
       )
+
       .slice(
         0,
         10
       );
+
   }
 
 
-  function renderRows(data) {
+  function renderRows(
+    data
+  ) {
 
-    const tbody =
-      document.querySelector(
-        "#lbTable tbody"
-      );
+    if (
+      !data.length
+    ) {
 
-
-    if (!data.length) {
-
-      tbody.innerHTML =
+      lbTable.innerHTML =
         `
           <tr>
             <td colspan="3">
@@ -2048,71 +2931,88 @@
         `;
 
       return;
+
     }
 
 
-    tbody.innerHTML =
+    lbTable.innerHTML =
       data.map(
-        (result,index) => {
+        (
+          result,
+          index
+        ) => {
 
           let rank =
             index + 1;
 
 
-          if (index === 0) {
+          if (
+            index === 0
+          ) {
+
             rank = "🥇";
+
           }
 
-          if (index === 1) {
+
+          if (
+            index === 1
+          ) {
+
             rank = "🥈";
+
           }
 
-          if (index === 2) {
+
+          if (
+            index === 2
+          ) {
+
             rank = "🥉";
+
           }
-
-
-          const cls =
-            index < 3
-              ? ` class="lb-rank-${index+1}"`
-              : "";
 
 
           return `
-            <tr${cls}>
+
+            <tr>
 
               <td>
                 ${rank}
               </td>
 
               <td>
-                ${escapeHtml(
-                  result.name || "-"
-                )}
+                ${
+                  escapeHtml(
+                    result.name
+                    || "-"
+                  )
+                }
               </td>
 
               <td>
-                ${Number(
-                  result.score || 0
-                )}
+                ${
+                  Number(
+                    result.score
+                    || 0
+                  )
+                }
               </td>
 
             </tr>
+
           `;
+
         }
+
       ).join("");
+
   }
 
 
   async function renderLeaderboard() {
 
-    const tbody =
-      document.querySelector(
-        "#lbTable tbody"
-      );
-
-
-    tbody.innerHTML =
+    lbTable.innerHTML =
       `
         <tr>
           <td colspan="3">
@@ -2128,70 +3028,55 @@
 
     try {
 
-      await syncPendingScores();
+      await
+      syncPendingScores();
 
 
       const raw =
-        await loadScoresFromFirestore();
+        await loadScores();
 
 
       const data =
-        buildLeaderboard(raw);
+        buildLeaderboard(
+          raw
+        );
 
 
-      renderRows(data);
-
-
-      const pending =
-        loadPendingScores().length;
+      renderRows(
+        data
+      );
 
 
       leaderboardNote.textContent =
-        pending > 0
-          ? `${pending} kayıt henüz Firestore'a gönderilemedi.`
-          : "Skorlar Firestore'dan yükleniyor.";
+        "Her katılımcının en yüksek skoru gösterilir.";
 
+    }
 
-    } catch (error) {
+    catch (
+      error
+    ) {
 
       console.error(
-        "Leaderboard hatası:",
         error
       );
 
 
-      const pendingData =
+      const local =
         buildLeaderboard(
           loadPendingScores()
         );
 
 
-      if (pendingData.length) {
-
-        renderRows(
-          pendingData
-        );
+      renderRows(
+        local
+      );
 
 
-        leaderboardNote.textContent =
-          "Firestore'a ulaşılamadı. Bu cihazdaki bekleyen skorlar gösteriliyor.";
+      leaderboardNote.textContent =
+        "Skor tablosuna şu anda ulaşılamıyor.";
 
-      } else {
-
-        tbody.innerHTML =
-          `
-            <tr>
-              <td colspan="3">
-                Skorlar yüklenemedi
-              </td>
-            </tr>
-          `;
-
-
-        leaderboardNote.textContent =
-          "Firestore bağlantısı kontrol edilmeli.";
-      }
     }
+
   }
 
 
@@ -2199,198 +3084,96 @@
     forceOpen = false
   ) {
 
-    if (forceOpen) {
+    if (
+      forceOpen
+    ) {
 
       lbPanel.style.display =
         "block";
 
-
       renderLeaderboard();
 
-
       return;
+
     }
 
 
+    const open =
+      lbPanel.style.display
+      === "block";
+
+
     lbPanel.style.display =
-      lbPanel.style.display === "block"
+      open
         ? "none"
         : "block";
 
 
-    if (
-      lbPanel.style.display === "block"
-    ) {
+    if (!open) {
 
       renderLeaderboard();
+
     }
+
   }
 
 
-  /* =========================================================
-     LOGO FALLBACK
-  ========================================================= */
-
-  document
-    .querySelectorAll(".logos img")
-    .forEach(
-      img => {
-
-        img.addEventListener(
-          "error",
-          () => {
-
-            const box =
-              document.createElement(
-                "div"
-              );
-
-
-            box.className =
-              "logo-fallback";
-
-
-            box.textContent =
-              img.alt || "Logo";
-
-
-            img.replaceWith(box);
-
-          },
-          { once:true }
-        );
-
-      }
-    );
+  lbBtn.addEventListener(
+    "click",
+    () =>
+      toggleLeaderboard()
+  );
 
 
   /* =========================================================
-     SES
+     CATCHER MOVEMENT
   ========================================================= */
 
-  function initAudio() {
-
-    try {
-
-      if (!audioCtx) {
-
-        audioCtx =
-          new (
-            window.AudioContext
-            ||
-            window.webkitAudioContext
-          )();
-      }
-
-    } catch {}
-  }
-
-
-  function playTone(
-    frequency,
-    duration
+  function moveCatcherTo(
+    clientX
   ) {
-
-    try {
-
-      if (!audioCtx) {
-        return;
-      }
-
-
-      const oscillator =
-        audioCtx.createOscillator();
-
-
-      const gain =
-        audioCtx.createGain();
-
-
-      oscillator.type =
-        "triangle";
-
-
-      oscillator.frequency
-        .setValueAtTime(
-          frequency,
-          audioCtx.currentTime
-        );
-
-
-      gain.gain
-        .setValueAtTime(
-          .14,
-          audioCtx.currentTime
-        );
-
-
-      gain.gain
-        .exponentialRampToValueAtTime(
-          .0001,
-          audioCtx.currentTime
-          + duration
-        );
-
-
-      oscillator
-        .connect(gain)
-        .connect(
-          audioCtx.destination
-        );
-
-
-      oscillator.start();
-
-
-      oscillator.stop(
-        audioCtx.currentTime
-        + duration
-      );
-
-    } catch {}
-  }
-
-
-  /* =========================================================
-     ŞİŞE HAREKETİ
-  ========================================================= */
-
-  function moveBottleTo(clientX) {
 
     const stageRect =
       stage.getBoundingClientRect();
 
 
-    const bottleWidth =
-      bottle.offsetWidth;
+    const catcherRect =
+      catcher.getBoundingClientRect();
 
 
-    let left =
+    const half =
+      catcherRect.width / 2;
+
+
+    let centerX =
       clientX
       -
-      stageRect.left
-      -
-      bottleWidth / 2;
+      stageRect.left;
 
 
-    left =
+    centerX =
       Math.max(
-        0,
+
+        half,
+
         Math.min(
-          left,
-          stage.clientWidth
+
+          centerX,
+
+          stageRect.width
           -
-          bottleWidth
+          half
+
         )
+
       );
 
 
-    bottle.style.left =
-      left + "px";
+    catcher.style.left =
+      centerX
+      +
+      "px";
 
-
-    bottle.style.right =
-      "auto";
   }
 
 
@@ -2398,18 +3181,22 @@
     "pointerdown",
     event => {
 
-      if (!gameRunning) {
+      if (
+        !gameRunning
+      ) {
+
         return;
+
       }
 
 
-      bottleDragging =
-        true;
+      dragging = true;
 
 
-      moveBottleTo(
+      moveCatcherTo(
         event.clientX
       );
+
     }
   );
 
@@ -2418,143 +3205,854 @@
     "pointermove",
     event => {
 
-      if (!bottleDragging) {
+      if (
+        !dragging
+        ||
+        !gameRunning
+      ) {
+
         return;
+
       }
 
 
       event.preventDefault();
 
 
-      moveBottleTo(
+      moveCatcherTo(
         event.clientX
       );
+
     }
   );
 
 
-  stage.addEventListener(
+  window.addEventListener(
     "pointerup",
     () => {
 
-      bottleDragging =
-        false;
-    }
-  );
+      dragging = false;
 
-
-  stage.addEventListener(
-    "pointercancel",
-    () => {
-
-      bottleDragging =
-        false;
     }
   );
 
 
   /* =========================================================
-     GİRİŞ
+     VISUAL FEEDBACK
   ========================================================= */
 
-  function restoreIntroScreen() {
+  function showScorePop(
+    x,
+    y,
+    text,
+    type
+  ) {
 
-    overlay.classList.remove(
-      "formMode"
-    );
-
-
-    overlay
-      .querySelector(".title")
-      .textContent =
-      "🧊 Cell Freezer";
-
-
-    overlay
-      .querySelector(".subtitle")
-      .innerHTML =
-      `Sağlıklı hücreleri Bambanker'a taşı, <b>kontaminantlardan kaç!</b>`;
-
-
-    document
-      .getElementById("howToBox")
-      .style.display =
-      "";
-
-
-    document
-      .getElementById("logos")
-      .style.display =
-      "";
-
-
-    document
-      .getElementById("prizeInfo")
-      .style.display =
-      "";
-
-
-    document
-      .querySelectorAll(".intro-cell")
-      .forEach(
-        item => {
-
-          item.style.display =
-            "grid";
-        }
+    const pop =
+      document.createElement(
+        "div"
       );
 
 
-    startBtn.style.display =
-      "";
+    pop.className =
+      "score-pop "
+      +
+      type;
 
 
-    startBtn.textContent =
-      "Oyunu Başlat";
+    pop.textContent =
+      text;
+
+
+    pop.style.left =
+      x
+      +
+      "px";
+
+
+    pop.style.top =
+      y
+      +
+      "px";
+
+
+    stage.appendChild(
+      pop
+    );
+
+
+    setTimeout(
+      () =>
+        pop.remove(),
+      850
+    );
+
+  }
+
+
+  let comboHideTimer = null;
+
+
+  function showCombo() {
+
+    clearTimeout(
+      comboHideTimer
+    );
+
+
+    comboPop.innerHTML =
+      `
+
+        <strong>
+          ×${combo}
+        </strong>
+
+        <small>
+          CELL STREAK
+        </small>
+
+      `;
+
+
+    comboPop.classList.add(
+      "show"
+    );
+
+
+    comboHideTimer =
+      setTimeout(
+        () =>
+          comboPop.classList.remove(
+            "show"
+          ),
+        750
+      );
+
+  }
+
+
+  let eventHideTimer = null;
+
+
+  function showEvent(
+    message
+  ) {
+
+    clearTimeout(
+      eventHideTimer
+    );
+
+
+    eventPop.textContent =
+      message;
+
+
+    eventPop.classList.add(
+      "show"
+    );
+
+
+    eventHideTimer =
+      setTimeout(
+        () =>
+          eventPop.classList.remove(
+            "show"
+          ),
+        950
+      );
+
+  }
+
+
+  function flashDanger() {
+
+    dangerFlash.classList.add(
+      "show"
+    );
+
+
+    setTimeout(
+      () =>
+        dangerFlash
+          .classList
+          .remove(
+            "show"
+          ),
+      170
+    );
+
+  }
+
+
+  function showCountdown(
+    value
+  ) {
+
+    countdownPop.textContent =
+      value;
+
+
+    countdownPop.style.display =
+      "flex";
+
+
+    setTimeout(
+      () => {
+
+        countdownPop.style.display =
+          "none";
+
+      },
+      420
+    );
+
   }
 
 
   /* =========================================================
-     START
+     GAME SPAWN
+  ========================================================= */
+
+  function scheduleNextSpawn() {
+
+    if (
+      !gameRunning
+    ) {
+
+      return;
+
+    }
+
+
+    const elapsed =
+      GAME_TIME
+      -
+      time;
+
+
+    let minDelay = 500;
+
+    let maxDelay = 720;
+
+
+    if (
+      elapsed >= 7
+    ) {
+
+      minDelay = 400;
+
+      maxDelay = 610;
+
+    }
+
+
+    if (
+      elapsed >= 14
+    ) {
+
+      minDelay = 320;
+
+      maxDelay = 520;
+
+    }
+
+
+    const delay =
+      minDelay
+      +
+      Math.random()
+      *
+      (
+        maxDelay
+        -
+        minDelay
+      );
+
+
+    spawnTimer =
+      setTimeout(
+        () => {
+
+          spawnCell();
+
+          scheduleNextSpawn();
+
+        },
+        delay
+      );
+
+  }
+
+
+  function chooseCellType() {
+
+    const random =
+      Math.random();
+
+
+    if (
+      random < 0.56
+    ) {
+
+      return "good";
+
+    }
+
+
+    if (
+      random < 0.73
+    ) {
+
+      return "myco";
+
+    }
+
+
+    if (
+      random < 0.92
+    ) {
+
+      return "rod";
+
+    }
+
+
+    return "bonus";
+
+  }
+
+
+  function spawnCell() {
+
+    if (
+      !gameRunning
+    ) {
+
+      return;
+
+    }
+
+
+    const type =
+      chooseCellType();
+
+
+    const cell =
+      document.createElement(
+        "div"
+      );
+
+
+    cell.classList.add(
+      "cell"
+    );
+
+
+    if (
+      type === "good"
+    ) {
+
+      cell.classList.add(
+        "good"
+      );
+
+    }
+
+
+    if (
+      type === "myco"
+    ) {
+
+      cell.classList.add(
+        "myco"
+      );
+
+    }
+
+
+    if (
+      type === "rod"
+    ) {
+
+      cell.classList.add(
+        "rod"
+      );
+
+    }
+
+
+    if (
+      type === "bonus"
+    ) {
+
+      cell.classList.add(
+        "bonus"
+      );
+
+    }
+
+
+    cell.dataset.type =
+      type;
+
+
+    stage.appendChild(
+      cell
+    );
+
+
+    const width =
+      cell.offsetWidth;
+
+
+    const maxX =
+      Math.max(
+        1,
+        stage.clientWidth
+        -
+        width
+      );
+
+
+    cell.style.left =
+      Math.floor(
+        Math.random()
+        *
+        maxX
+      )
+      +
+      "px";
+
+
+    cell.style.top =
+      "-90px";
+
+
+    const elapsed =
+      GAME_TIME
+      -
+      time;
+
+
+    const speed =
+      3.1
+      +
+      (
+        elapsed
+        *
+        0.085
+      )
+      +
+      Math.random()
+      *
+      0.8;
+
+
+    const rotationSpeed =
+      (
+        Math.random()
+        -
+        0.5
+      )
+      *
+      2.4;
+
+
+    let y = -90;
+
+    let rotation =
+      Math.random()
+      *
+      40
+      -
+      20;
+
+
+    function fall() {
+
+      if (
+        !gameRunning
+        ||
+        !cell.isConnected
+      ) {
+
+        cell.remove();
+
+        return;
+
+      }
+
+
+      y += speed;
+
+      rotation +=
+        rotationSpeed;
+
+
+      cell.style.top =
+        y
+        +
+        "px";
+
+
+      if (
+        type !== "rod"
+      ) {
+
+        cell.style.rotate =
+          rotation
+          +
+          "deg";
+
+      }
+
+
+      if (
+        hasCollision(
+          cell
+        )
+      ) {
+
+        handleCatch(
+          cell,
+          type
+        );
+
+        return;
+
+      }
+
+
+      if (
+        y
+        >
+        stage.clientHeight
+        +
+        100
+      ) {
+
+        cell.remove();
+
+        return;
+
+      }
+
+
+      requestAnimationFrame(
+        fall
+      );
+
+    }
+
+
+    requestAnimationFrame(
+      fall
+    );
+
+  }
+
+
+  /* =========================================================
+     COLLISION
+  ========================================================= */
+
+  function hasCollision(
+    cell
+  ) {
+
+    const a =
+      cell.getBoundingClientRect();
+
+
+    const b =
+      catcherHit.getBoundingClientRect();
+
+
+    return !(
+      a.right
+      <
+      b.left
+      ||
+      a.left
+      >
+      b.right
+      ||
+      a.bottom
+      <
+      b.top
+      ||
+      a.top
+      >
+      b.bottom
+    );
+
+  }
+
+
+  /* =========================================================
+     CATCH RESULTS
+  ========================================================= */
+
+  function handleCatch(
+    cell,
+    type
+  ) {
+
+    const cellRect =
+      cell.getBoundingClientRect();
+
+
+    const stageRect =
+      stage.getBoundingClientRect();
+
+
+    const x =
+      cellRect.left
+      -
+      stageRect.left
+      +
+      cellRect.width / 2;
+
+
+    const y =
+      cellRect.top
+      -
+      stageRect.top;
+
+
+    cell.remove();
+
+
+    if (
+      type === "good"
+    ) {
+
+      combo++;
+
+
+      let gained =
+        SCORE_GOOD;
+
+
+      if (
+        combo >= 5
+      ) {
+
+        gained += 5;
+
+      }
+
+
+      score += gained;
+
+
+      showScorePop(
+        x,
+        y,
+        "+"
+        +
+        gained,
+        "good"
+      );
+
+
+      catcher.classList.add(
+        "good-hit"
+      );
+
+
+      setTimeout(
+        () =>
+          catcher
+            .classList
+            .remove(
+              "good-hit"
+            ),
+        180
+      );
+
+
+      if (
+        combo >= 2
+      ) {
+
+        showCombo();
+
+      }
+
+    }
+
+
+    if (
+      type === "myco"
+    ) {
+
+      score +=
+        PENALTY_MYCO;
+
+
+      combo = 0;
+
+
+      showScorePop(
+        x,
+        y,
+        "-15",
+        "bad"
+      );
+
+
+      flashDanger();
+
+
+      catcher.classList.add(
+        "bad-hit"
+      );
+
+
+      setTimeout(
+        () =>
+          catcher
+            .classList
+            .remove(
+              "bad-hit"
+            ),
+        300
+      );
+
+
+      showEvent(
+        "MYCOPLASMA! −15"
+      );
+
+    }
+
+
+    if (
+      type === "rod"
+    ) {
+
+      score +=
+        PENALTY_ROD;
+
+
+      combo = 0;
+
+
+      showScorePop(
+        x,
+        y,
+        "-20",
+        "bad"
+      );
+
+
+      flashDanger();
+
+
+      catcher.classList.add(
+        "bad-hit"
+      );
+
+
+      setTimeout(
+        () =>
+          catcher
+            .classList
+            .remove(
+              "bad-hit"
+            ),
+        300
+      );
+
+
+      showEvent(
+        "BAKTERİ! −20"
+      );
+
+    }
+
+
+    if (
+      type === "bonus"
+    ) {
+
+      score +=
+        SCORE_BAMBANKER;
+
+
+      showScorePop(
+        x,
+        y,
+        "+30",
+        "bonus"
+      );
+
+
+      showEvent(
+        "NIPPON BAMBANKER +30"
+      );
+
+
+      catcher.classList.add(
+        "good-hit"
+      );
+
+
+      setTimeout(
+        () =>
+          catcher
+            .classList
+            .remove(
+              "good-hit"
+            ),
+        330
+      );
+
+    }
+
+
+    scoreEl.textContent =
+      score;
+
+
+    comboHud.textContent =
+      "×"
+      +
+      combo;
+
+  }
+
+
+  /* =========================================================
+     GAME START
   ========================================================= */
 
   function startGame() {
 
-    syncPendingScores();
+    clearInterval(
+      timer
+    );
 
 
-    clearInterval(timer);
-
-    clearTimeout(spawnTimer);
+    clearTimeout(
+      spawnTimer
+    );
 
 
     document
-      .querySelectorAll(".cell")
+      .querySelectorAll(
+        ".cell"
+      )
       .forEach(
-        cell =>
-          cell.remove()
+        item =>
+          item.remove()
       );
 
 
-    gameRunning =
-      true;
+    score = 0;
 
-
-    bottleDragging =
-      false;
-
-
-    currentRoundId =
-      createRoundId();
-
-
-    score =
-      0;
-
-
-    combo =
-      0;
-
+    combo = 0;
 
     time =
       GAME_TIME;
@@ -2564,38 +4062,43 @@
       score;
 
 
+    comboHud.textContent =
+      "×0";
+
+
     timeEl.textContent =
       time;
 
 
-    fill.style.height =
-      "0%";
+    timeBlock
+      .classList
+      .remove(
+        "danger"
+      );
 
 
-    lbPanel.style.display =
-      "none";
+    gameRunning = true;
+
+    dragging = false;
+
+
+    currentRoundId =
+      createRoundId();
 
 
     overlay.style.display =
       "none";
 
 
-    bottle.style.left =
-      Math.max(
-        0,
-        (
-          stage.clientWidth
-          -
-          bottle.offsetWidth
-        )
-        / 2
-      )
-      +
-      "px";
+    lbPanel.style.display =
+      "none";
 
 
-    bottle.style.right =
-      "auto";
+    catcher.style.left =
+      "50%";
+
+
+    syncPendingScores();
 
 
     timer =
@@ -2615,7 +4118,17 @@
             time > 0
           ) {
 
-            showCountdown(time);
+            timeBlock
+              .classList
+              .add(
+                "danger"
+              );
+
+
+            showCountdown(
+              time
+            );
+
           }
 
 
@@ -2624,6 +4137,7 @@
           ) {
 
             endGame();
+
           }
 
         },
@@ -2631,12 +4145,12 @@
       );
 
 
+    spawnCell();
+
+    spawnCell();
+
     scheduleNextSpawn();
 
-
-    spawnCell();
-
-    spawnCell();
   }
 
 
@@ -2646,29 +4160,44 @@
 
   async function endGame() {
 
-    if (!gameRunning) {
+    if (
+      !gameRunning
+    ) {
+
       return;
+
     }
 
 
-    gameRunning =
-      false;
+    gameRunning = false;
+
+    dragging = false;
 
 
-    bottleDragging =
-      false;
+    clearInterval(
+      timer
+    );
 
 
-    clearInterval(timer);
-
-    clearTimeout(spawnTimer);
+    clearTimeout(
+      spawnTimer
+    );
 
 
     document
-      .querySelectorAll(".cell")
+      .querySelectorAll(
+        ".cell"
+      )
       .forEach(
-        cell =>
-          cell.remove()
+        item =>
+          item.remove()
+      );
+
+
+    timeBlock
+      .classList
+      .remove(
+        "danger"
       );
 
 
@@ -2681,123 +4210,146 @@
     );
 
 
-    document
-      .getElementById("howToBox")
-      .style.display =
-      "none";
-
-
-    document
-      .getElementById("logos")
-      .style.display =
-      "none";
-
-
-    document
-      .getElementById("prizeInfo")
-      .style.display =
-      "none";
-
-
-    document
-      .querySelectorAll(".intro-cell")
-      .forEach(
-        item => {
-
-          item.style.display =
-            "none";
-        }
-      );
-
-
     preForm.style.display =
       "none";
 
 
-    overlay
-      .querySelector(".title")
-      .textContent =
-      "Oyun Bitti";
+    introContent.style.display =
+      "block";
 
 
-    overlay
-      .querySelector(".subtitle")
-      .innerHTML =
+    introContent.innerHTML =
       `
 
-        Skorun:
-        <b>${score}</b>
+        <div class="intro-kicker">
+          ROUND COMPLETE
+        </div>
 
-        <br>
+        <h1 class="title">
+          OYUN BİTTİ
+        </h1>
 
-        <span
+        <div
           style="
-            font-size:14px;
-            color:#cfeafe;
+            margin:24px 0 4px;
+            color:#98cbd8;
+            font-size:13px;
+            font-weight:800;
           "
         >
+          SKORUN
+        </div>
 
+        <div
+          style="
+            color:white;
+            font-size:72px;
+            line-height:1;
+            font-weight:1000;
+          "
+        >
+          ${score}
+        </div>
+
+        <div
+          style="
+            margin-top:10px;
+            color:#bce9f3;
+            font-size:13px;
+          "
+        >
           Oyuncu:
-
           <b>
-            ${escapeHtml(
-              currentPlayer.name
-            )}
+            ${
+              escapeHtml(
+                currentPlayer.name
+              )
+            }
           </b>
-
-        </span>
-
-        <br>
+        </div>
 
         <div
           id="saveStatus"
           style="
-            margin-top:12px;
-            font-size:14px;
+            margin-top:14px;
+            color:#b7eaf4;
+            font-size:12px;
             font-weight:800;
-            color:#bae6fd;
           "
         >
-          Skor Firestore'a kaydediliyor...
+          Skor kaydediliyor...
         </div>
 
-        <button
-          id="showLb"
-          class="btn secondary"
+        <div
+          style="
+            display:flex;
+            justify-content:center;
+            gap:9px;
+            flex-wrap:wrap;
+            margin-top:12px;
+          "
         >
-          🏆 Skor Tablosunu Aç
-        </button>
 
-        <button
-          id="newPlayer"
-          class="btn ghost"
-          style="margin-left:8px"
-        >
-          Yeni Katılımcı
-        </button>
+          <button
+            class="btn secondary"
+            id="showLeaderboardAfter"
+            type="button"
+          >
+            🏆 Skor Tablosu
+          </button>
+
+          <button
+            class="btn"
+            id="playAgain"
+            type="button"
+          >
+            Tekrar Oyna
+          </button>
+
+          <button
+            class="btn ghost"
+            id="newPlayer"
+            type="button"
+          >
+            Yeni Katılımcı
+          </button>
+
+        </div>
 
       `;
 
 
-    startBtn.textContent =
-      "Tekrar Oyna";
-
-
-    startBtn.style.display =
-      "";
+    document
+      .getElementById(
+        "showLeaderboardAfter"
+      )
+      .addEventListener(
+        "click",
+        () =>
+          toggleLeaderboard(
+            true
+          )
+      );
 
 
     document
-      .getElementById("showLb")
-      .onclick =
-      () =>
-        toggleLeaderboard(true);
+      .getElementById(
+        "playAgain"
+      )
+      .addEventListener(
+        "click",
+        startGame
+      );
 
 
     document
-      .getElementById("newPlayer")
-      .onclick =
-      resetForNewPlayer;
+      .getElementById(
+        "newPlayer"
+      )
+      .addEventListener(
+        "click",
+        resetForNewPlayer
+      );
 
 
     const saveStatus =
@@ -2806,85 +4358,91 @@
       );
 
 
-    const result =
+    const success =
       await saveCurrentScore();
 
 
     if (
-      result.success
+      success
     ) {
 
       saveStatus.textContent =
-        "✅ Skor Firestore'a kaydedildi";
+        "✓ Skor kaydedildi";
 
 
       saveStatus.style.color =
-        "#86efac";
+        "#91f3bc";
 
-    } else {
-
-      saveStatus.innerHTML =
-        `
-          ⚠️ Firestore'a henüz gönderilemedi.<br>
-
-          <span
-            style="
-              font-size:12px;
-              font-weight:600;
-              color:#fde68a;
-            "
-          >
-            Veri bu cihazda yedeklendi ve tekrar gönderilecek.
-          </span>
-        `;
-
-
-      saveStatus.style.color =
-        "#fde68a";
-
-
-      console.error(
-        result.error
-      );
     }
+
+    else {
+
+      saveStatus.textContent =
+        "Skor cihazda yedeklendi ve tekrar gönderilecek.";
+
+
+      saveStatus.style.color =
+        "#ffe09b";
+
+    }
+
   }
 
 
   /* =========================================================
-     YENİ KATILIMCI
+     INTRO RESTORE
   ========================================================= */
 
-  function resetForNewPlayer() {
-
-    currentPlayer = {
-      name: "",
-      email: "",
-      company: ""
-    };
+  const originalIntroHtml =
+    introContent.innerHTML;
 
 
-    pfName.value =
-      "";
+  function restoreIntro() {
+
+    overlay.classList.remove(
+      "formMode"
+    );
 
 
-    pfEmail.value =
-      "";
+    preForm.style.display =
+      "none";
 
 
-    pfCompany.value =
-      "";
+    introContent.style.display =
+      "block";
 
 
-    restoreIntroScreen();
+    introContent.innerHTML =
+      originalIntroHtml;
 
 
-    overlay.style.display =
-      "flex";
+    const newStart =
+      document.getElementById(
+        "start"
+      );
 
+
+    newStart.addEventListener(
+      "click",
+      openParticipantForm
+    );
+
+  }
+
+
+  /* =========================================================
+     PARTICIPANT FORM
+  ========================================================= */
+
+  function openParticipantForm() {
 
     overlay.classList.add(
       "formMode"
     );
+
+
+    introContent.style.display =
+      "none";
 
 
     preForm.style.display =
@@ -2892,747 +4450,60 @@
 
 
     pfName.focus();
+
   }
 
 
-  /* =========================================================
-     SPAWN
-  ========================================================= */
+  function resetForNewPlayer() {
 
-  function scheduleNextSpawn() {
+    currentPlayer = {
 
-    if (!gameRunning) {
-      return;
-    }
+      name: "",
 
+      email: "",
 
-    const elapsed =
-      GAME_TIME
-      -
-      time;
+      company: ""
 
+    };
 
-    const minDelay =
-      elapsed >= 14
-        ? 330
-        : elapsed >= 7
-          ? 390
-          : 450;
 
+    pfName.value = "";
 
-    const extraDelay =
-      elapsed >= 14
-        ? 470
-        : elapsed >= 7
-          ? 560
-          : 650;
+    pfEmail.value = "";
 
+    pfCompany.value = "";
 
-    const randomDelay =
-      minDelay
-      +
-      Math.random()
-      *
-      extraDelay;
 
-
-    spawnTimer =
-      setTimeout(
-        () => {
-
-          if (
-            !gameRunning
-            ||
-            time <= 0
-          ) {
-
-            return;
-          }
-
-
-          spawnCell();
-
-
-          scheduleNextSpawn();
-
-        },
-        randomDelay
-      );
-  }
-
-
-  function spawnCell() {
-
-    if (!gameRunning) {
-      return;
-    }
-
-
-    const random =
-      Math.random();
-
-
-    let type =
-      "good";
-
-
-    if (
-      random > .965
-    ) {
-
-      type =
-        "bonus";
-
-    } else if (
-      random > .86
-    ) {
-
-      type =
-        "rod";
-
-    } else if (
-      random > .72
-    ) {
-
-      type =
-        "myco";
-    }
-
-
-    const cell =
-      document.createElement(
-        "div"
-      );
-
-
-    cell.dataset.type =
-      type;
-
-
-    if (
-      type === "good"
-    ) {
-
-      cell.className =
-        "cell good";
-
-    } else if (
-      type === "myco"
-    ) {
-
-      cell.className =
-        "cell bad myco";
-
-    } else if (
-      type === "rod"
-    ) {
-
-      cell.className =
-        "cell bad rod";
-
-    } else {
-
-      cell.className =
-        "cell bonus";
-
-
-      cell.textContent =
-        "❄️";
-    }
-
-
-    cell.style.left =
-      Math.random()
-      *
-      Math.max(
-        10,
-        stage.clientWidth - 90
-      )
-      +
-      "px";
-
-
-    cell.style.top =
-      "-60px";
-
-
-    stage.appendChild(
-      cell
-    );
-
-
-    const elapsed =
-      GAME_TIME
-      -
-      time;
-
-
-    const difficultyBoost =
-      elapsed >= 14
-        ? 3
-        : elapsed >= 7
-          ? 1.5
-          : 0;
-
-
-    const speed =
-      FALL_SPEED
-      +
-      Math.random()
-      *
-      2.2
-      +
-      difficultyBoost;
-
-
-    const fall =
-      setInterval(
-        () => {
-
-          if (
-            !gameRunning
-            ||
-            !cell.isConnected
-          ) {
-
-            clearInterval(
-              fall
-            );
-
-
-            cell.remove();
-
-
-            return;
-          }
-
-
-          cell.style.top =
-            (
-              cell.offsetTop
-              +
-              speed
-            )
-            +
-            "px";
-
-
-          if (
-            checkDrop(cell)
-          ) {
-
-            clearInterval(
-              fall
-            );
-
-
-            return;
-          }
-
-
-          if (
-            cell.offsetTop
-            >
-            stage.clientHeight
-          ) {
-
-            cell.remove();
-
-
-            clearInterval(
-              fall
-            );
-          }
-
-        },
-        FALL_TICK_MS
-      );
-  }
-
-
-  /* =========================================================
-     COLLISION
-  ========================================================= */
-
-  function checkDrop(cell) {
-
-    const hitRect =
-      bottleHit
-        .getBoundingClientRect();
-
-
-    const rect =
-      cell
-        .getBoundingClientRect();
-
-
-    const overlap =
-      !(
-        rect.right < hitRect.left
-        ||
-        rect.left > hitRect.right
-        ||
-        rect.bottom < hitRect.top
-        ||
-        rect.top > hitRect.bottom
-      );
-
-
-    if (!overlap) {
-      return false;
-    }
-
-
-    const type =
-      cell.dataset.type;
-
-
-    if (
-      type === "good"
-    ) {
-
-      combo++;
-
-
-      let gained =
-        SCORE_GOOD;
-
-
-      if (
-        combo >= 5
-      ) {
-
-        gained += 10;
-
-      } else if (
-        combo >= 3
-      ) {
-
-        gained += 5;
-      }
-
-
-      score += gained;
-
-
-      uiGood();
-
-
-      if (
-        combo >= 3
-      ) {
-
-        showCombo(
-          combo,
-          gained
-        );
-      }
-
-
-    } else if (
-      type === "bonus"
-    ) {
-
-      score += 30;
-
-
-      showEvent(
-        "❄️ Cryoprotection Bonus +30"
-      );
-
-
-      uiGood();
-
-
-    } else if (
-      type === "myco"
-    ) {
-
-      combo = 0;
-
-
-      score +=
-        PENALTY_MYCO;
-
-
-      showEvent(
-        "🟣 Mycoplasma! -15"
-      );
-
-
-      uiBad();
-
-
-    } else if (
-      type === "rod"
-    ) {
-
-      combo = 0;
-
-
-      score +=
-        PENALTY_ROD;
-
-
-      showEvent(
-        "▬ Bakteriyel kontaminasyon! -20"
-      );
-
-
-      uiBad();
-    }
-
-
-    score =
-      Math.max(
-        0,
-        score
-      );
-
-
-    scoreEl.textContent =
-      score;
-
-
-    updateFill();
-
-
-    cell.remove();
-
-
-    return true;
-  }
-
-
-  /* =========================================================
-     UI
-  ========================================================= */
-
-  function updateFill() {
-
-    fill.style.height =
-      Math.max(
-        0,
-        Math.min(
-          100,
-          score
-        )
-      )
-      +
-      "%";
-  }
-
-
-  function showCountdown(number) {
-
-    const element =
-      document.getElementById(
-        "countdownPop"
-      );
-
-
-    element.textContent =
-      number;
-
-
-    element.style.display =
+    overlay.style.display =
       "flex";
 
 
-    element.animate(
-      [
-        {
-          transform:"scale(.7)",
-          opacity:.2
-        },
-
-        {
-          transform:"scale(1.15)",
-          opacity:1
-        },
-
-        {
-          transform:"scale(1)",
-          opacity:0
-        }
-      ],
-      {
-        duration:850,
-        easing:"ease-out"
-      }
-    );
+    restoreIntro();
 
 
-    setTimeout(
-      () => {
+    openParticipantForm();
 
-        element.style.display =
-          "none";
-
-      },
-      820
-    );
   }
 
 
-  function showCombo(
-    count,
-    gained
-  ) {
+  startBtn.addEventListener(
+    "click",
+    openParticipantForm
+  );
 
-    const element =
-      document.getElementById(
-        "comboPop"
-      );
 
+  pfCancel.addEventListener(
+    "click",
+    () => {
 
-    element.textContent =
-      `COMBO x${count}  +${gained}`;
+      restoreIntro();
 
-
-    element.classList.add(
-      "show"
-    );
-
-
-    clearTimeout(
-      element._timer
-    );
-
-
-    element._timer =
-      setTimeout(
-        () => {
-
-          element.classList.remove(
-            "show"
-          );
-
-        },
-        650
-      );
-  }
-
-
-  function showEvent(text) {
-
-    const element =
-      document.getElementById(
-        "eventPop"
-      );
-
-
-    element.textContent =
-      text;
-
-
-    element.classList.add(
-      "show"
-    );
-
-
-    clearTimeout(
-      element._timer
-    );
-
-
-    element._timer =
-      setTimeout(
-        () => {
-
-          element.classList.remove(
-            "show"
-          );
-
-        },
-        1000
-      );
-  }
-
-
-  function uiGood() {
-
-    fill.classList.remove(
-      "pulse"
-    );
-
-
-    void fill.offsetWidth;
-
-
-    fill.classList.add(
-      "pulse"
-    );
-
-
-    burstBubbles();
-
-
-    playTone(
-      700,
-      .15
-    );
-  }
-
-
-  function uiBad() {
-
-    bottle.classList.add(
-      "shake"
-    );
-
-
-    setTimeout(
-      () => {
-
-        bottle.classList.remove(
-          "shake"
-        );
-
-      },
-      250
-    );
-
-
-    fill.classList.remove(
-      "bad"
-    );
-
-
-    void fill.offsetWidth;
-
-
-    fill.classList.add(
-      "bad"
-    );
-
-
-    playTone(
-      140,
-      .18
-    );
-  }
-
-
-  function burstBubbles() {
-
-    const number =
-      Math.floor(
-        6
-        +
-        Math.random()
-        *
-        5
-      );
-
-
-    for (
-      let i = 0;
-      i < number;
-      i++
-    ) {
-
-      const bubble =
-        document.createElement(
-          "div"
-        );
-
-
-      bubble.className =
-        "bubble";
-
-
-      bubble.style.left =
-        (
-          30
-          +
-          Math.random()
-          *
-          120
-        )
-        +
-        "px";
-
-
-      bubble.style.animation =
-        `rise ${
-          800
-          +
-          Math.random()
-          *
-          700
-        }ms ease-out forwards`;
-
-
-      bottle.appendChild(
-        bubble
-      );
-
-
-      setTimeout(
-        () => {
-
-          bubble.remove();
-
-        },
-        1600
-      );
     }
-  }
+  );
 
 
-  /* =========================================================
-     START BUTTON
-  ========================================================= */
-
-  startBtn.onclick =
-    () => {
-
-      if (
-        currentPlayer.name
-        &&
-        currentPlayer.email
-        &&
-        currentPlayer.company
-      ) {
-
-        startGame();
-
-        return;
-      }
-
-
-      overlay.classList.add(
-        "formMode"
-      );
-
-
-      preForm.style.display =
-        "block";
-
-
-      pfName.focus();
-    };
-
-
-  /* =========================================================
-     FORM
-  ========================================================= */
-
-  pfCancel.onclick =
-    () => {
-
-      preForm.style.display =
-        "none";
-
-
-      overlay.classList.remove(
-        "formMode"
-      );
-    };
-
-
-  pfGo.onclick =
+  pfGo.addEventListener(
+    "click",
     () => {
 
       const name =
@@ -3640,82 +4511,56 @@
 
 
       const email =
-        pfEmail.value.trim();
+        pfEmail.value
+          .trim();
 
 
       const company =
-        pfCompany.value.trim();
+        pfCompany.value
+          .trim();
 
 
-      [
-        pfName,
-        pfEmail,
-        pfCompany
-      ]
-      .forEach(
-        element => {
+      if (
+        !name
+        ||
+        !email
+        ||
+        !company
+      ) {
 
-          element.style.borderColor =
-            "#335";
-        }
-      );
-
-
-      if (!name) {
-
-        pfName.style.borderColor =
-          "#ef4444";
-
-
-        pfName.focus();
-
+        alert(
+          "Lütfen tüm alanları doldurun."
+        );
 
         return;
+
       }
 
 
       if (
-        !email
+        !email.includes("@")
         ||
-        !pfEmail.checkValidity()
+        !email.includes(".")
       ) {
 
-        pfEmail.style.borderColor =
-          "#ef4444";
-
-
-        pfEmail.focus();
-
+        alert(
+          "Lütfen geçerli bir e-posta adresi girin."
+        );
 
         return;
-      }
 
-
-      if (!company) {
-
-        pfCompany.style.borderColor =
-          "#ef4444";
-
-
-        pfCompany.focus();
-
-
-        return;
       }
 
 
       currentPlayer = {
+
         name,
+
         email,
+
         company
+
       };
-
-
-      initAudio();
-
-
-      preForm.style.display =
-        "none";
 
 
       overlay.classList.remove(
@@ -3724,280 +4569,33 @@
 
 
       startGame();
-    };
 
-
-  /* =========================================================
-     LEADERBOARD BUTTON
-  ========================================================= */
-
-  let longPressTimer =
-    null;
-
-
-  let longPressTriggered =
-    false;
-
-
-  lbBtn.addEventListener(
-    "pointerdown",
-    () => {
-
-      longPressTriggered =
-        false;
-
-
-      longPressTimer =
-        setTimeout(
-          () => {
-
-            longPressTriggered =
-              true;
-
-
-            document
-              .getElementById(
-                "lbAdmin"
-              )
-              .style.display =
-              "flex";
-
-          },
-          2000
-        );
-    }
-  );
-
-
-  [
-    "pointerup",
-    "pointercancel",
-    "pointerleave"
-  ]
-  .forEach(
-    eventName => {
-
-      lbBtn.addEventListener(
-        eventName,
-        () => {
-
-          clearTimeout(
-            longPressTimer
-          );
-        }
-      );
-    }
-  );
-
-
-  lbBtn.addEventListener(
-    "click",
-    () => {
-
-      if (
-        longPressTriggered
-      ) {
-
-        longPressTriggered =
-          false;
-
-
-        return;
-      }
-
-
-      toggleLeaderboard();
     }
   );
 
 
   /* =========================================================
-     RETRY
-  ========================================================= */
-
-  document
-    .getElementById(
-      "retrySync"
-    )
-    .addEventListener(
-      "click",
-      async () => {
-
-        const result =
-          await syncPendingScores();
-
-
-        alert(
-          `Gönderilen kayıt: ${result.successCount}\nBekleyen kayıt: ${result.remaining}`
-        );
-
-
-        renderLeaderboard();
-      }
-    );
-
-
-  /* =========================================================
-     CSV
-  ========================================================= */
-
-  document
-    .getElementById(
-      "lbDownload"
-    )
-    .addEventListener(
-      "click",
-      async () => {
-
-        let data = [];
-
-
-        try {
-
-          data =
-            await loadScoresFromFirestore();
-
-        } catch {
-
-          data =
-            loadPendingScores();
-        }
-
-
-        const rows = [
-
-          [
-            "İsim",
-            "E-posta",
-            "Şirket / Okul",
-            "Skor",
-            "Oyun Tarihi",
-            "Round ID"
-          ]
-
-        ];
-
-
-        data.forEach(
-          result => {
-
-            rows.push(
-              [
-
-                result.name || "",
-
-                result.email || "",
-
-                result.company || "",
-
-                Number(
-                  result.score || 0
-                ),
-
-                result.playedAt || "",
-
-                result.roundId
-                ||
-                result.id
-                ||
-                ""
-
-              ]
-            );
-          }
-        );
-
-
-        const csv =
-          rows
-            .map(
-              row =>
-                row
-                  .map(
-                    value =>
-                      '"'
-                      +
-                      String(value)
-                        .replaceAll(
-                          '"',
-                          '""'
-                        )
-                      +
-                      '"'
-                  )
-                  .join(",")
-            )
-            .join("\n");
-
-
-        const blob =
-          new Blob(
-            [
-              "\uFEFF" + csv
-            ],
-            {
-              type:
-                "text/csv;charset=utf-8;"
-            }
-          );
-
-
-        const url =
-          URL.createObjectURL(
-            blob
-          );
-
-
-        const link =
-          document.createElement(
-            "a"
-          );
-
-
-        link.href =
-          url;
-
-
-        link.download =
-          "cell_freezer_scores.csv";
-
-
-        document.body.appendChild(
-          link
-        );
-
-
-        link.click();
-
-
-        link.remove();
-
-
-        URL.revokeObjectURL(
-          url
-        );
-      }
-    );
-
-
-  /* =========================================================
-     SAYFA AÇILINCA SYNC
+     INITIAL POSITION
   ========================================================= */
 
   window.addEventListener(
-    "load",
+    "resize",
     () => {
 
-      setTimeout(
-        () => {
+      if (
+        !gameRunning
+      ) {
 
-          syncPendingScores();
+        catcher.style.left =
+          "50%";
 
-        },
-        1000
-      );
+      }
+
     }
   );
+
+
+  syncPendingScores();
 
 </script>
 
