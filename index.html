@@ -442,27 +442,27 @@ body {
   Bambanker şişesini sağa-sola hareket ettirerek sağlıklı mavi hücreleri yakala: <b>+10 puan</b><br>
   Mor kontaminantlardan kaç: <b>-15 puan</b><br>
   Gri bakterilerden kaç: <b>-20 puan</b><br>
-  Süre bitince skorunu kaydet.<br><br>
-  <b>Ödül bilgisi:</b><br>
-  En yüksek skoru yapan ilk <b>5 kişi</b> ödül kazanacaktır.
+  Süre bitince skorunu kaydet.
 </div>
         <button class="btn" id="start">Oyunu Başlat</button>
         <div class="preform" id="preForm">
           <h3>Katılımcı Bilgileri</h3>
-          <label>İsim Soyisim
-            <input id="pfName" placeholder="Ad Soyad" required>
-          </label>
-          <label>E-posta
-            <input id="pfEmail" placeholder="ornek@eposta.com" type="email">
-          </label>
-          <label>Şirket
-  <input id="pfCompany" placeholder="Company name">
+         <label>İsim Soyisim
+  <input id="pfName" placeholder="Ad Soyad" required>
+</label>
+
+<label>E-posta
+  <input id="pfEmail" placeholder="ornek@eposta.com" type="email" required>
+</label>
+
+<label>Şirket / Okul
+  <input id="pfCompany" placeholder="Şirket / Okul" required>
 </label>
           <div class="actions">
             <button id="pfCancel">İptal</button>
             <button id="pfGo" class="btn">Devam Et</button>
           </div>
-          <div class="muted">Bilgiler ödül teslimi ve skor kaydı için kullanılır.</div>
+          <div class="muted">Bilgiler skor kaydı için kullanılır.</div>
         </div>
         <div class="logos" id="logos">
   <img src="novagentek_logo.png" alt="Novagentek Logo">
@@ -727,16 +727,47 @@ clearTimeout(spawnTimer);
   preForm.style.display = 'none';
   overlay.classList.remove('formMode');
 };
-    pfGo.onclick = ()=>{
-      const name = (pfName.value||'').trim();
-      const email = (pfEmail.value||'').trim();
-      if(!name){ pfName.focus(); pfName.style.borderColor='#ef4444'; return; }
-    const company = (pfCompany.value || '').trim();
+    pfGo.onclick = () => {
+  const name = (pfName.value || '').trim();
+  const email = (pfEmail.value || '').trim();
+  const company = (pfCompany.value || '').trim();
 
-currentPlayer = {
-  name,
-  email,
-  company
+  // Önce eski kırmızı uyarıları temizle
+  pfName.style.borderColor = '#335';
+  pfEmail.style.borderColor = '#335';
+  pfCompany.style.borderColor = '#335';
+
+  // İsim zorunlu
+  if (!name) {
+    pfName.style.borderColor = '#ef4444';
+    pfName.focus();
+    return;
+  }
+
+  // E-posta zorunlu ve geçerli formatta olmalı
+  if (!email || !pfEmail.checkValidity()) {
+    pfEmail.style.borderColor = '#ef4444';
+    pfEmail.focus();
+    return;
+  }
+
+  // Şirket / kurum zorunlu
+  if (!company) {
+    pfCompany.style.borderColor = '#ef4444';
+    pfCompany.focus();
+    return;
+  }
+
+  currentPlayer = {
+    name,
+    email,
+    company
+  };
+
+  initAudio();
+  preForm.style.display = 'none';
+  overlay.classList.remove('formMode');
+  startGame();
 };
       initAudio();
       preForm.style.display = 'none';
